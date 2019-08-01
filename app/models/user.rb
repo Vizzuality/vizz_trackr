@@ -1,4 +1,4 @@
 class User < ApplicationRecord
-  belongs_to :team
-  belongs_to :roles
+  belongs_to :team, optional: true
+  belongs_to :role, optional: true
 end

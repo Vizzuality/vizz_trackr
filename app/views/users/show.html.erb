@@ -7,12 +7,12 @@
 
 <p>
   <strong>Team:</strong>
-  <%= @user.team_id %>
+  <%= @user.team.try(:name) %>
 </p>
 
 <p>
   <strong>Roles:</strong>
-  <%= @user.roles_id %>
+  <%= @user.role.try(:name) %>
 </p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
