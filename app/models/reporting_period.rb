@@ -1,0 +1,2 @@
+class ReportingPeriod < ApplicationRecord
+end

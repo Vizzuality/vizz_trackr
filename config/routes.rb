@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :reporting_periods
   resources :users
   resources :projects
   resources :roles

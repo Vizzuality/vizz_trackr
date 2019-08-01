@@ -2,6 +2,10 @@
   <div class="sidebar-sticky">
     <ul class="nav flex-column">
       <li class="nav-item">
+        <%= link_to :reporting_periods, class: "nav-link #{ 'active' if controller_name == 'reporting_periods' }" do %>
+          <span data-feather="home"></span>
+          Reporting Periods <span class="sr-only"><%= "(current)" if controller_name == 'reporting_periods' %></span>
+        <% end %>
         <%= link_to :users, class: "nav-link #{ 'active' if controller_name == 'users' }" do %>
           <span data-feather="home"></span>
           People <span class="sr-only"><%= "(current)" if controller_name == 'users' %></span>
