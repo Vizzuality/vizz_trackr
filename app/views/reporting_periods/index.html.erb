@@ -7,6 +7,7 @@
     <tr>
       <th>Month</th>
       <th>Year</th>
+      <th>Reports</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,6 +17,8 @@
       <tr>
         <td><%= reporting_period.date.try(:strftime, "%B") %></td>
         <td><%= reporting_period.date.try(:strftime, "%Y") %></td>
+        <td><%= reporting_period.reports.count %></td>
+        <td><%= link_to 'New report', new_reporting_period_report_path(reporting_period) %></td>
         <td><%= link_to 'Show', reporting_period %></td>
         <td><%= link_to 'Edit', edit_reporting_period_path(reporting_period) %></td>
         <td><%= link_to 'Destroy', reporting_period, method: :delete, data: { confirm: 'Are you sure?' } %></td>

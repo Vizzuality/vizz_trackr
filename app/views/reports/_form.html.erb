@@ -1,0 +1,41 @@
+<%= form_with(model: report, url: [:reporting_period, report], local: true) do |form| %>
+  <% if report.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(report.errors.count, "error") %> prohibited this report from being saved:</h2>
+
+      <ul>
+        <% report.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :reporting_period_id %>
+    <%= form.collection_select :reporting_period_id, @reporting_periods, :id,
+      :display_name, {}, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :user_id %>
+    <%= form.collection_select :user_id, @users, :id,
+      :name, {}, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :team_id %>
+    <%= form.collection_select :team_id, @teams, :id,
+      :name, {}, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :role_id %>
+    <%= form.collection_select :role_id, @roles, :id,
+      :name, {}, class: 'form-control' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
