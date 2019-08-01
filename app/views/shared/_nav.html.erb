@@ -1,0 +1,16 @@
+<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+  <div class="sidebar-sticky">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <%= link_to :teams, class: "nav-link #{ 'active' if controller_name == 'teams' }" do %>
+          <span data-feather="home"></span>
+          Teams <span class="sr-only"><%= "(current)" if controller_name == 'teams' %></span>
+        <% end %>
+        <%= link_to :roles, class: "nav-link #{ 'active' if controller_name == 'roles' }" do %>
+          <span data-feather="home"></span>
+          Roles <span class="sr-only"><%= "(current)" if controller_name == 'roles' %></span>
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</nav>
