@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_01_170057) do
+ActiveRecord::Schema.define(version: 2019_08_01_171716) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,18 @@ ActiveRecord::Schema.define(version: 2019_08_01_170057) do
     t.date "end_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "report_parts", force: :cascade do |t|
+    t.bigint "report_id", null: false
+    t.bigint "project_id", null: false
+    t.float "percentage"
+    t.integer "days"
+    t.float "cost"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id"], name: "index_report_parts_on_project_id"
+    t.index ["report_id"], name: "index_report_parts_on_report_id"
   end
 
   create_table "reporting_periods", force: :cascade do |t|
@@ -66,6 +78,8 @@ ActiveRecord::Schema.define(version: 2019_08_01_170057) do
     t.index ["team_id"], name: "index_users_on_team_id"
   end
 
+  add_foreign_key "report_parts", "projects"
+  add_foreign_key "report_parts", "reports"
   add_foreign_key "reports", "reporting_periods"
   add_foreign_key "reports", "roles"
   add_foreign_key "reports", "teams"

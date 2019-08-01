@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  report: one
+  project: one
+  percentage: 1.5
+  days: 1
+  cost: 1.5
+
+two:
+  report: two
+  project: two
+  percentage: 1.5
+  days: 1
+  cost: 1.5
