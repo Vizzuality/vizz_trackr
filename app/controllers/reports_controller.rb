@@ -39,7 +39,7 @@ class ReportsController < ApplicationController
 
     respond_to do |format|
       if @report.save
-        format.html { redirect_to @report, notice: 'Report was successfully created.' }
+        format.html { redirect_to reporting_periods_url, notice: 'Report was successfully created.' }
         format.json { render :show, status: :created, location: @report }
       else
         format.html { render :new }
@@ -80,6 +80,7 @@ class ReportsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def report_params
-      params.require(:report).permit(:user_id, :team_id, :role_id, :reporting_period_id)
+      params.require(:report).permit(:user_id, :team_id, :role_id, :reporting_period_id,
+                                    report_parts_attributes: [:percentage, :project_id, :_destroy])
     end
 end
