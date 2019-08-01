@@ -1,9 +1,38 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Date:</strong>
-  <%= @reporting_period.date %>
-</p>
-
 <%= link_to 'Edit', edit_reporting_period_path(@reporting_period) %> |
 <%= link_to 'Back', reporting_periods_path %>
+<p>
+  <strong>Date:</strong>
+  <%= @reporting_period.date.strftime("%B %Y") %>
+</p>
+
+<h2>Reports</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Team</th>
+      <th>Role</th>
+      <th>Project</th>
+      <th>Percentage</th>
+      <th>Days</th>
+      <th>Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @reporting_period.reports.each do |report| %>
+      <% report.report_parts.each do |part| %>
+        <tr>
+          <td><%= report.user.try(:name)%></td>
+          <td><%= report.team.try(:name)%></td>
+          <td><%= report.role.try(:name)%></td>
+          <td><%= part.project.try(:name)%></td>
+          <td><%= part.percentage %>%</td>
+          <td><%= part.days %></td>
+          <td><%= number_to_currency(part.cost, unit: '€')  %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
