@@ -35,6 +35,22 @@
       :name, {}, class: 'form-control' %>
   </div>
 
+	<div data-controller="nested-list">
+		<template>
+			<%= form.fields_for :report_parts, ReportPart.new, child_index: 'NEW_RECORD' do |builder| %>
+				<%= render "report_part_fields", form: builder %>
+			<% end %>
+		</template>
+		<%= form.fields_for :report_parts do |builder| %>
+			<%= render 'report_part_fields', form: builder %>
+		<% end %>
+		<div class="form-group nested-list__actions" data-target="nested-list.links">
+			<%= button_tag "Add Another", type: 'button',
+				class: 'btn btn-secondary',
+				data: { action: "click->nested-list#addRecord" } %>
+		</div>
+	</div>
+
   <div class="actions">
     <%= form.submit "Submit", class: "btn btn-primary" %>
   </div>

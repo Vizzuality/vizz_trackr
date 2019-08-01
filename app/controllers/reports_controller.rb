@@ -25,6 +25,7 @@ class ReportsController < ApplicationController
               else
                 Report.new
               end
+    @report.report_parts.build
   end
 
   # GET /reports/1/edit
