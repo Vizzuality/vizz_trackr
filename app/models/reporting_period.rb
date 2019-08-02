@@ -14,14 +14,19 @@ class ReportingPeriod < ApplicationRecord
     report_parts.sum(:days)
   end
 
-  def total_projects_reported_by role_id=nil, team_id=nil
-    selection = reports
-    if team_id
-      selection = selection.where(team_id: team_id)
+  def total_projects_reported_by role_id=nil, team_name=nil, threshold=nil
+    selection = report_parts
+    if team_name.present?
+      selection = selection.joins(report: :team).
+        where(teams: {name: team_name})
     end
     if role_id.present?
-      selection = selection.where(role_id: role_id)
+      selection = selection.joins(:report).
+        where(reports: {role_id: role_id})
     end
-    selection.count
+    if threshold.present?
+      selection = selection.where("percentage > #{threshold.to_f}")
+    end
+    selection.select(:project_id).distinct.count
   end
 end

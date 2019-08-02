@@ -2,20 +2,6 @@
 
 <% content_for :title, "Reporting Periods" %>
 
-<%= form_with(url: reporting_periods_path, method: :get, local: true) do |form| %>
-  <div class="form-group">
-    <%= form.label :role_id %>
-    <%= form.collection_select :role_id, @roles, :id, :name, { selected: params[:role_id], prompt: true }, class: "form-control" %>
-  </div>
-  <div class="form-group">
-    <%= form.label :team_id %>
-    <%= form.collection_select :team_id, @teams, :id, :name, { selected: params[:team_id], prompt: true }, class: "form-control" %>
-  </div>
-  <div class="actions">
-    <%= form.submit "Filter" %>
-  </div>
-<% end %>
-
 <table class="table">
   <thead>
     <tr>
@@ -23,7 +9,6 @@
       <th>Year</th>
       <th>Reports</th>
       <th>Total Projects Reported (TPR)</th>
-      <th>Filtered TPR</th>
       <th></th>
     </tr>
   </thead>
@@ -35,7 +20,6 @@
         <td><%= reporting_period.date.try(:strftime, "%Y") %></td>
         <td><%= reporting_period.reports.count %></td>
         <td><%= reporting_period.total_projects_reported %></td>
-        <td><%= reporting_period.total_projects_reported_by(params[:role_id], params[:team_id]) %></td>
         <td>
           <%= link_to 'New report', new_reporting_period_report_path(reporting_period) %> |
           <%= link_to 'Bulk import', new_reporting_period_bulk_import_path(reporting_period) %> |

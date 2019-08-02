@@ -1,5 +1,6 @@
 class AnalysisController < ApplicationController
   def index
-    @reporting_periods = ReportingPeriod.order(:date)
+    @roles = Role.order(:name)
+    @reporting_periods = ReportingPeriod.order(:date).includes(reports: :report_parts)
   end
 end
