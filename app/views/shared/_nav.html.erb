@@ -2,22 +2,36 @@
   <div class="sidebar-sticky">
     <ul class="nav flex-column">
       <li class="nav-item">
+        <%= link_to analysis_index_path, class: "nav-link #{ 'active' if controller_name == 'analysis' }" do %>
+          <span data-feather="home"></span>
+          Analysis <span class="sr-only"><%= "(current)" if controller_name == 'analysis' %></span>
+        <% end %>
+      </li>
+      <li class="nav-item">
         <%= link_to :reporting_periods, class: "nav-link #{ 'active' if controller_name == 'reporting_periods' }" do %>
           <span data-feather="home"></span>
           Reporting Periods <span class="sr-only"><%= "(current)" if controller_name == 'reporting_periods' %></span>
         <% end %>
+      </li>
+      <li>
         <%= link_to :users, class: "nav-link #{ 'active' if controller_name == 'users' }" do %>
           <span data-feather="home"></span>
           People <span class="sr-only"><%= "(current)" if controller_name == 'users' %></span>
         <% end %>
+      </li>
+      <li>
         <%= link_to :projects, class: "nav-link #{ 'active' if controller_name == 'projects' }" do %>
           <span data-feather="home"></span>
           Projects <span class="sr-only"><%= "(current)" if controller_name == 'projects' %></span>
         <% end %>
+      </li>
+      <li>
         <%= link_to :teams, class: "nav-link #{ 'active' if controller_name == 'teams' }" do %>
           <span data-feather="home"></span>
           Teams <span class="sr-only"><%= "(current)" if controller_name == 'teams' %></span>
         <% end %>
+      </li>
+      <li>
         <%= link_to :roles, class: "nav-link #{ 'active' if controller_name == 'roles' }" do %>
           <span data-feather="home"></span>
           Roles <span class="sr-only"><%= "(current)" if controller_name == 'roles' %></span>

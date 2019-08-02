@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Reporting Periods</h1>
+<% content_for :title, "Reporting Periods" %>
 
 <%= form_with(url: reporting_periods_path, method: :get, local: true) do |form| %>
   <div class="form-group">
