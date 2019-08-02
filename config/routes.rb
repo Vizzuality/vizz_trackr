@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :reporting_periods do
     resources :reports
+    resources :bulk_import, only: [:new, :create]
   end
   resources :users
   resources :projects

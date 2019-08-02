@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_01_171716) do
+ActiveRecord::Schema.define(version: 2019_08_02_085202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2019_08_01_171716) do
     t.date "end_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "alias"
   end
 
   create_table "report_parts", force: :cascade do |t|
@@ -44,8 +45,8 @@ ActiveRecord::Schema.define(version: 2019_08_01_171716) do
 
   create_table "reports", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "team_id", null: false
-    t.bigint "role_id", null: false
+    t.integer "team_id"
+    t.integer "role_id"
     t.bigint "reporting_period_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

@@ -1,0 +1,13 @@
+<%= form_with(url: reporting_period_bulk_import_index_path, local: true, multipart: true) do |form| %>
+  <h3>Bulk import for <%= reporting_period.display_name %></h3>
+  <%= form.hidden_field :reporting_period_id, value: @reporting_period.id %>
+
+  <div class="form-group">
+    <%= form.label :file %>
+    <%= form.file_field :file, class: "form-control" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
