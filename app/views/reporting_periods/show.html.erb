@@ -21,8 +21,8 @@
     </tr>
   </thead>
   <tbody>
-    <% @reporting_period.reports.each do |report| %>
-      <% report.report_parts.each do |part| %>
+    <% @reporting_period.reports.joins(:user).order("users.name ASC").each do |report| %>
+      <% report.report_parts.joins(:project).order("projects.name ASC").each do |part| %>
         <tr>
           <td><%= report.user.try(:name)%></td>
           <td><%= report.team.try(:name)%></td>
