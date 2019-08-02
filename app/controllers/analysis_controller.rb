@@ -2,7 +2,7 @@ class AnalysisController < ApplicationController
   def index
     @roles = Role.order(:name)
     set_teams_and_members
-    @role = Role.find(params[:role_id])
+    @role = Role.find(params[:role_id]) if params[:role_id].present?
     if @role
       @roslings = @roslings.where(role_id: @role.id)
       @ks = @ks.where(role_id: @role.id)

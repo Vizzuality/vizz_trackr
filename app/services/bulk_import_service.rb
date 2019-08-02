@@ -37,7 +37,7 @@ class BulkImportService
           puts "Found project #{project.name} with this value: #{pair[0]}"
         end
         val = pair[1].gsub("%", "").to_f
-        val = val < 1.0 && val > 0.0 ? val *100 : val
+        val = val <= 1.0 && val > 0.0 ? val *100 : val
         report.report_parts.new(project_id: project.id,
                                 percentage: val)
       end
