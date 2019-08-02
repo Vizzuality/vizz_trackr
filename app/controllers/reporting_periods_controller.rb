@@ -4,12 +4,17 @@ class ReportingPeriodsController < ApplicationController
   # GET /reporting_periods
   # GET /reporting_periods.json
   def index
-    @reporting_periods = ReportingPeriod.order(:date).includes(:reports)
+    @teams = Team.order(:name)
+    @roles = Role.order(:name)
+    @reporting_periods = ReportingPeriod.order(:date).includes(reports: :report_parts)
   end
 
   # GET /reporting_periods/1
   # GET /reporting_periods/1.json
   def show
+    @total_reporters = @reporting_period.reports.count
+    @total_project_reports = @reporting_period.report_parts.
+      select(:project_id).distinct.count
   end
 
   # GET /reporting_periods/new

@@ -7,6 +7,16 @@
   <%= @reporting_period.date.strftime("%B %Y") %>
 </p>
 
+<% if @reporting_period.report_parts.any? %>
+  <h2>Summary</h2>
+  <dl>
+    <dt>Total Reporters</dt><dd><%= @total_reporters %></dd>
+    <dt>Total Projects</dt><dd><%= @total_project_reports %></dd>
+    <dt>Average Projects per Reporter</dt>
+    <dd><%=  number_with_precision(@total_project_reports.to_f / @total_reporters, precision: 2.0) %></dd>
+  </dl>
+<% end %>
+
 <h2>Reports</h2>
 <table class="table">
   <thead>
