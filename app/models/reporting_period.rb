@@ -14,19 +14,31 @@ class ReportingPeriod < ApplicationRecord
     report_parts.sum(:days)
   end
 
-  def total_projects_reported_by role_id=nil, team_name=nil, threshold=nil
+  # filters:
+  #   - threshold
+  #   - role_id
+  #   - calculation
+  def total_projects_reported_by team_id=nil, filters={}
     selection = report_parts
-    if team_name.present?
-      selection = selection.joins(report: :team).
-        where(teams: {name: team_name})
+    if team_id
+      selection = selection.joins(:report).where(reports: { team_id: team_id })
     end
-    if role_id.present?
+    if filters[:role_id].present?
       selection = selection.joins(:report).
-        where(reports: {role_id: role_id})
+        where(reports: { role_id: filters[:role_id] })
     end
-    if threshold.present?
-      selection = selection.where("percentage > #{threshold.to_f}")
+    if filters[:threshold].present?
+      selection = selection.where("percentage > #{ filters[:threshold].to_f }")
     end
-    selection.select(:project_id).distinct.count
+    my_count = selection.select(:project_id).distinct.count
+    case filters[:calculation]
+      when "total"
+        return my_count
+      when "avg"
+        total = selection.select(:report_id).distinct.count
+        return total.to_f/my_count
+      else
+        return my_count
+    end
   end
 end
