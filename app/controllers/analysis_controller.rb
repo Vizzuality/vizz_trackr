@@ -9,7 +9,8 @@ class AnalysisController < ApplicationController
 
     respond_to do |format|
       format.json { render json: @data.to_json }
-      format.html { render 'index' }
+      format.html
+      format.js
     end
   end
 
