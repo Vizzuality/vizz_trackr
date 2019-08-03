@@ -7,7 +7,13 @@ class AnalysisController < ApplicationController
       @roslings = @roslings.where(role_id: @role.id)
       @ks = @ks.where(role_id: @role.id)
     end
-    @reporting_periods = ReportingPeriod.order(:date).includes(reports: :report_parts)
+    @data = ReportingPeriod.get_data_for(params)
+    @reporting_periods = ReportingPeriod.order(:date)
+
+    respond_to do |format|
+      format.json { render json: @data.to_json }
+      format.html { render 'index' }
+    end
   end
 
   private
