@@ -18,6 +18,24 @@
     <%= form.submit "Filter" %>
   </div>
 <% end %>
+<br>
+
+<% chart_data = [] %>
+<% @data.each do |team_data|
+     my_data = {}
+     my_data[:name] = team_data[0]
+     actual_data = {}
+     team_data[1].each do |p|
+       actual_data[p[:date]] = p[:mean_projects]
+     end
+     my_data[:data] = actual_data
+     chart_data << my_data
+  end
+%>
+
+<%= line_chart chart_data %>
+
+<br>
 
 <table class="table">
   <thead>
