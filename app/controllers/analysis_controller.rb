@@ -1,14 +1,11 @@
 class AnalysisController < ApplicationController
   def index
     @roles = Role.order(:name)
-    set_teams_and_members
-    @role = Role.find(params[:role_id]) if params[:role_id].present?
-    if @role
-      @roslings = @roslings.where(role_id: @role.id)
-      @ks = @ks.where(role_id: @role.id)
-    end
-    @data = ReportingPeriod.get_data_for(params)
     @reporting_periods = ReportingPeriod.order(:date)
+
+    @data = Rails.cache.fetch(cache_key, expires_in: 12.hours) do
+      ReportingPeriod.get_data_for(params)
+    end
 
     respond_to do |format|
       format.json { render json: @data.to_json }
@@ -18,10 +15,12 @@ class AnalysisController < ApplicationController
 
   private
 
-  def set_teams_and_members
-    @rosling = Team.where(name: 'Rosling').first
-    @k = Team.where(name: 'K').first
-    @roslings = User.where(team_id: @rosling.id)
-    @ks = User.where(team_id: @k.id)
+  def cache_key
+    last_update = Report.maximum(:updated_at).strftime("%d%m%Y-%H%M")
+    [
+      "role-#{params[:role_id].presence || "all"}",
+      "threshold-#{params[:threshold].presence || "all"}",
+      last_update
+    ].join("-")
   end
 end

@@ -23,12 +23,10 @@
   <thead>
     <tr>
       <th>Period</th>
-      <th>Total <%= @role.try(:name) || "staff"  %> - Team K</th>
       <th>Sum K Projects</th>
       <th>Avg K Projects</th>
       <th>Variance K Projects</th>
       <th>Stdev K Projects</th>
-      <th>Total <%= @role.try(:name) || 'staff' %> - Team Rosling</th>
       <th>Sum Rosling Projects</th>
       <th>Avg Rosling Projects</th>
       <th>Variance Rosling Projects</th>
@@ -43,18 +41,16 @@
       <% roslings_data = @data[:Rosling].select{|t| t[:date] == reporting_period.display_name}.first %>
       <tr>
         <td><%= reporting_period.display_name %></td>
-        <td><%= @ks.count %></td>
         <td><%= ks_data[:sum_report_parts] %></td>
         <td><%= ks_data[:mean_projects] %></td>
         <td><%= ks_data[:variance] %></td>
         <td><%= ks_data[:stdev] %></td>
-        <td><%= @roslings.count %></td>
         <td><%= roslings_data[:sum_report_parts] %></td>
         <td><%= roslings_data[:mean_projects] %></td>
         <td><%= roslings_data[:variance] %></td>
         <td><%= roslings_data[:stdev] %></td>
         <td>
-          <%= link_to 'Show', reporting_period_path(reporting_period, role_id: @role.try(:id)) %>
+          <%= link_to 'Show', reporting_period_path(reporting_period, role_id: params[:role_id]) %>
         </td>
       </tr>
     <% end %>
