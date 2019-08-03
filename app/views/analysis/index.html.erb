@@ -1,21 +1,21 @@
 <%= content_for :title, "Analysis" %>
 
 <%= form_with(url: analysis_index_path, method: :get, local: true) do |form| %>
-  <div class="form-group">
-    <%= form.label :threshold %>
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <div class="input-group-text">%</div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <%= form.label :threshold %>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">%</div>
+        </div>
+        <%= form.text_field :threshold, value: params[:threshold], class: 'form-control' %>
       </div>
-      <%= form.text_field :threshold, value: params[:threshold], class: 'form-control' %>
     </div>
-  </div>
-  <div class="form-group">
-    <%= form.label :role_id %>
-    <%= form.select :role_id, options_from_collection_for_select(@roles, :id, :name, selected: params[:role_id]), { prompt: true }, class: "form-control" %>
-  </div>
-  <div class="actions">
-    <%= form.submit "Filter" %>
+    <div class="form-group col-md-6">
+      <%= form.label :role_id %>
+      <%= form.select :role_id, options_from_collection_for_select(@roles, :id, :name, selected: params[:role_id]), { prompt: true }, class: "form-control" %>
+    </div>
+    <%= form.submit "Filter", class: "btn btn-primary" %>
   </div>
 <% end %>
 <br>
