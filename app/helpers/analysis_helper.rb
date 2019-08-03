@@ -1,6 +1,6 @@
 module AnalysisHelper
 
-  def chart_data_from data, filter
+  def line_chart_data data, filter
     filter = filter.try(:to_sym) || :mean_projects
     chart_data = []
     data.each do |team_data|
