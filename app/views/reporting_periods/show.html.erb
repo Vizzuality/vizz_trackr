@@ -18,6 +18,16 @@
   </dl>
 <% end %>
 
+<%= form_with(url: @reporting_period, method: :get, local: true) do |form| %>
+  <div class="form-group">
+    <%= form.label :role_id %>
+    <%= form.select :role_id, options_from_collection_for_select(@roles, :id, :name, selected: params[:role_id]), { prompt: true }, class: "form-control" %>
+  </div>
+  <div class="actions">
+    <%= form.submit "Filter" %>
+  </div>
+<% end %>
+
 <h2>Reports</h2>
 <table class="table">
   <thead>
@@ -32,7 +42,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @reporting_period.reports.joins(:user).order("users.name ASC").each do |report| %>
+    <% @reports.each do |report| %>
       <% report.report_parts.joins(:project).order("projects.name ASC").each do |part| %>
         <tr>
           <td><%= report.user.try(:name)%></td>

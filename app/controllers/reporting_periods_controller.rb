@@ -13,6 +13,12 @@ class ReportingPeriodsController < ApplicationController
     @total_reporters = @reporting_period.reports.count
     @total_project_reports = @reporting_period.report_parts.
       select(:project_id).distinct.count
+    @reports = @reporting_period.reports.joins(:user).order("users.name ASC")
+    @reports = if params[:role_id].present?
+                 @reports.joins(:user).
+                   where(users: { role_id: params[:role_id] })
+               end
+    @roles = Role.order(:name)
   end
 
   # GET /reporting_periods/new

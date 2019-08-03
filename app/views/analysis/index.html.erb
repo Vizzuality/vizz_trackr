@@ -45,7 +45,7 @@
         <td><%= @roslings.count %></td>
         <td><%= number_with_precision(reporting_period.total_projects_reported_by(@rosling.id, params)) %></td>
         <td>
-          <%= link_to 'Show', reporting_period %>
+          <%= link_to 'Show', reporting_period_path(reporting_period, role_id: @role.try(:id)) %>
         </td>
       </tr>
     <% end %>
