@@ -97,8 +97,8 @@ class ReportingPeriod < ApplicationRecord
           where(reports: { team_id: t.id } ).group_by(&:report_id).map { |t| t[1].size}
         step = parts_summary.inject(0){|accum, i| accum+(i-row[:mean_projects])**2}
         variance = step/(parts_summary.length-1).to_f
-        row[:variance] = variance.round(2)
-        row[:stdev] = Math.sqrt(variance).round(2)
+        row[:variance] = variance.try(:round, 2)
+        row[:stdev] = Math.sqrt(variance).try(:round, 2)
         entry << row
       end
       data[name.to_sym] = entry
