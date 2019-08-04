@@ -4,7 +4,7 @@ class ProjectStacksController < ApplicationController
     @reporting_periods = ReportingPeriod.order(:date)
 
     @data = Rails.cache.fetch(cache_key, expires_in: 12.hours) do
-      ReportingPeriod.get_data_for(params)
+      ReportingPeriod.get_means_data_for(params)
     end
 
     respond_to do |format|

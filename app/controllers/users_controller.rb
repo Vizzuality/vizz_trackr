@@ -11,6 +11,28 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    reports = @user.reports.joins(:reporting_period).
+      order("reporting_periods.date ASC")
+
+    @data = []
+    @user.projects.distinct.each do |p|
+      entry = { name: p.name }
+      entry[:data] = {}
+      @user.report_parts.
+        where(project_id: p.id).
+        joins(report: :reporting_period).
+        order('reporting_periods.date ASC').each do |rp|
+        entry[:data][rp.report.reporting_period.display_name] = rp.percentage
+      end
+      @data << entry
+    end
+
+    @data.sort!{|a,b| Date.parse(a[:data].first[0]) <=> Date.parse(b[:data].first[0])}
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @data.to_json }
+    end
   end
 
   # GET /users/new
