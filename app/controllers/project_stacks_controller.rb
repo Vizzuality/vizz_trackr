@@ -19,7 +19,7 @@ class ProjectStacksController < ApplicationController
             the_name = rp.report.reporting_period.display_name
             entry[:data][the_name] = (entry[:data][the_name] || 0) + rp.days
           end
-        @data << entry
+        @data << entry if !entry[:data].empty?
       end
     end
 
