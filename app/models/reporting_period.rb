@@ -21,7 +21,7 @@ class ReportingPeriod < ApplicationRecord
     result = reports.where(team_id: team.id)
     if filters[:threshold].present?
       result = result.joins(:report_parts).
-        where("report_parts.percentage >= ?", filters[:threshold].to_i)
+        where("report_parts.percentage >= ?", filters[:threshold].to_f)
     end
     if filters[:role_id].present?
       result = result.where(role_id: filters[:role_id].to_i)
@@ -32,7 +32,7 @@ class ReportingPeriod < ApplicationRecord
   def report_parts_filtered filters, team
     result = report_parts.joins(:report).where(reports: { team_id: team.id})
     if filters[:threshold].present?
-      result = result.where("percentage >= ?", filters[:threshold].to_i)
+      result = result.where("percentage >= ?", filters[:threshold].to_f)
     end
     if filters[:role_id].present?
       result = result.joins(:report).
@@ -83,9 +83,5 @@ class ReportingPeriod < ApplicationRecord
       row[:stdev] = Math.sqrt(variance).try(:round, 2)
       row
     end
-  end
-
-  def self.projects_weigth_data filters
-    data = {}
   end
 end

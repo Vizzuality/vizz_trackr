@@ -27,3 +27,35 @@
 <br>
 
 <%= column_chart @data, stacked: true %>
+
+<br>
+
+<h2>Reports</h2>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Period</th>
+      <th>User</th>
+      <th>Team</th>
+      <th>Role</th>
+      <th>Percentage</th>
+      <th>Days</th>
+      <th>Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @project.report_parts.joins(report: :reporting_period).
+        order("reporting_periods.date ASC").each do |part| %>
+      <% report = part.report %>
+      <tr>
+        <td><%= report.reporting_period.display_name %></td>
+        <td><%= report.user.try(:name)%></td>
+        <td><%= report.team.try(:name)%></td>
+        <td><%= report.role.try(:name)%></td>
+        <td><%= part.percentage %>%</td>
+        <td><%= part.days %></td>
+        <td><%= number_to_currency(part.cost, unit: '€')  %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
