@@ -3,8 +3,24 @@ class ProjectStacksController < ApplicationController
     @roles = Role.order(:name)
     @reporting_periods = ReportingPeriod.order(:date)
 
-    @data = Rails.cache.fetch(cache_key, expires_in: 12.hours) do
-      ReportingPeriod.get_means_data_for(params)
+    @data = []
+
+    projects = Project.where(id: ReportPart.select(:project_id).distinct.map(&:project_id))
+
+    projects.each do |p|
+      ["K", "Rosling"].each do |team|
+        t = Team.where(name: team).first
+        entry = { name: p.name, stack: t.name }
+        entry[:data] = {}
+        ReportPart.where(project_id: p.id).
+          joins(report: :reporting_period).
+          where(reports: { team_id: t.id }).
+          order('reporting_periods.date ASC').each do |rp|
+            the_name = rp.report.reporting_period.display_name
+            entry[:data][the_name] = (entry[:data][the_name] || 0) + rp.days
+          end
+        @data << entry
+      end
     end
 
     respond_to do |format|

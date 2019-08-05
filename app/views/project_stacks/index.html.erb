@@ -20,12 +20,4 @@
 <% end %>
 <br>
 
-<div id="my-chart-and-table">
-  <%= render partial: "chart_and_table",
-    locals: {
-      data: @data,
-      reporting_periods: @reporting_periods,
-      params: params
-    }
-  %>
-</div>
+ <%= column_chart @data, stacked: true, legend: false %>
