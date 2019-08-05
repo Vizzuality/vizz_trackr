@@ -9,6 +9,6 @@ class ReportPart < ApplicationRecord
     return true if !percentage
     self.cost = report.user.cost ?
       (percentage / 100 * report.user.cost * 0.74) : nil
-    self.days = (percentage / 5).to_i
+    self.days = (percentage / 5.0).round(2)
   end
 end
