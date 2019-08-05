@@ -29,7 +29,7 @@
 <% end %>
 
 <h2>Reports</h2>
-<table class="table">
+<table class="table table-bordered">
   <thead>
     <tr>
       <th>User</th>
@@ -42,9 +42,11 @@
     </tr>
   </thead>
   <tbody>
+    <% table_class = 'primary' %>
     <% @reports.each do |report| %>
+      <% table_class = table_class == 'primary' ? '' : 'primary' %>
       <% report.report_parts.joins(:project).order("projects.name ASC").each do |part| %>
-        <tr>
+        <tr class="table-<%= table_class %>">
           <td><%= report.user.try(:name)%></td>
           <td><%= report.team.try(:name)%></td>
           <td><%= report.role.try(:name)%></td>

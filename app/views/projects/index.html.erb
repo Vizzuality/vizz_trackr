@@ -6,12 +6,12 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Team</th>
       <th>Alias</th>
+      <th>Contracts #</th>
       <th>Budget</th>
       <th>Costs</th>
       <th>%</th>
-      <th>Start date</th>
-      <th>End date</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -20,13 +20,14 @@
     <% @projects.each do |project| %>
       <tr>
         <td><%= project.name %></td>
+        <td><%= project.team.try(:name) %></td>
         <td><%= project.alias %></td>
-        <td><%= number_to_currency(project.budget, unit: '€') %></td>
+        <td><%= project.contracts.count %></td>
+        <% budget = (project.budget.presence || 0) + project.contracts.sum(:budget) %>
+        <td><%= number_to_currency(budget, unit: '€') %></td>
         <% spent = project.report_parts.sum(:cost).presence || 0 %>
         <td><%= number_to_currency(spent, unit: '€') %></td>
-        <td><%= project.budget && ((project.budget-spent)/project.budget*100).round(2) %>%</td>
-        <td><%= project.start_date %></td>
-        <td><%= project.end_date %></td>
+        <td><%= budget > 0 ? "#{((budget-spent)/budget*100).round(2)}%" : '-'%></td>
         <td><%= link_to 'Show', project %></td>
         <td><%= link_to 'Edit', edit_project_path(project) %></td>
         <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>

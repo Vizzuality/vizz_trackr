@@ -35,6 +35,7 @@ class ProjectsController < ApplicationController
   def new
     @project = Project.new
     @teams = Team.order(:name)
+    @project.contracts.build
   end
 
   # GET /projects/1/edit
@@ -90,6 +91,7 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:name, :budget, :start_date, :end_date, :alias, :team_id)
+      params.require(:project).permit(:name, :budget, :start_date, :end_date, :alias, :team_id,
+                                    contracts_attributes: [:id, :name, :_destroy, :budget])
     end
 end
