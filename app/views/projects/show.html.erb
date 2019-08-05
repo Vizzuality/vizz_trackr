@@ -44,7 +44,9 @@
     </tr>
   </thead>
   <tbody>
-    <% @project.report_parts.joins(report: :reporting_period).
+    <% @project.report_parts.
+        includes(report: [:reporting_period, :team, :user, :role]).
+        joins(report: :reporting_period).
         order("reporting_periods.date ASC").each do |part| %>
       <% report = part.report %>
       <tr>

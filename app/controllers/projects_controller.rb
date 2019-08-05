@@ -15,6 +15,7 @@ class ProjectsController < ApplicationController
       entry = { name: u.name }
       entry[:data] = {}
       @project.report_parts.
+        includes(report: :reporting_period).
         joins(report: :reporting_period).
         where(reports: {user_id: u.id}).
         order('reporting_periods.date ASC').each do |rp|
