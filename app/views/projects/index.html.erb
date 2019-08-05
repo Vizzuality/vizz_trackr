@@ -8,6 +8,8 @@
       <th>Name</th>
       <th>Alias</th>
       <th>Budget</th>
+      <th>Costs</th>
+      <th>%</th>
       <th>Start date</th>
       <th>End date</th>
       <th colspan="3"></th>
@@ -20,6 +22,9 @@
         <td><%= project.name %></td>
         <td><%= project.alias %></td>
         <td><%= number_to_currency(project.budget, unit: '€') %></td>
+        <% spent = project.report_parts.sum(:cost).presence || 0 %>
+        <td><%= number_to_currency(spent, unit: '€') %></td>
+        <td><%= project.budget && ((project.budget-spent)/project.budget*100).round(2) %>%</td>
         <td><%= project.start_date %></td>
         <td><%= project.end_date %></td>
         <td><%= link_to 'Show', project %></td>
