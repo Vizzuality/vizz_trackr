@@ -34,10 +34,12 @@ class ProjectsController < ApplicationController
   # GET /projects/new
   def new
     @project = Project.new
+    @teams = Team.order(:name)
   end
 
   # GET /projects/1/edit
   def edit
+    @teams = Team.order(:name)
   end
 
   # POST /projects
@@ -88,6 +90,6 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:name, :budget, :start_date, :end_date, :alias)
+      params.require(:project).permit(:name, :budget, :start_date, :end_date, :alias, :team_id)
     end
 end
