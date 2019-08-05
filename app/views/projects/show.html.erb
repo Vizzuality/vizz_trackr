@@ -1,6 +1,9 @@
 <% content_for :title, "Project - #{@project.name}" %>
 <p id="notice"><%= notice %></p>
 
+<%= link_to 'Edit', edit_project_path(@project) %> |
+<%= link_to 'Back', projects_path %>
+
 <p>
   <strong>Alias:</strong>
   <%= @project.alias %>
@@ -21,11 +24,18 @@
   <%= @project.end_date %>
 </p>
 
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %>
+<%= form_with(url: @project, method: :get, local: true) do |form| %>
+  <div class="form-group">
+    <%= form.label :reporting_period_id %>
+    <%= form.select :reporting_period_id, options_from_collection_for_select(@reporting_periods, :id, :display_name, selected: params[:reporting_period_id]), { prompt: true }, class: "form-control" %>
+  </div>
+  <div class="actions">
+    <%= form.submit "Filter" %>
+  </div>
+<% end %>
 
 <br>
-
+<h4># Days by people in the project</h4>
 <%= column_chart @data, stacked: true %>
 
 <br>

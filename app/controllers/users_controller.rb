@@ -15,17 +15,21 @@ class UsersController < ApplicationController
     @user.projects.distinct.each do |p|
       entry = { name: p.name }
       entry[:data] = {}
-      @user.report_parts.
+      report_parts = @user.report_parts.
         includes(report: :reporting_period).
         where(project_id: p.id).
         joins(report: :reporting_period).
-        order('reporting_periods.date ASC').each do |rp|
+        order('reporting_periods.date ASC')
+      report_parts = report_parts.where(reporting_periods: { id: params[:reporting_period_id] }) if params[:reporting_period_id].present?
+      report_parts.each do |rp|
         entry[:data][rp.report.reporting_period.display_name] = rp.percentage
       end
-      @data << entry
+      @data << entry if !entry[:data].empty?
     end
 
     @data.sort!{|a,b| Date.parse(a[:data].first[0]) <=> Date.parse(b[:data].first[0])}
+
+    @reporting_periods = @user.reporting_periods.order(:date).distinct
 
     respond_to do |format|
       format.html

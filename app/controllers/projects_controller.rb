@@ -14,17 +14,21 @@ class ProjectsController < ApplicationController
     @project.users.distinct.each do |u|
       entry = { name: u.name }
       entry[:data] = {}
-      @project.report_parts.
+      report_parts = @project.report_parts.
         includes(report: :reporting_period).
         joins(report: :reporting_period).
         where(reports: {user_id: u.id}).
-        order('reporting_periods.date ASC').each do |rp|
+        order('reporting_periods.date ASC')
+      report_parts = report_parts.where(reporting_periods: { id: params[:reporting_period_id] }) if params[:reporting_period_id].present?
+      report_parts.each do |rp|
         entry[:data][rp.report.reporting_period.display_name] = rp.days
       end
-      @data << entry
+      @data << entry if !entry[:data].empty?
     end
 
     @data.sort!{|a,b| Date.parse(a[:data].first[0]) <=> Date.parse(b[:data].first[0])}
+
+    @reporting_periods = @project.reporting_periods.order(:date).distinct
 
     respond_to do |format|
       format.html

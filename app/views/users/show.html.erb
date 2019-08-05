@@ -1,6 +1,9 @@
 <% content_for :title, "User - #{@user.name}" %>
 <p id="notice"><%= notice %></p>
 
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>
+
 <p>
   <strong>Name:</strong>
   <%= @user.name %>
@@ -16,11 +19,19 @@
   <%= @user.role.try(:name) %>
 </p>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<%= form_with(url: @project, method: :get, local: true) do |form| %>
+  <div class="form-group">
+    <%= form.label :reporting_period_id %>
+    <%= form.select :reporting_period_id, options_from_collection_for_select(@reporting_periods, :id, :display_name, selected: params[:reporting_period_id]), { prompt: true }, class: "form-control" %>
+  </div>
+  <div class="actions">
+    <%= form.submit "Filter" %>
+  </div>
+<% end %>
 
 <br>
 
+<h4>% of Time in a project</h4>
 <%= column_chart @data, stacked: true %>
 
 <br>
