@@ -11,9 +11,6 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    reports = @user.reports.joins(:reporting_period).
-      order("reporting_periods.date ASC")
-
     @data = []
     @user.projects.distinct.each do |p|
       entry = { name: p.name }

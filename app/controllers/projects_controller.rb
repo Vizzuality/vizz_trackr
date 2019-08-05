@@ -10,6 +10,25 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
+    @data = []
+    @project.users.distinct.each do |u|
+      entry = { name: u.name }
+      entry[:data] = {}
+      @project.report_parts.
+        joins(report: :reporting_period).
+        where(reports: {user_id: u.id}).
+        order('reporting_periods.date ASC').each do |rp|
+        entry[:data][rp.report.reporting_period.display_name] = rp.days
+      end
+      @data << entry
+    end
+
+    @data.sort!{|a,b| Date.parse(a[:data].first[0]) <=> Date.parse(b[:data].first[0])}
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @data.to_json }
+    end
   end
 
   # GET /projects/new
