@@ -12,15 +12,24 @@
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Vizz Trackr</a>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <% if current_user %>
+            <%= link_to "(#{current_user.name}) Logout", destroy_user_session_path, method: :delete, class: "nav-link" %>
+          <% else %>
+            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+          <% end %>
+        </li>
+      </ul>
     </nav>
 
     <div class="container-fluid">
       <div class="row">
         <%= render 'shared/nav' %>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <p class="notice"><%= notice %></p>
+          <p class="alert"><%= alert %></p>
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <p class="notice"><%= notice %></p>
-            <p class="alert"><%= alert %></p>
             <h1 class="h2"><%= yield(:title) %></h1>
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
