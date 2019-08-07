@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root to: "projects#index"
   resources :analysis, only: [:index]
   resources :project_stacks, only: [:index]
   resources :reporting_periods do
