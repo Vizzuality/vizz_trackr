@@ -19,6 +19,14 @@
     </div>
   </div>
 
+  <div class="form-group">
+    <%= form.label :alias_ist %>
+    <%= form.text_field :alias_list, class: 'form-control' %>
+    <small class="form-text text-muted">
+      Comma separated list of alternative names [e.g.: "CW, Climate Watch"]
+    </small>
+  </div>
+
   <li class="input">
     <%= button_tag 'Remove', type: 'button',
     class: 'btn btn-danger',
