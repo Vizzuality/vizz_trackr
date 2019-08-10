@@ -35,7 +35,7 @@
       <th>User</th>
       <th>Team</th>
       <th>Role</th>
-      <th>Project</th>
+      <th>Contract</th>
       <th>Percentage</th>
       <th>Days</th>
       <th>Cost</th>
@@ -50,7 +50,7 @@
           <td><%= report.user.try(:name)%></td>
           <td><%= report.team.try(:name)%></td>
           <td><%= report.role.try(:name)%></td>
-          <td><%= part.contract.try(:full_name)%></td>
+          <td><%= link_to part.contract.try(:full_name), part.contract.project %></td>
           <td><%= part.percentage %>%</td>
           <td><%= part.days %></td>
           <td><%= number_to_currency(part.cost, unit: '€')  %></td>
