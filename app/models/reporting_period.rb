@@ -18,11 +18,11 @@ class ReportingPeriod < ApplicationRecord
   end
 
   def total_contracts_reported
-    report_parts.select(:contract_id).distinct.count
+    full_reports.select(:contract_id).distinct.count
   end
 
   def total_time_reported
-    report_parts.sum(:days)
+    full_reports.sum(:days)
   end
 
   # filters:
