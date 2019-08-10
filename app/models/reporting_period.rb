@@ -38,9 +38,9 @@ class ReportingPeriod < ApplicationRecord
 
     {
       contracts: contracts,
-      mean: mean,
-      variance: variance,
-      stdev: stdev
+      mean: mean.round(2),
+      variance: variance.try(:round, 2),
+      stdev: stdev.try(:round, 2)
     }
   end
 
