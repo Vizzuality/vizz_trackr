@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: reporting_periods
+#
+#  id         :bigint           not null, primary key
+#  date       :date
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class ReportingPeriod < ApplicationRecord
   has_many :reports
   has_many :report_parts, through: :reports
