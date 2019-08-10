@@ -21,7 +21,7 @@
         <td><%= project.name %></td>
         <td><%= project.team.try(:name) %></td>
         <td><%= project.contracts.count %></td>
-        <% budget = (project.budget.presence || 0) + project.contracts.sum(:budget) %>
+        <% budget = project.contracts.try(:sum, :budget) %>
         <td><%= number_to_currency(budget, unit: '€') %></td>
         <% spent = project.report_parts.sum(:cost).presence || 0 %>
         <td><%= number_to_currency(spent, unit: '€') %></td>
