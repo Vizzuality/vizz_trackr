@@ -16,7 +16,7 @@ class ReportsController < ApplicationController
   def new
     @reporting_periods = ReportingPeriod.order(:date)
     @users = User.order(:name)
-    @projects = Project.order(:name)
+    @contracts = Contract.order(:name)
     @roles = Role.order(:name)
     @teams = Team.order(:name)
 
@@ -81,6 +81,8 @@ class ReportsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def report_params
       params.require(:report).permit(:user_id, :team_id, :role_id, :reporting_period_id,
-                                    report_parts_attributes: [:id, :percentage, :project_id, :_destroy])
+                                    report_parts_attributes: [:id, :percentage,
+                                                              :contract_id,
+                                                              :_destroy])
     end
 end

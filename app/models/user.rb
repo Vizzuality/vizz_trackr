@@ -8,5 +8,6 @@ class User < ApplicationRecord
   has_many :reports
   has_many :report_parts, through: :reports
   has_many :reporting_periods, through: :reports
-  has_many :projects, through: :report_parts
+  has_many :contracts, through: :report_parts
+  has_many :projects, through: :contracts
 end

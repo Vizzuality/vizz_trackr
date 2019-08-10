@@ -6,8 +6,8 @@ class ReportingPeriod < ApplicationRecord
     date.strftime("%B %Y")
   end
 
-  def total_projects_reported
-    report_parts.select(:project_id).distinct.count
+  def total_contracts_reported
+    report_parts.select(:contract_id).distinct.count
   end
 
   def total_time_reported
@@ -68,7 +68,7 @@ class ReportingPeriod < ApplicationRecord
       row[:sum_reports] = filtered_reports.count
       row[:sum_report_parts] = filtered_report_parts.count
 
-      row[:diff_projects] = filtered_report_parts.select(:project_id).
+      row[:diff_projects] = filtered_report_parts.select(:contract_id).
         distinct.count
 
       row[:mean_projects] = (row[:sum_report_parts]/row[:sum_reports].to_f).

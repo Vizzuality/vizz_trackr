@@ -8,7 +8,7 @@
       <th>Month</th>
       <th>Year</th>
       <th>Reports</th>
-      <th>Total Projects Reported (TPR)</th>
+      <th>Total Contracts Reported</th>
       <th></th>
     </tr>
   </thead>
@@ -19,7 +19,7 @@
         <td><%= reporting_period.date.try(:strftime, "%B") %></td>
         <td><%= reporting_period.date.try(:strftime, "%Y") %></td>
         <td><%= reporting_period.reports.count %></td>
-        <td><%= reporting_period.total_projects_reported %></td>
+        <td><%= reporting_period.total_contracts_reported %></td>
         <td>
           <%= link_to 'New report', new_reporting_period_report_path(reporting_period) %> |
           <%= link_to 'Bulk import', new_reporting_period_bulk_import_path(reporting_period) %> |

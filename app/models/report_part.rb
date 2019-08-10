@@ -1,6 +1,6 @@
 class ReportPart < ApplicationRecord
   belongs_to :report
-  belongs_to :project
+  belongs_to :contract
 
   before_save :calculate_cost_and_days
 

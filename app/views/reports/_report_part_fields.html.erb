@@ -4,9 +4,9 @@
   class: 'report-parts-fields nested-fields inline-fields border border-secondary shadow p-3 mb-5 bg-white rounded',
   data: { controller: 'report-part', new_record: is_new_record } do %>
   <div class="form-group">
-    <%= form.label :project_id %>
-    <%= form.collection_select :project_id, @projects, :id,
-      :name, {}, class: 'form-control' %>
+    <%= form.label :contract_id %>
+    <%= form.collection_select :contract_id, @contracts, :id,
+      :full_name, {}, class: 'form-control' %>
   </div>
 
   <div class="form-group">
