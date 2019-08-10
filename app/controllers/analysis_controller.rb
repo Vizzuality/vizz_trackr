@@ -1,11 +1,7 @@
 class AnalysisController < ApplicationController
   def index
     @roles = Role.order(:name)
-    @reporting_periods = ReportingPeriod.order(:date)
-
-    #@data = Rails.cache.fetch(cache_key, expires_in: 12.hours) do
-     @data= ReportingPeriod.get_means_data_for(params)
-    #end
+    @data = ReportingPeriod.analyse(filter_params)
 
     respond_to do |format|
       format.json { render json: @data.to_json }
@@ -15,6 +11,10 @@ class AnalysisController < ApplicationController
   end
 
   private
+
+  def filter_params
+    params.permit(:threshold, :role_id)
+  end
 
   def cache_key
     last_update = Report.maximum(:updated_at).strftime("%d%m%Y-%H%M")

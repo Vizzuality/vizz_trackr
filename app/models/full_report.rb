@@ -21,9 +21,54 @@
 
 class FullReport < ActiveRecord::Base
 
+  scope :for_team, ->(team_id) { where(team_id: team_id) }
+  scope :for_role, ->(role_id) { where(role_id: role_id) }
+  scope :for_contract, ->(contract_id) { where(contract_id: contract_id) }
+  scope :for_user, ->(user_id) { where(user_id: user_id) }
+  scope :bigger_than, ->(threshold) { where("percentage > ?", threshold.to_f) }
+
   # this isn't strictly necessary, but it will prevent
   # rails from calling save, which would fail anyway.
   def readonly?
     true
+  end
+
+  def self.contracts_distribution filters
+    inner_query = self.filtered(filters)
+    select_query = <<-SQL
+      reporting_period_id,
+      team_name,
+      user_id,
+      COUNT(DISTINCT(contract_id)) AS total_contracts
+    SQL
+    inner_query = inner_query.select(select_query)
+    inner_query = inner_query.group(:reporting_period_id,
+                              :team_name,
+                              :user_id)
+    results = self.unscoped.
+      select("reporting_period_id, team_name, array_agg(total_contracts) AS contracts").
+      from(inner_query, :inner_query).
+      group(:reporting_period_id, :team_name)
+    results
+  end
+
+  def self.filtered filters
+    results = self.all
+    if filters[:team_id].present?
+      results = results.for_team(filters[:team_id])
+    end
+    if filters[:role_id].present?
+      results = results.for_role(filters[:role_id])
+    end
+    if filters[:user_id].present?
+      results = results.for_user(filters[:user_id])
+    end
+    if filters[:contract_id].present?
+      results = results.for_contract(filters[:contract_id])
+    end
+    if filters[:threshold].present?
+      results = results.bigger_than(filters[:thresold])
+    end
+    results
   end
 end

@@ -19,21 +19,21 @@
   </thead>
 
   <tbody>
-    <% reporting_periods.each do |reporting_period| %>
-      <% ks_data = @data[:K].select{|t| t[:date] == reporting_period.display_name}.first %>
-      <% roslings_data = @data[:Rosling].select{|t| t[:date] == reporting_period.display_name}.first %>
+    <% data.each do |dt| %>
+      <% ks = dt[:K] %>
+      <% roslings = dt[:Rosling] %>
       <tr>
-        <td><%= reporting_period.display_name %></td>
-        <td><%= ks_data[:sum_report_parts] %></td>
-        <td><%= ks_data[:mean_projects] %></td>
-        <td><%= ks_data[:variance] %></td>
-        <td><%= ks_data[:stdev] %></td>
-        <td><%= roslings_data[:sum_report_parts] %></td>
-        <td><%= roslings_data[:mean_projects] %></td>
-        <td><%= roslings_data[:variance] %></td>
-        <td><%= roslings_data[:stdev] %></td>
+        <td><%= dt[:rp].display_name %></td>
+        <td><%= ks[:total_contracts] %></td>
+        <td><%= ks[:mean] %></td>
+        <td><%= ks[:variance] %></td>
+        <td><%= ks[:stdev] %></td>
+        <td><%= roslings[:total_contracts] %></td>
+        <td><%= roslings[:mean] %></td>
+        <td><%= roslings[:variance] %></td>
+        <td><%= roslings[:stdev] %></td>
         <td>
-          <%= link_to 'Show', reporting_period_path(reporting_period, role_id: params[:role_id]) %>
+          <%= link_to 'Show', reporting_period_path(dt[:rp], role_id: params[:role_id]) %>
         </td>
       </tr>
     <% end %>

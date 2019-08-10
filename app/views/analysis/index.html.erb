@@ -18,9 +18,9 @@
     <div class="form-group col-md-3">
       <%= form.label :graph %>
       <% options_for_graph = [
-        ["Mean Projects", "mean_projects"],
-        ["Total Reporters", "sum_reports"],
-        ["Unique Projects", "diff_projects"],
+        ["Mean Projects", "mean"],
+        ["Total Reporters", "total_reporters"],
+        ["Unique Projects", "total_contracts"],
         ["Variance of projects per person", "variance"],
         ["Standard Var of projects per person", "stdev"]
       ]
@@ -36,7 +36,6 @@
   <%= render partial: "chart_and_table",
     locals: {
       data: @data,
-      reporting_periods: @reporting_periods,
       params: params
     }
   %>
