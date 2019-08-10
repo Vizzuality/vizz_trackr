@@ -11,6 +11,7 @@
 class ReportingPeriod < ApplicationRecord
   has_many :reports
   has_many :report_parts, through: :reports
+  has_many :full_reports
 
   def display_name
     date.strftime("%B %Y")

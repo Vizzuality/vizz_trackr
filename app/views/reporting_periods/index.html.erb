@@ -5,8 +5,7 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Month</th>
-      <th>Year</th>
+      <th>Period</th>
       <th>Reports</th>
       <th>Total Contracts Reported</th>
       <th></th>
@@ -16,10 +15,9 @@
   <tbody>
     <% @reporting_periods.each do |reporting_period| %>
       <tr>
-        <td><%= reporting_period.date.try(:strftime, "%B") %></td>
-        <td><%= reporting_period.date.try(:strftime, "%Y") %></td>
-        <td><%= reporting_period.reports.count %></td>
-        <td><%= reporting_period.total_contracts_reported %></td>
+        <td><%= reporting_period.display_name %></td>
+        <td><%= reporting_period.full_reports.count %></td>
+        <td><%= reporting_period.full_reports.select('contract_id').distinct.count %></td>
         <td>
           <%= link_to 'New report', new_reporting_period_report_path(reporting_period) %> |
           <%= link_to 'Bulk import', new_reporting_period_bulk_import_path(reporting_period) %> |

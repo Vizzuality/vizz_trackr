@@ -4,7 +4,8 @@ class ReportingPeriodsController < ApplicationController
   # GET /reporting_periods
   # GET /reporting_periods.json
   def index
-    @reporting_periods = ReportingPeriod.order(:date).includes(reports: :report_parts)
+    @reporting_periods = ReportingPeriod.order(:date).
+      includes(:full_reports)
   end
 
   # GET /reporting_periods/1
