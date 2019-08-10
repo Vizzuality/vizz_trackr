@@ -12,7 +12,7 @@ class ReportingPeriodsController < ApplicationController
   def show
     @total_reporters = @reporting_period.reports.count
     @total_project_reports = @reporting_period.report_parts.
-      select(:project_id).distinct.count
+      select(:contract_id).distinct.count
     @reports = @reporting_period.reports.joins(:user).order("users.name ASC")
     if params[:role_id].present?
       @reports = @reports.joins(:user).

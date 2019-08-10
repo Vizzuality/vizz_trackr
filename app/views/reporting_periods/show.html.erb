@@ -45,12 +45,12 @@
     <% table_class = 'primary' %>
     <% @reports.each do |report| %>
       <% table_class = table_class == 'primary' ? '' : 'primary' %>
-      <% report.report_parts.joins(:project).order("projects.name ASC").each do |part| %>
+      <% report.report_parts.joins(:contract).order("contracts.name ASC").each do |part| %>
         <tr class="table-<%= table_class %>">
           <td><%= report.user.try(:name)%></td>
           <td><%= report.team.try(:name)%></td>
           <td><%= report.role.try(:name)%></td>
-          <td><%= part.project.try(:name)%></td>
+          <td><%= part.contract.try(:full_name)%></td>
           <td><%= part.percentage %>%</td>
           <td><%= part.days %></td>
           <td><%= number_to_currency(part.cost, unit: '€')  %></td>

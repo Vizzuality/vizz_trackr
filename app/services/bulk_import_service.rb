@@ -30,23 +30,21 @@ class BulkImportService
       report.team = user.team
       row.to_a[1, row.size-1].each do |pair|
         next unless pair[1]
-        project = Project.where("projects.name ilike '#{pair[0]}'").
-          or(Project.where("projects.alias ilike '#{pair[0]}'")).first
+        contract = Contract.where("name ilike ?", pair[0]).
+          or(Contract.where("?=ANY(alias)", pair[0])).first
 
-        project = Project.joins(:contracts).where("contracts.name ilike '#{pair[0]}'").
-          first if !project
-        if !project
-          failures << "Couldn't find a project with name #{pair[0]}. Skipping..."
+        if !contract
+          failures << "Couldn't find a contract with name #{pair[0]}. Skipping..."
           next
         else
-          successes << "Found project #{project.name} with this value: #{pair[0]}"
+          successes << "Found contract #{contract.name} with this value: #{pair[0]}"
         end
         val = pair[1].include?("%") ? pair[1].gsub("%", "").to_f : pair[1].to_f*100
         val = val
-        report.report_parts.new(project_id: project.id,
+        report.report_parts.new(contract_id: contract.id,
                                 percentage: val)
       end
-      report.save!
+      report.save! if report.report_parts.any?
     end
     puts "#####################################################"
     puts " SUCCESSES IMPORTS !!!!!! "
