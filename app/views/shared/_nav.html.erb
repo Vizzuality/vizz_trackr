@@ -31,6 +31,12 @@
           <% end %>
         </li>
         <li>
+          <%= link_to :contracts, class: "nav-link #{ 'active' if controller_name == 'contracts' }" do %>
+            <span data-feather="home"></span>
+            Contracts <span class="sr-only"><%= "(current)" if controller_name == 'contracts' %></span>
+          <% end %>
+        </li>
+        <li>
           <%= link_to :projects, class: "nav-link #{ 'active' if controller_name == 'projects' }" do %>
             <span data-feather="home"></span>
             Projects <span class="sr-only"><%= "(current)" if controller_name == 'projects' %></span>

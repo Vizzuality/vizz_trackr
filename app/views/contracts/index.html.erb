@@ -1,0 +1,24 @@
+<% content_for :title, "Contracts" %>
+<p id="notice"><%= notice %></p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Project</th>
+      <th>Name</th>
+      <th>Budget</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @contracts.each do |contract| %>
+      <tr>
+        <td><%= link_to contract.project.name, contract.project %></td>
+        <td><%= contract.name %></td>
+        <td><%= contract.budget %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
