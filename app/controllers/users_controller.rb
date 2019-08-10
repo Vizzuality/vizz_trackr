@@ -12,22 +12,22 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @data = []
-    @user.projects.distinct.each do |p|
-      entry = { name: p.name }
-      entry[:data] = {}
-      report_parts = @user.report_parts.
-        includes(report: :reporting_period).
-        where(project_id: p.id).
-        joins(report: :reporting_period).
-        order('reporting_periods.date ASC')
-      report_parts = report_parts.where(reporting_periods: { id: params[:reporting_period_id] }) if params[:reporting_period_id].present?
-      report_parts.each do |rp|
-        entry[:data][rp.report.reporting_period.display_name] = rp.percentage
-      end
-      @data << entry if !entry[:data].empty?
-    end
-
-    @data.sort!{|a,b| Date.parse(a[:data].first[0]) <=> Date.parse(b[:data].first[0])}
+#    @user.projects.distinct.each do |p|
+#      entry = { name: p.name }
+#      entry[:data] = {}
+#      report_parts = @user.report_parts.
+#        includes(report: :reporting_period).
+#        where(project_id: p.id).
+#        joins(report: :reporting_period).
+#        order('reporting_periods.date ASC')
+#      report_parts = report_parts.where(reporting_periods: { id: params[:reporting_period_id] }) if params[:reporting_period_id].present?
+#      report_parts.each do |rp|
+#        entry[:data][rp.report.reporting_period.display_name] = rp.percentage
+#      end
+#      @data << entry if !entry[:data].empty?
+#    end
+#
+#    @data.sort!{|a,b| Date.parse(a[:data].first[0]) <=> Date.parse(b[:data].first[0])}
 
     @reporting_periods = @user.reporting_periods.order(:date).distinct
 
@@ -50,6 +50,7 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
+    @user.skip_password_validation = true
 
     respond_to do |format|
       if @user.save
@@ -69,6 +70,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
+      @user.skip_password_validation = true
       if @user.update(user_params)
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
@@ -105,6 +107,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :team_id, :role_id, :cost)
+      params.require(:user).permit(:name, :email, :team_id, :role_id, :cost)
     end
 end

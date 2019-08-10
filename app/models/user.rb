@@ -17,6 +17,8 @@
 #
 
 class User < ApplicationRecord
+
+  attr_accessor :skip_password_validation
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable,
@@ -28,4 +30,11 @@ class User < ApplicationRecord
   has_many :reporting_periods, through: :reports
   has_many :contracts, through: :report_parts
   has_many :projects, through: :contracts
+
+  private
+
+  def password_required?
+    return false if skip_password_validation
+    super
+  end
 end

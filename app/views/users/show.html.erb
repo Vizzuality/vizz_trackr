@@ -49,12 +49,12 @@
     </tr>
   </thead>
   <tbody>
-    <% @user.report_parts.includes(:project, report: :reporting_period).joins(report: :reporting_period).
+    <% @user.report_parts.includes(:contract, report: :reporting_period).joins(report: :reporting_period).
         order("reporting_periods.date ASC").each do |part| %>
       <% report = part.report %>
       <tr>
         <td><%= report.reporting_period.display_name %></td>
-        <td><%= part.project.try(:name)%></td>
+        <td><%= part.contract.try(:full_name)%></td>
         <td><%= part.percentage %>%</td>
         <td><%= part.days %></td>
         <td><%= number_to_currency(part.cost, unit: '€')  %></td>
