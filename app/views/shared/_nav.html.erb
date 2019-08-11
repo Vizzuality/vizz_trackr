@@ -1,60 +1,47 @@
-<nav class="col-md-2 d-none d-md-block bg-light sidebar">
-  <div class="sidebar-sticky">
-    <% if current_user %>
-      <h4>Analysis</h4>
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <%= link_to analysis_index_path, class: "nav-link #{ 'active' if controller_name == 'analysis' }" do %>
-            <span data-feather="home"></span>
-            Means and Deviations <span class="sr-only"><%= "(current)" if controller_name == 'analysis' %></span>
-          <% end %>
-        </li>
-        <li class="nav-item">
-          <%= link_to project_stacks_path, class: "nav-link #{ 'active' if controller_name == 'project_stacks' }" do %>
-            <span data-feather="home"></span>
-            Projects Weight <span class="sr-only"><%= "(current)" if controller_name == 'project_stacks' %></span>
-          <% end %>
-        </li>
-      </ul>
-      <h4>Manage Content</h4>
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <%= link_to :reporting_periods, class: "nav-link #{ 'active' if controller_name == 'reporting_periods' }" do %>
-            <span data-feather="home"></span>
-            Reporting Periods <span class="sr-only"><%= "(current)" if controller_name == 'reporting_periods' %></span>
-          <% end %>
-        </li>
-        <li>
-          <%= link_to :users, class: "nav-link #{ 'active' if controller_name == 'users' }" do %>
-            <span data-feather="home"></span>
-            People <span class="sr-only"><%= "(current)" if controller_name == 'users' %></span>
-          <% end %>
-        </li>
-        <li>
-          <%= link_to :contracts, class: "nav-link #{ 'active' if controller_name == 'contracts' }" do %>
-            <span data-feather="home"></span>
-            Contracts <span class="sr-only"><%= "(current)" if controller_name == 'contracts' %></span>
-          <% end %>
-        </li>
-        <li>
-          <%= link_to :projects, class: "nav-link #{ 'active' if controller_name == 'projects' }" do %>
-            <span data-feather="home"></span>
-            Projects <span class="sr-only"><%= "(current)" if controller_name == 'projects' %></span>
-          <% end %>
-        </li>
-        <li>
-          <%= link_to :teams, class: "nav-link #{ 'active' if controller_name == 'teams' }" do %>
-            <span data-feather="home"></span>
-            Teams <span class="sr-only"><%= "(current)" if controller_name == 'teams' %></span>
-          <% end %>
-        </li>
-        <li>
-          <%= link_to :roles, class: "nav-link #{ 'active' if controller_name == 'roles' }" do %>
-            <span data-feather="home"></span>
-            Roles <span class="sr-only"><%= "(current)" if controller_name == 'roles' %></span>
-          <% end %>
-        </li>
-      </ul>
-    <% end %>
-  </div>
-</nav>
+<% if current_user %>
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle <%= ["analysis", "project_stacks"].include?(controller_name) && "active" %>" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Analysis
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <%= link_to analysis_index_path, class: "dropdown-item" do %>
+          Means and Deviations
+        <% end %>
+        <%= link_to project_stacks_path, class: "dropdown-item" do %>
+          Projects Weight
+        <% end %>
+      </div>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'reporting_periods' %>">
+      <%= link_to :reporting_periods, class: "nav-link" do %>
+        Reporting Periods <span class="sr-only"><%= "(current)" if controller_name == 'reporting_periods' %></span>
+      <% end %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'users' %>">
+      <%= link_to :users, class: "nav-link" do %>
+        People <span class="sr-only"><%= "(current)" if controller_name == 'users' %></span>
+      <% end %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'contracts' %>">
+      <%= link_to :contracts, class: "nav-link" do %>
+        Contracts <span class="sr-only"><%= "(current)" if controller_name == 'contracts' %></span>
+      <% end %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'projects' %>">
+      <%= link_to :projects, class: "nav-link" do %>
+        Projects <span class="sr-only"><%= "(current)" if controller_name == 'projects' %></span>
+      <% end %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'teams' %>">
+      <%= link_to :teams, class: "nav-link" do %>
+        Teams <span class="sr-only"><%= "(current)" if controller_name == 'teams' %></span>
+      <% end %>
+    </li>
+    <li class="nav-item <%= 'active' if controller_name == 'roles' %>">
+      <%= link_to :roles, class: "nav-link" do %>
+        Roles <span class="sr-only"><%= "(current)" if controller_name == 'roles' %></span>
+      <% end %>
+    </li>
+  </ul>
+<% end %>
