@@ -21,6 +21,8 @@
 
 class FullReport < ActiveRecord::Base
   belongs_to :reporting_period
+  belongs_to :contract
+  belongs_to :project
 
   scope :for_team, ->(team_id) { where(team_id: team_id) }
   scope :for_role, ->(role_id) { where(role_id: role_id) }
@@ -32,6 +34,10 @@ class FullReport < ActiveRecord::Base
   # rails from calling save, which would fail anyway.
   def readonly?
     true
+  end
+
+  def contract_full_name
+    "#{contract_name} [#{project_name}]"
   end
 
   def self.contracts_distribution filters

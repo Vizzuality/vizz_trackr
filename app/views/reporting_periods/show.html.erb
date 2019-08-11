@@ -27,7 +27,7 @@ end %>
 <% end %>
 
 <h2>Reports</h2>
-<table class="table table-bordered">
+<table class="table table-bordered table-striped table-hover">
   <thead>
     <tr>
       <th>User</th>
@@ -40,20 +40,16 @@ end %>
     </tr>
   </thead>
   <tbody>
-    <% table_class = 'primary' %>
     <% @reports.each do |report| %>
-      <% table_class = table_class == 'primary' ? '' : 'primary' %>
-      <% report.report_parts.joins(:contract).order("contracts.name ASC").each do |part| %>
-        <tr class="table-<%= table_class %>">
-          <td><%= report.user.try(:name)%></td>
-          <td><%= report.team.try(:name)%></td>
-          <td><%= report.role.try(:name)%></td>
-          <td><%= link_to part.contract.try(:full_name), part.contract.project %></td>
-          <td><%= part.percentage %>%</td>
-          <td><%= part.days %></td>
-          <td><%= number_to_currency(part.cost, unit: '€')  %></td>
-        </tr>
-      <% end %>
+      <tr>
+        <td><%= report.user_name %></td>
+        <td><%= report.team_name %></td>
+        <td><%= report.role_name %></td>
+        <td><%= link_to report.contract_full_name, report.contract %></td>
+        <td><%= report.percentage %>%</td>
+        <td><%= report.days %></td>
+        <td><%= number_to_currency(report.cost, unit: '€')  %></td>
+      </tr>
     <% end %>
   </tbody>
 </table>

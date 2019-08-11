@@ -11,15 +11,17 @@ class ReportingPeriodsController < ApplicationController
   # GET /reporting_periods/1
   # GET /reporting_periods/1.json
   def show
-    @total_reporters = @reporting_period.reports.count
-    @total_project_reports = @reporting_period.report_parts.
-      select(:contract_id).distinct.count
-    @reports = @reporting_period.reports.joins(:user).order("users.name ASC")
-    if params[:role_id].present?
-      @reports = @reports.joins(:user).
-        where(users: { role_id: params[:role_id] })
-    end
+    @total_reporters = @reporting_period.full_reports.
+      select(:user_id).distinct.count
+    @total_project_reports = @reporting_period.total_contracts_reported
     @roles = Role.order(:name)
+
+    @reports = @reporting_period.full_reports.
+      includes(:contract, :project).order(:user_name)
+
+    if params[:role_id].present?
+      @reports = @reports.for_role(params[:role_id])
+    end
   end
 
   # GET /reporting_periods/new
