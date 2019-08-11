@@ -1,5 +1,5 @@
 <% content_for :title, "New Role" %>
+<% content_for :actions,
+  link_to('Back', roles_path, class: 'btn btn-sm btn-outline-secondary') %>
 
 <%= render 'form', role: @role %>
-
-<%= link_to 'Back', roles_path %>

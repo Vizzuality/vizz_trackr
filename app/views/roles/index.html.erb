@@ -1,6 +1,8 @@
-<p id="notice"><%= notice %></p>
-
 <% content_for :title, "Roles" %>
+<% content_for :actions,
+  link_to('New Role', new_role_path, class: 'btn btn-sm btn-outline-primary') %>
+
+<p id="notice"><%= notice %></p>
 
 <table class="table">
   <thead>
@@ -23,7 +25,3 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Role', new_role_path %>

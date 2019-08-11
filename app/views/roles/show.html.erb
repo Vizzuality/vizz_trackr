@@ -1,10 +1,11 @@
 <% content_for :title, "Role - #{@role.name}" %>
+<% content_for :actions,
+  link_to('Edit', edit_role_path(@role), class: 'btn btn-sm btn-outline-primary').concat(
+    link_to('Back', roles_path, class: 'btn btn-sm btn-outline-secondary')) %>
+
 <p id="notice"><%= notice %></p>
 
 <p>
   <strong>Name:</strong>
   <%= @role.name %>
 </p>
-
-<%= link_to 'Edit', edit_role_path(@role) %> |
-<%= link_to 'Back', roles_path %>

@@ -1,6 +1,6 @@
 <% content_for :title, "Editing Role" %>
+<% content_for :actions,
+  link_to('Show', @role, class: 'btn btn-sm btn-outline-primary').concat(
+    link_to('Back', roles_path, class: 'btn btn-sm btn-outline-secondary')) %>
 
 <%= render 'form', role: @role %>
-
-<%= link_to 'Show', @role %> |
-<%= link_to 'Back', roles_path %>

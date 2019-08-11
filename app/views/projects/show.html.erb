@@ -1,8 +1,10 @@
 <% content_for :title, "Project - #{@project.name}" %>
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %>
+<% content_for :actions do
+  link_to('Edit', edit_project_path(@project), class: 'btn btn-sm btn-outline-primary').concat(
+    link_to('Back', projects_path, class: 'btn btn-sm btn-outline-secondary'))
+end %>
 
 <h2>Contracts</h2>
 <table class="table table-striped table-bordered">

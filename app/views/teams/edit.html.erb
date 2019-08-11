@@ -1,6 +1,6 @@
 <% content_for :title, "Editing Team" %>
+<% content_for :actions,
+  link_to('Show', @team, class: 'btn btn-sm btn-outline-primary').concat(
+    link_to('Back', teams_path, class: 'btn btn-sm btn-outline-secondary')) %>
 
 <%= render 'form', team: @team %>
-
-<%= link_to 'Show', @team %> |
-<%= link_to 'Back', teams_path %>

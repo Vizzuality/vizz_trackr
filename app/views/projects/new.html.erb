@@ -1,5 +1,5 @@
 <% content_for :title, "New Project" %>
+<% content_for :actions,
+  link_to('Back', projects_path, class: 'btn btn-sm btn-outline-secondary') %>
 
 <%= render 'form', project: @project %>
-
-<%= link_to 'Back', projects_path %>

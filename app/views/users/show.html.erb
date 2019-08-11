@@ -1,9 +1,9 @@
 <% content_for :title, "User - #{@user.name}" %>
+<% content_for :actions,
+  link_to('Edit', edit_user_path(@user), class: 'btn btn-sm btn-outline-primary').concat(
+    link_to('Back', users_path, class: 'btn btn-sm btn-outline-secondary')) %>
+
 <p id="notice"><%= notice %></p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
-
 <p>
   <strong>Name:</strong>
   <%= @user.name %>

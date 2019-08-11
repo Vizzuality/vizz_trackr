@@ -1,6 +1,8 @@
 <p id="notice"><%= notice %></p>
 
 <% content_for :title, "Projects" %>
+<% content_for :actions,
+  link_to('New Project', new_project_path, class: 'btn btn-sm btn-outline-primary') %>
 
 <table class="table">
   <thead>
@@ -33,5 +35,3 @@
 </table>
 
 <br>
-
-<%= link_to 'New Project', new_project_path %>

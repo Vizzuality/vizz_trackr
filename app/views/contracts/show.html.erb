@@ -1,8 +1,10 @@
 <% content_for :title, "Contract - #{@contract.name}" %>
-<p id="notice"><%= notice %></p>
+<% content_for :actions,
+  link_to('Edit', edit_project_path(@contract.project), class: 'btn btn-sm btn-outline-primary').concat(
+    link_to('Back', contracts_path, class: 'btn btn-sm btn-outline-secondary'))
+%>
 
-<%= link_to 'Edit', edit_project_path(@contract.project) %> |
-<%= link_to 'Back', contracts_path %>
+<p id="notice"><%= notice %></p>
 <p>
   <strong>Project:</strong> <%= link_to @contract.project.name, @contract.project  %>
 </p>
