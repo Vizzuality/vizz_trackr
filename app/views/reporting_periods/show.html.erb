@@ -1,15 +1,13 @@
 <% content_for :title, "Reporting Period - #{@reporting_period.display_name}" %>
+
+<% content_for :actions do
+  link_to('Edit', edit_reporting_period_path(@reporting_period), class: 'btn btn-sm btn-outline-primary').concat(
+    link_to('Back', reporting_periods_path, class: 'btn btn-sm btn-outline-secondary'))
+end %>
+
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_reporting_period_path(@reporting_period) %> |
-<%= link_to 'Back', reporting_periods_path %>
-<p>
-  <strong>Date:</strong>
-  <%= @reporting_period.date.strftime("%B %Y") %>
-</p>
-
 <% if @reporting_period.report_parts.any? %>
-  <h2>Summary</h2>
   <dl>
     <dt>Total Reporters</dt><dd><%= @total_reporters %></dd>
     <dt>Total Projects</dt><dd><%= @total_project_reports %></dd>
