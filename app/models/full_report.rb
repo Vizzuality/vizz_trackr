@@ -68,7 +68,7 @@ class FullReport < ActiveRecord::Base
       results = results.for_contract(filters[:contract_id])
     end
     if filters[:threshold].present?
-      results = results.bigger_than(filters[:thresold])
+      results = results.bigger_than(filters[:threshold])
     end
     results
   end
