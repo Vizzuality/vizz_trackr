@@ -20,6 +20,7 @@
 #
 
 class FullReport < ActiveRecord::Base
+  belongs_to :reporting_period
 
   scope :for_team, ->(team_id) { where(team_id: team_id) }
   scope :for_role, ->(role_id) { where(role_id: role_id) }

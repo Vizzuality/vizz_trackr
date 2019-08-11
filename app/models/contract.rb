@@ -16,6 +16,7 @@
 class Contract < ApplicationRecord
   belongs_to :project
   has_many :report_parts, dependent: :destroy
+  has_many :full_reports
 
   def alias_list
     self.alias.join(", ")
