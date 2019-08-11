@@ -26,5 +26,6 @@ class ContractsController < ApplicationController
         new_entry = false
       end
     end
+    @data.sort!{|a,b| b[:data].size <=> a[:data].size}
   end
 end
