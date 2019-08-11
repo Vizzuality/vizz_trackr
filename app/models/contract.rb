@@ -18,6 +18,8 @@ class Contract < ApplicationRecord
   has_many :report_parts, dependent: :destroy
   has_many :full_reports
 
+  validates_uniqueness_of :name
+
   def alias_list
     self.alias.join(", ")
   end

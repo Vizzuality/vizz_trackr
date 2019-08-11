@@ -13,6 +13,8 @@ class ReportingPeriod < ApplicationRecord
   has_many :report_parts, through: :reports
   has_many :full_reports
 
+  validates_uniqueness_of :date
+
   def display_name
     date.strftime("%B %Y")
   end

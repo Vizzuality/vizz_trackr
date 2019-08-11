@@ -32,6 +32,8 @@ class User < ApplicationRecord
   has_many :projects, through: :contracts
   has_many :full_reports
 
+  validates_uniqueness_of :email, :name
+
   private
 
   def password_required?

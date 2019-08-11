@@ -20,4 +20,6 @@ class Project < ApplicationRecord
   has_many :users, through: :reports
   has_many :reporting_periods, through: :reports
   accepts_nested_attributes_for :contracts, allow_destroy: true
+
+  validates_uniqueness_of :name
 end
