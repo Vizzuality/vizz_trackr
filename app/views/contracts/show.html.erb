@@ -1,8 +1,16 @@
-<% content_for :title, "Contract - #{@contract.full_name}" %>
+<% content_for :title, "Contract - #{@contract.name}" %>
 <p id="notice"><%= notice %></p>
 
 <%= link_to 'Edit', edit_project_path(@contract.project) %> |
 <%= link_to 'Back', contracts_path %>
+<p>
+  <strong>Project:</strong> <%= link_to @contract.project.name, @contract.project  %>
+</p>
+<% unless @contract.alias.empty? %>
+  <p>
+    <strong>Alias:</strong> <%= @contract.alias_list %>
+  </p>
+<% end %>
 
 <%= form_with(url: @contract, method: :get, local: true) do |form| %>
   <div class="form-group">
