@@ -10,7 +10,7 @@
       <th>Contracts #</th>
       <th>Budget</th>
       <th>Costs</th>
-      <th>%</th>
+      <th>Burn %</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -20,12 +20,10 @@
       <tr>
         <td><%= project.name %></td>
         <td><%= project.team.try(:name) %></td>
-        <td><%= project.contracts.count %></td>
-        <% budget = project.contracts.try(:sum, :budget) %>
-        <td><%= number_to_currency(budget, unit: '€') %></td>
-        <% spent = project.report_parts.sum(:cost).presence || 0 %>
-        <td><%= number_to_currency(spent, unit: '€') %></td>
-        <td><%= budget > 0 ? "#{((budget-spent)/budget*100).round(2)}%" : '-'%></td>
+        <td><%= project.contracts.size %></td>
+        <td><%= number_to_currency(project.budget, unit: '€') %></td>
+        <td><%= number_to_currency(project.spend, unit: '€') %></td>
+        <%= td_for_burn(project.budget, project.spend) %>
         <td><%= link_to 'Show', project %></td>
         <td><%= link_to 'Edit', edit_project_path(project) %></td>
         <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
