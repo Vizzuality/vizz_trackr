@@ -30,6 +30,7 @@ class User < ApplicationRecord
   has_many :reporting_periods, through: :reports
   has_many :contracts, through: :report_parts
   has_many :projects, through: :contracts
+  has_many :full_reports
 
   private
 

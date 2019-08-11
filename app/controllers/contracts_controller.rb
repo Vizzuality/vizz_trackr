@@ -8,7 +8,7 @@ class ContractsController < ApplicationController
     @contract = Contract.find(params[:id])
     @reporting_periods = ReportingPeriod.joins(:full_reports).
       where(full_reports: { contract_id: @contract.id }).
-      order(:date)
+      order(:date).distinct
     @data = []
     @reporting_periods.each do |rp|
       next if params[:reporting_period_id] &&

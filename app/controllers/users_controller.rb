@@ -11,25 +11,25 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @reporting_periods = ReportingPeriod.joins(:full_reports).
+      where(full_reports: {user_id: @user.id}).
+      order(:date).distinct
     @data = []
-#    @user.projects.distinct.each do |p|
-#      entry = { name: p.name }
-#      entry[:data] = {}
-#      report_parts = @user.report_parts.
-#        includes(report: :reporting_period).
-#        where(project_id: p.id).
-#        joins(report: :reporting_period).
-#        order('reporting_periods.date ASC')
-#      report_parts = report_parts.where(reporting_periods: { id: params[:reporting_period_id] }) if params[:reporting_period_id].present?
-#      report_parts.each do |rp|
-#        entry[:data][rp.report.reporting_period.display_name] = rp.percentage
-#      end
-#      @data << entry if !entry[:data].empty?
-#    end
-#
-#    @data.sort!{|a,b| Date.parse(a[:data].first[0]) <=> Date.parse(b[:data].first[0])}
-
-    @reporting_periods = @user.reporting_periods.order(:date).distinct
+    @reporting_periods.each do |rp|
+      next if params[:reporting_period_id] &&
+        rp.id != params[:reporting_period_id].to_i
+      rp.full_reports.for_user(@user.id).each do |report|
+        entry = @data.select{|t| t[:name] == report[:contract_name]}.first
+        if !entry
+          entry = { name: report.contract_name}
+          new_entry = true
+        end
+        entry[:data] = {} unless entry[:data]
+        entry[:data][report.reporting_period_name] = report.percentage
+        @data << entry if new_entry
+        new_entry = false
+      end
+    end
 
     respond_to do |format|
       format.html
