@@ -4,49 +4,34 @@
 <%= link_to 'Edit', edit_project_path(@project) %> |
 <%= link_to 'Back', projects_path %>
 
-<%= form_with(url: @project, method: :get, local: true) do |form| %>
-  <div class="form-group">
-    <%= form.label :reporting_period_id %>
-    <%= form.select :reporting_period_id, options_from_collection_for_select(@reporting_periods, :id, :display_name, selected: params[:reporting_period_id]), { prompt: true }, class: "form-control" %>
-  </div>
-  <div class="actions">
-    <%= form.submit "Filter" %>
-  </div>
-<% end %>
-
-<br>
-<h4># Days by people in the project</h4>
-<%= column_chart @data, stacked: true %>
-
-<br>
-
-<h2>Reports</h2>
+<h2>Contracts</h2>
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th>Period</th>
-      <th>User</th>
-      <th>Team</th>
-      <th>Role</th>
-      <th>Percentage</th>
-      <th>Days</th>
-      <th>Cost</th>
+      <th>Name</th>
+      <th>Budget</th>
+      <th>Costs</th>
+      <th>Days spent</th>
+      <th>Start date</th>
+      <th>End date</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
-    <% @project.report_parts.
-        includes(report: [:reporting_period, :team, :user, :role]).
-        joins(report: :reporting_period).
-        order("reporting_periods.date ASC").each do |part| %>
-      <% report = part.report %>
+    <% @project.contracts.
+      order("contracts.name asc").each do |contract| %>
       <tr>
-        <td><%= report.reporting_period.display_name %></td>
-        <td><%= report.user.try(:name)%></td>
-        <td><%= report.team.try(:name)%></td>
-        <td><%= report.role.try(:name)%></td>
-        <td><%= part.percentage %>%</td>
-        <td><%= part.days %></td>
-        <td><%= number_to_currency(part.cost, unit: '€')  %></td>
+        <td><%= contract.name %></td>
+        <td>
+          <%= number_to_currency(contract.budget, unit: '€') %>
+        </td>
+        <td>
+          <%= number_to_currency(contract.full_reports.sum(:cost), unit: '€') %>
+        </td>
+        <td><%= contract.full_reports.sum(:days) %></td>
+        <td><%= contract.start_date %></td>
+        <td><%= contract.end_date %></td>
+        <td><%= link_to 'Show', contract  %></td>
       </tr>
     <% end %>
   </tbody>
