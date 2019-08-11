@@ -1,6 +1,6 @@
 class ContractsController < ApplicationController
   def index
-    @contracts = Contract.joins(:project).
+    @contracts = Contract.joins(:project).includes(:full_reports, :project).
       order("projects.name ASC, contracts.name ASC")
   end
 
