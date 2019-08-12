@@ -1,0 +1,28 @@
+<% content_for :title, "Non Staff Costs" %>
+<% content_for :actions,
+  link_to('New Non Staff Cost', new_non_staff_cost_path, class: 'btn btn-sm btn-outline-primary') %>
+<p id="notice"><%= notice %></p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Cost</th>
+      <th>Contract</th>
+      <th>Cost type</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @non_staff_costs.each do |non_staff_cost| %>
+      <tr>
+        <td><%= non_staff_cost.cost %></td>
+        <td><%= non_staff_cost.contract.full_name %></td>
+        <td><%= non_staff_cost.cost_type %></td>
+        <td><%= link_to 'Show', non_staff_cost %></td>
+        <td><%= link_to 'Edit', edit_non_staff_cost_path(non_staff_cost) %></td>
+        <td><%= link_to 'Destroy', non_staff_cost, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

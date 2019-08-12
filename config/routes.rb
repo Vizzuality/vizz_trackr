@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :non_staff_costs
   devise_for :users
   root to: "projects#index"
   resources :analysis, only: [:index]

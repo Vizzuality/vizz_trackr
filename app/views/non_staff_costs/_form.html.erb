@@ -1,0 +1,32 @@
+<%= form_with(model: non_staff_cost, local: true) do |form| %>
+  <% if non_staff_cost.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(non_staff_cost.errors.count, "error") %> prohibited this non_staff_cost from being saved:</h2>
+
+      <ul>
+        <% non_staff_cost.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :cost %>
+    <%= form.text_field :cost, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :contract_id %>
+    <%= form.collection_select :contract_id, @contracts, :id, :name, {}, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :cost_type %>
+    <%= form.select :cost_type, NonStaffCost::TYPES.map{|t| [t.humanize, t]}, {}, class: 'form-control' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Submit', class: 'btn btn-primary' %>
+  </div>
+<% end %>

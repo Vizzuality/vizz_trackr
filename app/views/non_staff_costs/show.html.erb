@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Cost:</strong>
+  <%= @non_staff_cost.cost %>
+</p>
+
+<p>
+  <strong>Contract:</strong>
+  <%= @non_staff_cost.contract_id %>
+</p>
+
+<p>
+  <strong>Cost type:</strong>
+  <%= @non_staff_cost.cost_type %>
+</p>
+
+<%= link_to 'Edit', edit_non_staff_cost_path(@non_staff_cost) %> |
+<%= link_to 'Back', non_staff_costs_path %>
