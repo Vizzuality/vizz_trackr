@@ -9,7 +9,9 @@ Rails.application.routes.draw do
   end
   resources :users
   resources :projects
-  resources :contracts, only: [:index, :show]
+  resources :contracts, only: [:index, :show] do
+    get 'reports', on: :member
+  end
   resources :roles
   resources :teams
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

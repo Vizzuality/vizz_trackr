@@ -1,6 +1,6 @@
 <% content_for :title, "Contract - #{@contract.name}" %>
 <% content_for :actions,
-  link_to('Reports', reports_contract_path(@contract), class: 'btn btn-sm btn-outline-primary').concat(
+  link_to('Show', @contract, class: 'btn btn-sm btn-outline-primary').concat(
   link_to('Edit', edit_project_path(@contract.project), class: 'btn btn-sm btn-outline-primary').concat(
     link_to('Back', contracts_path, class: 'btn btn-sm btn-outline-secondary')))
 %>
@@ -14,13 +14,20 @@
     <strong>Alias:</strong> <%= @contract.alias_list %>
   </p>
 <% end %>
-<p>
-  <strong>Budget:</strong> <%= number_to_currency(@contract.budget, unit: '€') %>
-</p>
+
+<%= form_with(url: @contract, method: :get, local: true) do |form| %>
+  <div class="form-group">
+    <%= form.label :reporting_period_id %>
+    <%= form.select :reporting_period_id, options_from_collection_for_select(@reporting_periods, :id, :display_name, selected: params[:reporting_period_id]), { prompt: true }, class: "form-control" %>
+  </div>
+  <div class="actions">
+    <%= form.submit "Filter" %>
+  </div>
+<% end %>
 
 <br>
-<h4>Project Burn</h4>
-<%= line_chart @data, prefix: '€', thousands: "," %>
+<h4># Days by people in the project</h4>
+<%= column_chart @data, stacked: true %>
 
 <br>
 
