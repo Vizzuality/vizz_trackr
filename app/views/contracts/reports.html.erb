@@ -15,7 +15,7 @@
   </p>
 <% end %>
 
-<%= form_with(url: @contract, method: :get, local: true) do |form| %>
+<%= form_with(url: reports_contract_path(@contract), method: :get, local: true) do |form| %>
   <div class="form-group">
     <%= form.label :reporting_period_id %>
     <%= form.select :reporting_period_id, options_from_collection_for_select(@reporting_periods, :id, :display_name, selected: params[:reporting_period_id]), { prompt: true }, class: "form-control" %>
