@@ -13,7 +13,7 @@
 
   <div class="form-group">
     <%= form.label :date %>
-    <%= form.date_select :date, discard_day: true, order: [:month, :year], class: "form-control" %>
+    <%= form.date_select :date, { discard_day: true, order: [:month, :year] }, class: "form-control" %>
   </div>
 
   <div class="actions">
