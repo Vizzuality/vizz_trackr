@@ -77,6 +77,7 @@ class NonStaffCostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def non_staff_cost_params
-      params.require(:non_staff_cost).permit(:cost, :contract_id, :cost_type)
+      params.require(:non_staff_cost).permit(:cost, :contract_id,
+                                             :date, :cost_type)
     end
 end
