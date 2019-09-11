@@ -29,7 +29,9 @@ class ReportingPeriod < ApplicationRecord
 
   def contracts_mean_variance_and_stdev filters
     contracts = self.full_reports.
-      contracts_distribution(filters).first.contracts
+      contracts_distribution(filters).first.try(:contracts)
+
+    return {} unless contracts
 
     mean = contracts.inject{ |sum, el| sum + el }.to_f / contracts.size
 
