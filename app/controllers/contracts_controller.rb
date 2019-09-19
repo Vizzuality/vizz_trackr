@@ -18,7 +18,12 @@ class ContractsController < ApplicationController
         agg += report.cost
         aggregate[:data][report.reporting_period_name] = agg
       end
-    @data = [contract, aggregate]
+    budget = {
+      name: 'Budget',
+      data: contract[:data].map{|k,_| [k, @contract.budget.try(:to_f)]}.to_h,
+      points: false
+    }
+    @data = [contract, aggregate, budget]
   end
 
   def reports
