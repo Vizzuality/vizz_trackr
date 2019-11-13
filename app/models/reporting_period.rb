@@ -9,7 +9,7 @@
 #
 
 class ReportingPeriod < ApplicationRecord
-  has_many :reports
+  has_many :reports, dependent: :destroy
   has_many :report_parts, through: :reports
   has_many :full_reports
 
