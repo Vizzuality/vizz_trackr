@@ -21,13 +21,21 @@
         </ul>
       </div>
       <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-          <% if current_user %>
-            <%= link_to "(#{current_user.name}) Logout", destroy_user_session_path, method: :delete, class: "nav-link" %>
-          <% else %>
+        <% if current_user %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle <%= controller_name == "users" && "active" %>" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%= current_user.name %>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <%= link_to "Profile", current_user, class: "dropdown-item" %>
+              <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+            </div>
+          </li>
+        <% else %>
+          <li class="nav-item text-nowrap">
             <%= link_to "Login", new_user_session_path, class: "nav-link" %>
-          <% end %>
-        </li>
+          </li>
+        <% end %>
       </ul>
     </nav>
 
