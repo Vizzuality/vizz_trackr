@@ -8,6 +8,7 @@
 <p id="notice"><%= notice %></p>
 <p>
   <strong>Project:</strong> <%= link_to @contract.project.name, @contract.project  %>
+  <%= billable_tag(@contract.project) %>
 </p>
 <% unless @contract.alias.empty? %>
   <p>

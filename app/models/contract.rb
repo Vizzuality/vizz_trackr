@@ -19,6 +19,7 @@ class Contract < ApplicationRecord
   has_many :full_reports
 
   validates_uniqueness_of :name
+  delegate :is_billable?, to: :project
 
   def alias_list
     self.alias.join(", ")

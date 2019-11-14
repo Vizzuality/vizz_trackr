@@ -4,26 +4,27 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Project</th>
       <th>Name</th>
+      <th>Project</th>
       <th>Budget</th>
       <th>Costs</th>
-      <th></th>
     </tr>
   </thead>
 
   <tbody>
     <% @contracts.each do |contract| %>
       <tr>
-        <td><%= link_to contract.project.name, contract.project %></td>
-        <td><%= contract.name %></td>
+        <td><%= link_to contract.name, contract %></td>
+        <td>
+          <%= link_to contract.project.name, contract.project %>
+          <%= billable_tag(contract.project) %>
+        </td>
         <td>
           <%= number_to_currency(contract.budget, unit: '€')  %>
         </td>
         <td>
           <%= number_to_currency(contract.full_reports.sum(:cost), unit: '€') %>
         </td>
-        <td><%= link_to "Show", contract %></td>
       </tr>
     <% end %>
   </tbody>
