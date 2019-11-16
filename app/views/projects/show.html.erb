@@ -1,4 +1,7 @@
-<% content_for :title, "Project - #{@project.name}" %>
+<% content_for :title do %>
+  <%= "Project - #{@project.name}" %>
+  <%= billable_tag(@project) %>
+<% end %>
 <p id="notice"><%= notice %></p>
 
 <% content_for :actions do
