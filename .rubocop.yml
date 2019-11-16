@@ -58,6 +58,9 @@ Style/RescueModifier:
 Style/ClassAndModuleChildren:
   Enabled: false
 
+Style/MethodDefParentheses:
+    Enabled: false
+
 Metrics/LineLength:
   Max: 120
   Exclude:
