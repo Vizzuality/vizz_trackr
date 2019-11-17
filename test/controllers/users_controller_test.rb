@@ -20,7 +20,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       post users_url, params: {
         user: {
           name: @user.name,
-          roles_id: @user.roles_id,
+          role_id: @user.role_id,
           team_id: @user.team_id
         }
       }
@@ -43,7 +43,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     patch user_url(@user), params: {
       user: {
         name: @user.name,
-        roles_id: @user.roles_id,
+        role_id: @user.role_id,
         team_id: @user.team_id
       }
     }

@@ -19,10 +19,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_difference('Project.count') do
       post projects_url, params: {
         project: {
-          budget: @project.budget,
-          end_date: @project.end_date,
-          name: @project.name,
-          start_date: @project.start_date
+          name: @project.name
         }
       }
     end
@@ -43,10 +40,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   test 'should update project' do
     patch project_url(@project), params: {
       project: {
-        budget: @project.budget,
-        end_date: @project.end_date,
-        name: @project.name,
-        start_date: @project.start_date
+        name: @project.name
       }
     }
     assert_redirected_to project_url(@project)
