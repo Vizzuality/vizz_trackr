@@ -14,47 +14,60 @@ class BulkImportService
 
   private
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/PerceivedComplexity
   def import_data
     successes = []
     failures = []
     CSV.read(@file, headers: true).each do |row|
       next unless row.first[1]
+
       name = row.first[1].split(',').map(&:strip)
-      user = User.where(name: [name[1], name[0]].join(" ")).first
-      if !user
+      user = User.where(name: [name[1], name[0]].join(' ')).first
+      unless user
         puts "No user found for #{row.first[1]}. Skipping..."
         next
       end
-      report = @reporting_period.reports.new(user_id: user.id)
-      report.role = user.role
-      report.team = user.team
-      row.to_a[1, row.size-1].each do |pair|
-        next unless pair[1]
-        contract = Contract.where("name ilike ?", pair[0]).
-          or(Contract.where("?=ANY(alias)", pair[0])).first
+      report = @reporting_period.reports.new(user_id: user.id,
+                                             role: user.role, team: user.team)
 
-        if !contract
+      row.to_a[1, row.size - 1].each do |pair|
+        next unless pair[1]
+
+        contract = Contract.where('name ilike ?', pair[0])
+          .or(Contract.where('?=ANY(alias)', pair[0])).first
+
+        if contract
+          successes << "Found contract #{contract.name} with this value: #{pair[0]}"
+        else
           failures << "Couldn't find a contract with name #{pair[0]}. Skipping..."
           next
-        else
-          successes << "Found contract #{contract.name} with this value: #{pair[0]}"
         end
-        val = pair[1].include?("%") ? pair[1].gsub("%", "").to_f : pair[1].to_f*100
-        val = val
+        val = pair[1].include?('%') ? pair[1].gsub('%', '').to_f : pair[1].to_f * 100
         report.report_parts.new(contract_id: contract.id,
                                 percentage: val)
       end
       report.save! if report.report_parts.any?
     end
-    puts "#####################################################"
-    puts " SUCCESSES IMPORTS !!!!!! "
+    print_results successes, failures
+  end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/PerceivedComplexity
+
+  def print_results successes, failures
+    puts '#####################################################'
+    puts ' SUCCESSES IMPORTS !!!!!! '
     successes.uniq.each do |s|
       puts s
     end
-    puts "*****************************************************"
-    puts " !!!!!! FAILURES IMPORTS !!!!!! "
+    puts '*****************************************************'
+    puts ' !!!!!! FAILURES IMPORTS !!!!!! '
     if failures.empty?
-      puts "NONE"
+      puts 'NONE'
     else
       failures.uniq.each do |s|
         puts s
