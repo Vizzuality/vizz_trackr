@@ -9,8 +9,7 @@ class NonStaffCostsController < ApplicationController
 
   # GET /non_staff_costs/1
   # GET /non_staff_costs/1.json
-  def show
-  end
+  def show; end
 
   # GET /non_staff_costs/new
   def new
@@ -33,10 +32,10 @@ class NonStaffCostsController < ApplicationController
         format.html { redirect_to non_staff_costs_path, notice: 'Non staff cost was successfully created.' }
         format.json { render :show, status: :created, location: @non_staff_cost }
       else
-        format.html {
+        format.html do
           @contracts = Contract.order(:name)
           render :new
-        }
+        end
         format.json { render json: @non_staff_cost.errors, status: :unprocessable_entity }
       end
     end
@@ -50,10 +49,10 @@ class NonStaffCostsController < ApplicationController
         format.html { redirect_to @non_staff_cost, notice: 'Non staff cost was successfully updated.' }
         format.json { render :show, status: :ok, location: @non_staff_cost }
       else
-        format.html {
+        format.html do
           @contracts = Contract.order(:name)
           render :edit
-        }
+        end
         format.json { render json: @non_staff_cost.errors, status: :unprocessable_entity }
       end
     end
@@ -70,14 +69,15 @@ class NonStaffCostsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_non_staff_cost
-      @non_staff_cost = NonStaffCost.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def non_staff_cost_params
-      params.require(:non_staff_cost).permit(:cost, :contract_id,
-                                             :date, :cost_type)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_non_staff_cost
+    @non_staff_cost = NonStaffCost.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def non_staff_cost_params
+    params.require(:non_staff_cost).permit(:cost, :contract_id,
+                                           :date, :cost_type)
+  end
 end
