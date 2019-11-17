@@ -4,24 +4,22 @@ class ReportingPeriodsController < ApplicationController
   # GET /reporting_periods
   # GET /reporting_periods.json
   def index
-    @reporting_periods = ReportingPeriod.order(:date).
-      includes(:full_reports)
+    @reporting_periods = ReportingPeriod.order(:date)
+      .includes(:full_reports)
   end
 
   # GET /reporting_periods/1
   # GET /reporting_periods/1.json
   def show
-    @total_reporters = @reporting_period.full_reports.
-      select(:user_id).distinct.count
+    @total_reporters = @reporting_period.full_reports
+      .select(:user_id).distinct.count
     @total_project_reports = @reporting_period.total_contracts_reported
     @roles = Role.order(:name)
 
-    @reports = @reporting_period.full_reports.
-      includes(:contract, :project).order(:user_name)
+    @reports = @reporting_period.full_reports
+      .includes(:contract, :project).order(:user_name)
 
-    if params[:role_id].present?
-      @reports = @reports.for_role(params[:role_id])
-    end
+    @reports = @reports.for_role(params[:role_id]) if params[:role_id].present?
   end
 
   # GET /reporting_periods/new
@@ -30,8 +28,7 @@ class ReportingPeriodsController < ApplicationController
   end
 
   # GET /reporting_periods/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /reporting_periods
   # POST /reporting_periods.json
@@ -74,13 +71,14 @@ class ReportingPeriodsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_reporting_period
-      @reporting_period = ReportingPeriod.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def reporting_period_params
-      params.require(:reporting_period).permit(:date)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_reporting_period
+    @reporting_period = ReportingPeriod.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def reporting_period_params
+    params.require(:reporting_period).permit(:date)
+  end
 end
