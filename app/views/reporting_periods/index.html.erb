@@ -6,6 +6,8 @@
   end
 %>
 
+<br>
+
 
 <table class="table">
   <thead>
@@ -13,6 +15,7 @@
       <th>Period</th>
       <th>Reports</th>
       <th>Total Contracts Reported</th>
+      <th>Month Project Cost</th>
       <th></th>
     </tr>
   </thead>
@@ -23,6 +26,9 @@
         <td><%= reporting_period.display_name %></td>
         <td><%= reporting_period.full_reports.select(:user_id).distinct.count %></td>
         <td><%= reporting_period.full_reports.select(:contract_id).distinct.count %></td>
+        <td>
+          <%= number_to_currency(reporting_period.full_reports.sum(:cost), unit: '€') %>
+        </td>
         <td>
           <%= link_to 'New report', new_reporting_period_report_path(reporting_period) %> |
           <%= link_to 'Bulk import', new_reporting_period_bulk_import_path(reporting_period) %> |
