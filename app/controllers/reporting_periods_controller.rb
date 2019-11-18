@@ -6,6 +6,15 @@ class ReportingPeriodsController < ApplicationController
   def index
     @reporting_periods = ReportingPeriod.order(date: :desc)
       .includes(:full_reports)
+    billable = {name: 'Billable', data: {}}
+    non_billable = {name: 'Non Billable', data: {}}
+    @reporting_periods.each do |rp|
+      billable[:data][rp.display_name] = rp.full_reports
+        .where(project_is_billable: true).sum(:cost).round(2)
+      non_billable[:data][rp.display_name] = rp.full_reports
+        .where(project_is_billable: false).sum(:cost).round(2)
+    end
+    @data = [billable, non_billable]
   end
 
   # GET /reporting_periods/1
