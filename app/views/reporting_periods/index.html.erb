@@ -14,8 +14,9 @@
     <tr>
       <th>Period</th>
       <th>Reports</th>
-      <th>Total Contracts Reported</th>
+      <th>Contracts Reported</th>
       <th>Days in Projects</th>
+      <th>Days non-billable</th>
       <th></th>
     </tr>
   </thead>
@@ -27,7 +28,10 @@
         <td><%= reporting_period.full_reports.select(:user_id).distinct.count %></td>
         <td><%= reporting_period.full_reports.select(:contract_id).distinct.count %></td>
         <td>
-          <%= reporting_period.full_reports.sum(:days) %>
+          <%= reporting_period.full_reports.where(project_is_billable: true).sum(:days) %>
+        </td>
+        <td>
+          <%= reporting_period.full_reports.where(project_is_billable: false).sum(:days) %>
         </td>
         <td>
           <%= link_to 'New report', new_reporting_period_report_path(reporting_period) %> |
