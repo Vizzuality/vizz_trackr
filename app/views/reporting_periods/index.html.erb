@@ -15,7 +15,7 @@
       <th>Period</th>
       <th>Reports</th>
       <th>Total Contracts Reported</th>
-      <th>Month Project Cost</th>
+      <th>Days in Projects</th>
       <th></th>
     </tr>
   </thead>
@@ -27,7 +27,7 @@
         <td><%= reporting_period.full_reports.select(:user_id).distinct.count %></td>
         <td><%= reporting_period.full_reports.select(:contract_id).distinct.count %></td>
         <td>
-          <%= number_to_currency(reporting_period.full_reports.sum(:cost), unit: '€') %>
+          <%= reporting_period.full_reports.sum(:days) %>
         </td>
         <td>
           <%= link_to 'New report', new_reporting_period_report_path(reporting_period) %> |
