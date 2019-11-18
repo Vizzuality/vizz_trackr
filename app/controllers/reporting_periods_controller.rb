@@ -34,6 +34,7 @@ class ReportingPeriodsController < ApplicationController
   # GET /reporting_periods/new
   def new
     @reporting_period = ReportingPeriod.new
+    @reporting_periods = ReportingPeriod.order(date: :desc)
   end
 
   # GET /reporting_periods/1/edit
@@ -43,6 +44,10 @@ class ReportingPeriodsController < ApplicationController
   # POST /reporting_periods.json
   def create
     @reporting_period = ReportingPeriod.new(reporting_period_params)
+    if params[:copy_reporting_period_id]
+      source = ReportingPeriod.find(params[:copy_reporting_period_id])
+      @reporting_period.copy_reports_from source
+    end
 
     respond_to do |format|
       if @reporting_period.save
