@@ -1,7 +1,10 @@
 require 'test_helper'
 
 class RolesControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::ControllerHelpers
   setup do
+    @request.env["devise.mapping"] = Devise.mappings[:admin]
+    sign_in users(:admin)
     @role = roles(:one)
   end
 

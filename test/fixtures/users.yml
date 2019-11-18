@@ -11,3 +11,10 @@ two:
   team: two
   role: two
   email: "myemail2@example.com"
+
+admin:
+  name: "Admin"
+  team: one
+  role: one
+  email: "admin@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
