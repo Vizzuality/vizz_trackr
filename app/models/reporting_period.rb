@@ -30,6 +30,7 @@ class ReportingPeriod < ApplicationRecord
   def copy_reports_from source
     source.reports.each do |report|
       dupped = report.dup
+      dupped.estimated = true
       report.report_parts.each do |part|
         dupped.report_parts << part.dup
       end

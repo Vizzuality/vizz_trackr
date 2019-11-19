@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :reports
     resources :bulk_import, only: [:new, :create]
   end
+  resources :reports, only: [:edit, :update]
   resources :users
   resources :projects
   resources :contracts, only: [:index, :show] do

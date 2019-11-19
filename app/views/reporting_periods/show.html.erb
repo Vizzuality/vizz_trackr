@@ -37,6 +37,7 @@ end %>
       <th>Percentage</th>
       <th>Days</th>
       <th>Cost</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -49,6 +50,7 @@ end %>
         <td><%= report.percentage %>%</td>
         <td><%= report.days %></td>
         <td><%= number_to_currency(report.cost, unit: '€')  %></td>
+        <td><%= link_to 'Edit', edit_report_path(report.report_id) %></td>
       </tr>
     <% end %>
   </tbody>
