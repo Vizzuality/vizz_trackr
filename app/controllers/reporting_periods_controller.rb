@@ -47,7 +47,9 @@ class ReportingPeriodsController < ApplicationController
   end
 
   # GET /reporting_periods/1/edit
-  def edit; end
+  def edit
+    @reporting_periods = ReportingPeriod.order(date: :desc)
+  end
 
   # POST /reporting_periods
   # POST /reporting_periods.json
