@@ -1,7 +1,10 @@
 require 'test_helper'
 
 class NonStaffCostsControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::ControllerHelpers
   setup do
+    @request.env["devise.mapping"] = Devise.mappings[:admin]
+    sign_in users(:admin)
     @non_staff_cost = non_staff_costs(:one)
   end
 

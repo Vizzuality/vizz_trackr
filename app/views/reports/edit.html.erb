@@ -1,6 +1,8 @@
 <% content_for :title, "Editing Report" %>
+<% content_for :actions do
+  link_to 'Back', reporting_periods_path,
+    class: 'btn btn-sm btn-outline-primary'
+  end
+%>
 
 <%= render 'form', report: @report %>
-
-<%= link_to 'Show', @report %> |
-<%= link_to 'Back', reports_path %>

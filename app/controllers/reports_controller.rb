@@ -28,7 +28,13 @@ class ReportsController < ApplicationController
   end
 
   # GET /reports/1/edit
-  def edit; end
+  def edit
+    @reporting_periods = ReportingPeriod.order(:date)
+    @users = User.order(:name)
+    @contracts = Contract.order(:name)
+    @roles = Role.order(:name)
+    @teams = Team.order(:name)
+  end
 
   # POST /reports
   # POST /reports.json
@@ -79,7 +85,8 @@ class ReportsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def report_params
-    params.require(:report).permit(:user_id, :team_id, :role_id, :reporting_period_id,
+    params.require(:report).permit(:user_id, :team_id, :role_id,
+                                   :reporting_period_id, :estimated,
                                    report_parts_attributes: [:id, :percentage,
                                                              :contract_id,
                                                              :_destroy])

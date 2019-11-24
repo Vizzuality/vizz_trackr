@@ -27,6 +27,17 @@ class ReportingPeriod < ApplicationRecord
     full_reports.sum(:days)
   end
 
+  def copy_reports_from source
+    source.reports.each do |report|
+      dupped = report.dup
+      dupped.estimated = true
+      report.report_parts.each do |part|
+        dupped.report_parts << part.dup
+      end
+      reports << dupped
+    end
+  end
+
   def contracts_mean_variance_and_stdev filters
     contracts = full_reports
       .contracts_distribution(filters).first.try(:contracts)

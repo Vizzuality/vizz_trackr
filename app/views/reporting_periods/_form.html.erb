@@ -16,6 +16,13 @@
     <%= form.date_select :date, { discard_day: true, order: [:month, :year] }, class: "form-control" %>
   </div>
 
+  <div class="form-group">
+    <%= label_tag :copy_reporting_period_id, 'Copy Reports as Plan From' %>
+    <%= select_tag :copy_reporting_period_id,
+      options_from_collection_for_select(@reporting_periods, :id, :display_name),
+      include_blank: true, class: "form-control" %>
+  </div>
+
   <div class="actions">
     <%= form.submit "Submit", class: "btn btn-primary" %>
   </div>

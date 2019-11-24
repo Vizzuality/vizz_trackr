@@ -11,6 +11,17 @@
     </div>
   <% end %>
 
+  <% if report.estimated? %>
+    <div class="alert alert-warning">
+      This report is an estimate, please remember to confirm the project allocation
+      at the end of the month.
+    </div>
+    <div class="form-group">
+      <%= form.label :estimated %>
+      <%= form.check_box :estimated, {}, class: "form-control" %>
+    </div>
+  <% end %>
+
   <div class="form-group">
     <%= form.label :reporting_period_id %>
     <%= form.collection_select :reporting_period_id, @reporting_periods, :id,
@@ -20,19 +31,19 @@
   <div class="form-group">
     <%= form.label :user_id %>
     <%= form.collection_select :user_id, @users, :id,
-      :name, {}, class: 'form-control' %>
+      :name, {selected: form.object.user_id || current_user.id}, class: 'form-control' %>
   </div>
 
   <div class="form-group">
     <%= form.label :team_id %>
     <%= form.collection_select :team_id, @teams, :id,
-      :name, {}, class: 'form-control' %>
+      :name, {selected: form.object.team_id || current_user.team_id}, class: 'form-control' %>
   </div>
 
   <div class="form-group">
     <%= form.label :role_id %>
     <%= form.collection_select :role_id, @roles, :id,
-      :name, {}, class: 'form-control' %>
+      :name, {selected: form.object.role_id || current_user.role_id}, class: 'form-control' %>
   </div>
 
 	<div data-controller="nested-list">
@@ -45,13 +56,13 @@
 			<%= render 'report_part_fields', form: builder %>
 		<% end %>
 		<div class="form-group nested-list__actions" data-target="nested-list.links">
-			<%= button_tag "Add Another", type: 'button',
+			<%= button_tag "Add Another Project", type: 'button',
 				class: 'btn btn-secondary',
 				data: { action: "click->nested-list#addRecord" } %>
 		</div>
 	</div>
 
   <div class="actions">
-    <%= form.submit "Submit", class: "btn btn-primary" %>
+    <%= form.submit form.object.new_record? ? "Submit" : "Update", class: "btn btn-primary" %>
   </div>
 <% end %>

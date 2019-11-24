@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_14_174913) do
+ActiveRecord::Schema.define(version: 2019_11_18_235738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 2019_11_14_174913) do
     t.bigint "reporting_period_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "estimated", default: false
     t.index ["reporting_period_id"], name: "index_reports_on_reporting_period_id"
     t.index ["role_id"], name: "index_reports_on_role_id"
     t.index ["team_id"], name: "index_reports_on_team_id"
@@ -123,6 +124,7 @@ ActiveRecord::Schema.define(version: 2019_11_14_174913) do
   create_view "full_reports", sql_definition: <<-SQL
       SELECT projects.id AS project_id,
       projects.name AS project_name,
+      projects.is_billable AS project_is_billable,
       contracts.id AS contract_id,
       contracts.name AS contract_name,
       reporting_periods.id AS reporting_period_id,
@@ -133,6 +135,8 @@ ActiveRecord::Schema.define(version: 2019_11_14_174913) do
       roles.name AS role_name,
       teams.id AS team_id,
       teams.name AS team_name,
+      reports.id AS report_id,
+      reports.estimated AS report_estimated,
       report_parts.percentage,
       report_parts.cost,
       report_parts.days
