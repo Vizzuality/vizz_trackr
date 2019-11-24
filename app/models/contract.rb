@@ -22,11 +22,11 @@ class Contract < ApplicationRecord
   delegate :is_billable?, to: :project
 
   def alias_list
-    self.alias.join(", ")
+    self.alias.join(', ')
   end
 
   def alias_list= list
-    self.alias = list.split(",").map(&:strip).uniq.sort
+    self.alias = list.split(',').map(&:strip).uniq.sort
   end
 
   def full_name

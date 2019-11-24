@@ -4,14 +4,13 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = Project.order(:name).
-      includes(:team, contracts: [:full_reports])
+    @projects = Project.order(:name)
+      .includes(:team, contracts: [:full_reports])
   end
 
   # GET /projects/1
   # GET /projects/1.json
-  def show
-  end
+  def show; end
 
   # GET /projects/new
   def new
@@ -66,16 +65,17 @@ class ProjectsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project
-      @project = Project.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def project_params
-      params.require(:project).permit(:name, :team_id, :is_billable,
+  # Use callbacks to share common setup or constraints between actions.
+  def set_project
+    @project = Project.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def project_params
+    params.require(:project).permit(:name, :team_id,
                                     contracts_attributes: [:id, :name, :_destroy,
                                                            :budget, :alias_list,
                                                            :start_date, :end_date])
-    end
+  end
 end

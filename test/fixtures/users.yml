@@ -3,9 +3,11 @@
 one:
   name: MyString
   team: one
-  roles: one
+  role: one
+  email: "myemail@example.com"
 
 two:
   name: MyString
   team: two
-  roles: two
+  role: two
+  email: "myemail2@example.com"

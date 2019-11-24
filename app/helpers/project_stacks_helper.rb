@@ -1,30 +1,34 @@
 module ProjectStacksHelper
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Lint/UnusedMethodArgument
   def stack_chart_data data, filter
     [
       {
-        name: "Prep",
+        name: 'Prep',
         data: {
           "October '18" => 23,
           "November '18" => 23
         },
-        stack: "Rosling"
+        stack: 'Rosling'
       },
       {
-        name: "GFW",
+        name: 'GFW',
         data: {
           "October '18" => 23,
           "November '18" => 23
         },
-        stack: "K"
+        stack: 'K'
       },
       {
-        name: "Half-Earth",
+        name: 'Half-Earth',
         data: {
           "October '18" => 23,
           "November '18" => 21
         },
-        stack: "Rosling"
+        stack: 'Rosling'
       }
     ]
   end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Lint/UnusedMethodArgument
 end

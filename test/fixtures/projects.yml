@@ -2,12 +2,8 @@
 
 one:
   name: MyString
-  budget: 1.5
-  start_date: 2019-08-01
-  end_date: 2019-08-01
+  is_billable: true
 
 two:
   name: MyString
-  budget: 1.5
-  start_date: 2019-08-01
-  end_date: 2019-08-01
+  is_billable: true

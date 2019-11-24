@@ -2,14 +2,14 @@
 
 one:
   report: one
-  project: one
+  contract: one
   percentage: 1.5
   days: 1
   cost: 1.5
 
 two:
   report: two
-  project: two
+  contract: two
   percentage: 1.5
   days: 1
   cost: 1.5

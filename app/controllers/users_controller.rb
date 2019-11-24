@@ -10,24 +10,24 @@ class UsersController < ApplicationController
 
   # GET /users/1
   # GET /users/1.json
+  # rubocop:disable Metrics/AbcSize
   def show
-    @reporting_periods = ReportingPeriod.joins(:full_reports).
-      where(full_reports: {user_id: @user.id}).
-      order(:date).distinct
+    @reporting_periods = ReportingPeriod.joins(:full_reports)
+      .where(full_reports: {user_id: @user.id})
+      .order(:date).distinct
     @data = []
     @reporting_periods.each do |rp|
-      next if params[:reporting_period_id] &&
-        rp.id != params[:reporting_period_id].to_i
+      next if params[:reporting_period_id] && rp.id != params[:reporting_period_id].to_i
+
       rp.full_reports.for_user(@user.id).each do |report|
-        entry = @data.select{|t| t[:name] == report[:contract_name]}.first
-        if !entry
-          entry = { name: report.contract_name}
+        entry = @data.select { |t| t[:name] == report[:contract_name] }.first
+        unless entry
+          entry = {name: report.contract_name}
           new_entry = true
         end
         entry[:data] = {} unless entry[:data]
         entry[:data][report.reporting_period_name] = report.percentage
         @data << entry if new_entry
-        new_entry = false
       end
     end
 
@@ -36,6 +36,7 @@ class UsersController < ApplicationController
       format.json { render json: @data.to_json }
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   # GET /users/new
   def new
@@ -43,8 +44,7 @@ class UsersController < ApplicationController
   end
 
   # GET /users/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /users
   # POST /users.json
@@ -57,10 +57,10 @@ class UsersController < ApplicationController
         format.html { redirect_to :users, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
-        format.html {
+        format.html do
           set_entities
           render :new
-        }
+        end
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -75,10 +75,10 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
-        format.html {
+        format.html do
           set_entities
           render :edit
-        }
+        end
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -95,18 +95,19 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
-    def set_entities
-      @teams = Team.order(:name)
-      @roles = Role.order(:name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params.require(:user).permit(:name, :email, :team_id, :role_id, :cost)
-    end
+  def set_entities
+    @teams = Team.order(:name)
+    @roles = Role.order(:name)
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_params
+    params.require(:user).permit(:name, :email, :team_id, :role_id, :cost)
+  end
 end

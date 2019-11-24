@@ -16,7 +16,7 @@ class ReportingPeriod < ApplicationRecord
   validates_uniqueness_of :date
 
   def display_name
-    date.strftime("%B %Y")
+    date.strftime('%B %Y')
   end
 
   def total_contracts_reported
@@ -28,15 +28,15 @@ class ReportingPeriod < ApplicationRecord
   end
 
   def contracts_mean_variance_and_stdev filters
-    contracts = self.full_reports.
-      contracts_distribution(filters).first.try(:contracts)
+    contracts = full_reports
+      .contracts_distribution(filters).first.try(:contracts)
 
     return {} unless contracts
 
-    mean = contracts.inject{ |sum, el| sum + el }.to_f / contracts.size
+    mean = contracts.inject { |sum, el| sum + el }.to_f / contracts.size
 
-    step = contracts.inject(0){|accum, i| accum+(i-mean)**2}
-    variance = contracts.size > 1 ? step/(contracts.size-1).to_f : nil
+    step = contracts.inject(0) { |accum, i| accum + (i - mean)**2 }
+    variance = contracts.size > 1 ? step / (contracts.size - 1).to_f : nil
 
     stdev = variance ? Math.sqrt(variance).try(:round, 2) : nil
 
@@ -48,22 +48,25 @@ class ReportingPeriod < ApplicationRecord
     }
   end
 
+  # rubocop:disable Metrics/AbcSize
   def self.analyse filters
     result = []
-    teams = Team.where(name: ['K', 'Rosling']).order(:name)
+    teams = Team.where(name: %w[K Rosling]).order(:name)
+
     ReportingPeriod.order(:date).each do |rp|
       next unless rp.full_reports.any?
-      data = { rp: rp }
-      teams.each do |t|
-        filters_with_team = filters.merge({team_id: t.id})
-        metrics = {}
-        metrics[:total_contracts] = rp.full_reports.
-          filtered(filters_with_team).select(:contract_id).
-          distinct.count
 
-        metrics[:total_reporters] = rp.full_reports.
-          filtered(filters_with_team).select(:user_id).
-          distinct.count
+      data = {rp: rp}
+      teams.each do |t|
+        filters_with_team = filters.merge(team_id: t.id)
+        metrics = {}
+        metrics[:total_contracts] = rp.full_reports
+          .filtered(filters_with_team).select(:contract_id)
+          .distinct.count
+
+        metrics[:total_reporters] = rp.full_reports
+          .filtered(filters_with_team).select(:user_id)
+          .distinct.count
 
         metrics.merge!(rp.contracts_mean_variance_and_stdev(filters_with_team))
 
@@ -73,4 +76,5 @@ class ReportingPeriod < ApplicationRecord
     end
     result
   end
+  # rubocop:enable Metrics/AbcSize
 end
