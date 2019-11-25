@@ -54,4 +54,8 @@ class Contract < ApplicationRecord
   def full_name
     "#{name} [#{project.name}]"
   end
+
+  def self.with_status(status)
+    where(aasm_state: status )
+  end
 end

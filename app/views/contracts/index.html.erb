@@ -1,6 +1,13 @@
 <% content_for :title, "Contracts" %>
 <p id="notice"><%= notice %></p>
 
+<%= form_with(url: 'contracts#index', method: :get, local: true) do |form| %>
+  <div class="form-group">
+    <%= form.label :status %>
+    <%= form.select :state, options_from_collection_for_select(@states, :name, :name, selected: params[:state]), { prompt: true }, class: "form-control", onchange: 'this.form.submit();' %>
+  </div>
+<% end %>
+
 <table class="table">
   <thead>
     <tr>

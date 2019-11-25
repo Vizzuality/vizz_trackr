@@ -3,6 +3,8 @@ class ContractsController < ApplicationController
   def index
     @contracts = Contract.joins(:project).includes(:full_reports, :project)
       .order('projects.name ASC, contracts.name ASC')
+    @states = Contract.aasm.states
+    @contracts = @contracts.with_status(params[:state]) if params[:state].present?
   end
 
   def show
@@ -57,5 +59,8 @@ class ContractsController < ApplicationController
 
   def set_contract
     @contract = Contract.find(params[:id])
+  end
+  def reporting_period_params
+    params.require(:contracts).permit(:state)
   end
 end
