@@ -14,6 +14,28 @@
 #
 
 class Contract < ApplicationRecord
+  include AASM
+
+  aasm do
+    state :proposal, initial: true
+    state :live
+    state :finished
+    state :archived
+    event :start do
+      transitions from: :proposal, to: :live
+    end
+    event :finish do
+      transitions from: :live, to: :finished
+    end
+    event :restart do
+      transitions from: [:finished, :archived], to: :live
+    end
+    event :archive do
+      transitions from: [:proposal, :finished], to: :archive
+    end
+
+  end
+
   belongs_to :project
   has_many :report_parts, dependent: :destroy
   has_many :full_reports

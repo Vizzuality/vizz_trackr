@@ -60,5 +60,8 @@ gem 'chartkick'
 gem 'devise'
 gem 'scenic'
 
+# State machine
+gem 'aasm'
+
 # security update
 gem 'nokogiri', '>= 1.10.4'
