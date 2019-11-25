@@ -61,4 +61,8 @@ class Contract < ApplicationRecord
     months = (end_date.year * 12 + end_date.month) - (start_date.year * 12 + start_date.month)
     (budget / months).to_f.round(2)
   end
+
+  def self.with_status(status)
+    where(aasm_state: status )
+  end
 end

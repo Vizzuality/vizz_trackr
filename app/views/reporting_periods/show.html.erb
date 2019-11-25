@@ -19,10 +19,7 @@ end %>
 <%= form_with(url: @reporting_period, method: :get, local: true) do |form| %>
   <div class="form-group">
     <%= form.label :role_id %>
-    <%= form.select :role_id, options_from_collection_for_select(@roles, :id, :name, selected: params[:role_id]), { prompt: true }, class: "form-control" %>
-  </div>
-  <div class="actions">
-    <%= form.submit "Filter" %>
+    <%= form.select :role_id, options_from_collection_for_select(@roles, :id, :name, selected: params[:role_id]), { prompt: true }, class: "form-control", onchange: 'this.form.submit();' %>
   </div>
 <% end %>
 
