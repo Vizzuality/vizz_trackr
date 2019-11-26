@@ -1,4 +1,4 @@
-<% content_for :title, "User - #{@user.name}" %>
+<% content_for :title, "#{@user.name}" %>
 <% content_for :actions,
   link_to('Edit', edit_user_path(@user), class: 'btn btn-sm btn-outline-primary').concat(
     link_to('Back', users_path, class: 'btn btn-sm btn-outline-secondary')) %>
