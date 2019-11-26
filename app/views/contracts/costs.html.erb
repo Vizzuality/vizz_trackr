@@ -1,0 +1,27 @@
+<% content_for :title, "Contract - #{@contract.name} - Costs" %>
+<%= render 'actions', contract: @contract %>
+
+<p>
+  <strong>Project:</strong> <%= link_to @contract.project.name, @contract.project  %>
+  <%= billable_tag(@contract.project) %>
+</p>
+
+<h4>Costs</h4>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Month</th>
+      <th>Staff?</th>
+      <th>Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @costs.sort {|a,b| b.reporting_period.date <=> a.reporting_period.date }.each do |cost| %>
+      <tr>
+        <td><%= cost.reporting_period.display_name %></td>
+        <td><%= cost.staff_costs %></td>
+        <td><%= number_to_currency(cost.cost, unit: '€') %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
