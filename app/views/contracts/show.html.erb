@@ -30,8 +30,8 @@
   <thead>
     <tr>
       <th>Role</th>
-      <th>Total days</th>
       <th>%</th>
+      <th>Total days</th>
     </tr>
   </thead>
   <tbody>
@@ -39,10 +39,14 @@
       <% role_days = @days_per_role.where(role_id: role.id).first&.days || 0 %>
       <tr>
         <td><%= role.name %></td>
-        <td><%= role_days  %></td>
         <td><%= @total_days && (role_days / @total_days.to_f * 100).round(2) %>%</td>
+        <td><%= role_days  %></td>
       </tr>
     <% end %>
+    <tr>
+      <td colspan="2"><strong>Total</strong></td>
+      <td><%= @total_days %></td>
+    </tr>
   </tbody>
 </table>
 
