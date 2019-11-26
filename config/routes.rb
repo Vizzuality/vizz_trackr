@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   resources :reports, only: [:edit, :update]
   resources :users
   resources :projects
-  resources :contracts, only: [:index, :show] do
+  resources :contracts, only: [:index, :show, :update] do
     get 'reports', on: :member
   end
   resources :roles

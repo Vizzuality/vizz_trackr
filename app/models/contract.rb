@@ -55,6 +55,12 @@ class Contract < ApplicationRecord
     "#{name} [#{project.name}]"
   end
 
+  def next_event
+    self.aasm.events(permitted: true).first.name.to_s
+  end
+  def next_state
+    self.aasm.states(permitted: true).first.name.to_s
+  end
   def self.with_status(status)
     where(aasm_state: status )
   end

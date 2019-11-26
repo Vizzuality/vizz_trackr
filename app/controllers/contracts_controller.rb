@@ -1,5 +1,5 @@
 class ContractsController < ApplicationController
-  before_action :set_contract, only: [:show, :reports]
+  before_action :set_contract, only: [:show, :reports, :update]
   def index
     @contracts = Contract.joins(:project).includes(:full_reports, :project)
       .order('projects.name ASC, contracts.name ASC')
@@ -28,6 +28,18 @@ class ContractsController < ApplicationController
         budget[:data][report.reporting_period_name] = @contract.budget&.to_f
       end
     @data = [contract, projected, aggregate, budget]
+  end
+
+  def update
+    respond_to do |format|
+      if @contract.update(contract_params)
+        format.html { redirect_to controller: 'contracts', action: 'index' }
+        format.json {render json: @contract, status: :ok}
+      else
+        format.html { render :edit }
+        format.json {render json: @contract.errors, status: :unprocessable_entity}
+      end
+    end
   end
 
   # rubocop:disable Metrics/AbcSize
@@ -60,7 +72,10 @@ class ContractsController < ApplicationController
   def set_contract
     @contract = Contract.find(params[:id])
   end
-  def reporting_period_params
-    params.require(:contracts).permit(:state)
+  # def reporting_period_params
+  #   params.require(:contracts).permit(:state)
+  # end
+  def contract_params
+    params.require(:contract).permit(:id, :aasm_state, :state)
   end
 end
