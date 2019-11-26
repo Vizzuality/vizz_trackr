@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit,
+                                  :update, :destroy, :reports]
   before_action :set_entities, only: [:edit, :new]
 
   # GET /users
@@ -10,8 +11,15 @@ class UsersController < ApplicationController
 
   # GET /users/1
   # GET /users/1.json
-  # rubocop:disable Metrics/AbcSize
   def show
+    @reports = @user.full_reports
+      .where(reporting_period_date: 3.months.ago..3.months.from_now)
+    @reporting_periods = @reports
+      .select(:reporting_period_id, :reporting_period_name, :reporting_period_date)
+      .distinct.order(:reporting_period_date)
+  end
+
+  def reports
     @reporting_periods = ReportingPeriod
       .where(id: @user.full_reports.distinct.pluck(:reporting_period_id))
       .order(:date)
@@ -23,7 +31,6 @@ class UsersController < ApplicationController
       format.json { render json: @data.to_json }
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   # GET /users/new
   def new

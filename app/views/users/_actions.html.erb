@@ -1,0 +1,6 @@
+<% content_for :actions,
+  link_to('Show', user, class: 'btn btn-sm btn-outline-primary').concat(
+    link_to('Reports', reports_user_path(user), class: 'btn btn-sm btn-outline-primary').concat(
+      link_to('Edit', edit_user_path(user), class: 'btn btn-sm btn-outline-primary').concat(
+        link_to('Back', users_path, class: 'btn btn-sm btn-outline-secondary')))) %>
+
