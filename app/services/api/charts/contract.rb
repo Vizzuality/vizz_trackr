@@ -9,7 +9,7 @@ module Api
 
       def contract_burn_data
         agg = 0.0
-        contract = {name: 'Burn', data: {}}
+        contract = {name: 'Staff Costs', data: {}}
         non_staff = {name: 'Non Staff Costs', data: {}}
         aggregate = {name: 'Aggregate', data: {}}
         projected = {name: 'Projected', data: {}}
