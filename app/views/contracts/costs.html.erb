@@ -16,7 +16,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @costs.sort {|a,b| b.reporting_period.date <=> a.reporting_period.date }.each do |cost| %>
+    <% @costs.sort {|a,b| b.reporting_period_date <=> a.reporting_period_date }.each do |cost| %>
       <tr>
         <td><%= cost.reporting_period.display_name %></td>
         <td><%= cost.from_staff %></td>
