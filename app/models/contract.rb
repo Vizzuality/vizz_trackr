@@ -62,6 +62,14 @@ class Contract < ApplicationRecord
     (budget / months).to_f.round(2)
   end
 
+  def next_event
+    self.aasm.events(permitted: true).first.name.to_s
+  end
+
+  def next_state
+    self.aasm.states(permitted: true).first.name.to_s
+  end
+
   def self.with_status(status)
     where(aasm_state: status )
   end
