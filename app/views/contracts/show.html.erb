@@ -20,8 +20,31 @@
 </p>
 
 <br>
+
 <h4>Project Burn</h4>
 <%= line_chart @data, prefix: '€', thousands: "," %>
+
+<br>
+<h4>Time per role</h4>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Role</th>
+      <th>Total days</th>
+      <th>%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @roles.each do |role| %>
+      <% role_days = @days_per_role.where(role_id: role.id).first&.days || 0 %>
+      <tr>
+        <td><%= role.name %></td>
+        <td><%= role_days  %></td>
+        <td><%= @total_days && (role_days / @total_days.to_f * 100).round(2) %>%</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <br>
 
