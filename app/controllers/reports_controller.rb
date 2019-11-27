@@ -57,10 +57,17 @@ class ReportsController < ApplicationController
   def update
     respond_to do |format|
       if @report.update(report_params)
-        format.html { redirect_to @report, notice: 'Report was successfully updated.' }
+        format.html { redirect_to reports_user_path(@report.user), notice: 'Report was successfully updated.' }
         format.json { render :show, status: :ok, location: @report }
       else
-        format.html { render :edit }
+        format.html {
+          @reporting_periods = ReportingPeriod.order(:date)
+          @users = User.order(:name)
+          @contracts = Contract.order(:name)
+          @roles = Role.order(:name)
+          @teams = Team.order(:name)
+          render :edit
+        }
         format.json { render json: @report.errors, status: :unprocessable_entity }
       end
     end

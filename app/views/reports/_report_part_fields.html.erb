@@ -1,27 +1,25 @@
 <% is_new_record = form.object.new_record? %>
 
-<%= content_tag :fieldset,
-  class: 'report-parts-fields nested-fields inline-fields border border-secondary shadow p-3 mb-5 bg-white rounded',
+<%= content_tag :tr,
+  class: 'report-parts-fields nested-fields',
   data: { controller: 'report-part', new_record: is_new_record } do %>
-  <div class="form-group">
-    <%= form.label :contract_id %>
+  <td>
     <%= form.collection_select :contract_id, @contracts, :id,
       :full_name, {}, class: 'form-control' %>
-  </div>
+  </td>
 
-  <div class="form-group">
-    <%= form.label :percentage %>
+  <td>
     <div class="input-group">
+      <%= form.text_field :percentage, class: 'form-control' %>
       <div class="input-group-prepend">
         <div class="input-group-text">%</div>
       </div>
-      <%= form.text_field :percentage, class: 'form-control' %>
     </div>
-  </div>
-  <li class="input">
+  </td>
+  <td>
     <%= button_tag 'Remove', type: 'button',
-    class: 'btn btn-danger',
-    data: { action: 'click->nested-list#removeRecord' } %>
-  </li>
+      class: 'btn btn-danger',
+      data: { action: 'click->nested-list#removeRecord' } %>
+  </td>
   <%= form.hidden_field :_destroy %>
 <% end %>

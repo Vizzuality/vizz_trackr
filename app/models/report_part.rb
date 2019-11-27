@@ -17,6 +17,7 @@ class ReportPart < ApplicationRecord
   belongs_to :contract
 
   before_save :calculate_cost_and_days
+  validates_uniqueness_of :contract_id, scope: :report_id
 
   private
 
