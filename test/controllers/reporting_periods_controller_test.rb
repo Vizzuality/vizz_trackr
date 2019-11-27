@@ -3,7 +3,7 @@ require 'test_helper'
 class ReportingPeriodsControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::ControllerHelpers
   setup do
-    @request.env["devise.mapping"] = Devise.mappings[:admin]
+    @request.env['devise.mapping'] = Devise.mappings[:admin]
     sign_in users(:admin)
     @reporting_period = reporting_periods(:one)
   end

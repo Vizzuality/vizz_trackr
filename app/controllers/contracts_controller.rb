@@ -7,25 +7,13 @@ class ContractsController < ApplicationController
 
   def show
     @contract = Contract.find(params[:id])
-    agg = 0.0
-    contract = {name: 'Burn', data: {}}
-    aggregate = {name: 'Aggregate', data: {}}
-    projected = {name: 'Projected', data: {}}
-    budget = {name: 'Budget', data: {}, points: false}
-    @contract.full_reports
-      .select('reporting_period_name, sum(cost) AS cost, report_estimated')
-      .group(:reporting_period_name, :report_estimated)
-      .order("TO_DATE(reporting_period_name, 'MonthYYYY') ASC").each do |report|
-        if report.report_estimated?
-          projected[:data][report.reporting_period_name] = report.cost
-        else
-          contract[:data][report.reporting_period_name] = report.cost
-        end
-        agg += report.cost
-        aggregate[:data][report.reporting_period_name] = agg
-        budget[:data][report.reporting_period_name] = @contract.budget&.to_f
-      end
-    @data = [contract, projected, aggregate, budget]
+    @roles = Role.order(:name)
+    @days_per_role = @contract.full_reports
+      .select('role_id, sum(days) AS days').group(:role_id)
+    @total_days = @contract.full_reports.where.not(role_id: nil)
+      .pluck('sum(days)').first
+
+    @data = ::Api::Charts::Contract.new(@contract).contract_burn_data
   end
 
   # rubocop:disable Metrics/AbcSize

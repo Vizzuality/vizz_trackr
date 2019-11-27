@@ -3,7 +3,7 @@ require 'test_helper'
 class UsersControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::ControllerHelpers
   setup do
-    @request.env["devise.mapping"] = Devise.mappings[:admin]
+    @request.env['devise.mapping'] = Devise.mappings[:admin]
     sign_in users(:admin)
     @user = users(:one)
   end
