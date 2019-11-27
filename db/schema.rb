@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2019_11_26_161802) do
     t.string "alias", default: [], array: true
     t.date "start_date"
     t.date "end_date"
+    t.string "aasm_state"
     t.index ["alias"], name: "index_contracts_on_alias", using: :gin
     t.index ["project_id"], name: "index_contracts_on_project_id"
   end

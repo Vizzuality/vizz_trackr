@@ -1,6 +1,13 @@
 <% content_for :title, "Contracts" %>
 <p id="notice"><%= notice %></p>
 
+<%= form_with(url: 'contracts#index', method: :get, local: true) do |form| %>
+  <div class="form-group">
+    <%= form.label :status %>
+    <%= form.select :state, options_for_select(@states, selected: @state), {}, class: "form-control", onchange: 'this.form.submit();' %>
+  </div>
+<% end %>
+
 <table class="table">
   <thead>
     <tr>
@@ -8,6 +15,7 @@
       <th>Project</th>
       <th>Budget</th>
       <th>Costs</th>
+      <th>Action</th>
     </tr>
   </thead>
 
@@ -24,6 +32,14 @@
         </td>
         <td>
           <%= number_to_currency(contract.full_reports.sum(:cost), unit: '€') %>
+        </td>
+        <td>
+          <%= form_with(model: contract, method: :patch, local: true) do |form| %>
+            <div class="form-group">
+              <%= form.hidden_field(:aasm_state, value: contract.next_state) %>
+              <%= form.submit contract.next_event, class: "btn #{event_color(contract.next_event)}" %>
+            </div>
+        <% end %>
         </td>
       </tr>
     <% end %>

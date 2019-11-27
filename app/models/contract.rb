@@ -14,6 +14,23 @@
 #
 
 class Contract < ApplicationRecord
+  include AASM
+
+  aasm do
+    state :proposal, initial: true
+    state :live
+    state :finished
+    event :start do
+      transitions from: :proposal, to: :live
+    end
+    event :finish do
+      transitions from: :live, to: :finished
+    end
+    event :restart do
+      transitions from: :finished, to: :live
+    end
+  end
+
   belongs_to :project
   has_many :report_parts, dependent: :destroy
   has_many :full_reports
@@ -38,5 +55,17 @@ class Contract < ApplicationRecord
     return nil unless budget && start_date && end_date
     months = (end_date.year * 12 + end_date.month) - (start_date.year * 12 + start_date.month)
     (budget / months).to_f.round(2)
+  end
+
+  def next_event
+    self.aasm.events(permitted: true).first.name.to_s
+  end
+
+  def next_state
+    self.aasm.states(permitted: true).first.name.to_s
+  end
+
+  def self.with_status(status)
+    where(aasm_state: status )
   end
 end

@@ -1,8 +1,12 @@
 class ContractsController < ApplicationController
-  before_action :set_contract, only: [:show, :reports, :costs]
+  before_action :set_contract, only: [:show, :reports, :update, :costs]
+  before_action :set_default_state, only: [:index]
+
   def index
     @contracts = Contract.joins(:project).includes(:full_reports, :project)
       .order('projects.name ASC, contracts.name ASC')
+    @states = Contract.aasm.states.map{|s| s.name}.prepend(:all)
+    @contracts = @contracts.with_status(@state) unless @state == 'all'
   end
 
   def show
@@ -14,6 +18,18 @@ class ContractsController < ApplicationController
       .pluck('sum(days)').first
 
     @data = ::Api::Charts::Contract.new(@contract).contract_burn_data
+  end
+
+  def update
+    respond_to do |format|
+      if @contract.update(contract_params)
+        format.html { redirect_to controller: 'contracts', action: 'index' }
+        format.json {render json: @contract, status: :ok}
+      else
+        format.html { render :edit }
+        format.json {render json: @contract.errors, status: :unprocessable_entity}
+      end
+    end
   end
 
   # rubocop:disable Metrics/AbcSize
@@ -57,5 +73,13 @@ class ContractsController < ApplicationController
 
   def set_contract
     @contract = Contract.find(params[:id])
+  end
+
+  def set_default_state
+   @state = params[:state].present? ? params[:state] : 'live'
+  end
+
+  def contract_params
+    params.require(:contract).permit(:id, :aasm_state, :state)
   end
 end
