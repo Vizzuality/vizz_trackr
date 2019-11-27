@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :projects
   resources :contracts, only: [:index, :show] do
     get 'reports', on: :member
+    get 'costs', on: :member
   end
   resources :roles
   resources :teams

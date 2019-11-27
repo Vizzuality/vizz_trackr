@@ -9,14 +9,21 @@ module Api
 
       def contract_burn_data
         agg = 0.0
-        contract = {name: 'Burn', data: {}}
+        contract = {name: 'Staff Costs', data: {}}
+        non_staff = {name: 'Non Staff Costs', data: {}}
         aggregate = {name: 'Aggregate', data: {}}
         projected = {name: 'Projected', data: {}}
         budget = {name: 'Budget', data: {}, points: false}
         @contract.full_reports
-          .select('reporting_period_name, sum(cost) AS cost, report_estimated')
-          .group(:reporting_period_name, :report_estimated)
+          .select('reporting_period_id, reporting_period_name, sum(cost) AS cost, report_estimated')
+          .group(:reporting_period_id, :reporting_period_name, :report_estimated)
           .order(Arel.sql("TO_DATE(reporting_period_name, 'MonthYYYY') ASC")).each do |report|
+          nstaff_cost = @contract.non_staff_costs
+            .where(reporting_period_id: report.reporting_period_id).pluck('sum(cost)').first
+          if nstaff_cost
+            non_staff[:data][report.reporting_period_name] = nstaff_cost
+            agg += nstaff_cost
+          end
           if report.report_estimated?
             projected[:data][report.reporting_period_name] = report.cost
           else
@@ -26,7 +33,9 @@ module Api
           aggregate[:data][report.reporting_period_name] = agg
           budget[:data][report.reporting_period_name] = @contract.budget&.to_f
         end
-        [contract, projected, aggregate, budget]
+        data = [contract, projected, aggregate, budget]
+        data << non_staff if non_staff[:data].present?
+        data
       end
     end
   end

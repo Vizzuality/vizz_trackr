@@ -15,6 +15,7 @@ class NonStaffCostsController < ApplicationController
   def new
     @non_staff_cost = NonStaffCost.new
     @contracts = Contract.order(:name)
+    @reporting_periods = ReportingPeriod.order(date: :desc)
   end
 
   # GET /non_staff_costs/1/edit
@@ -34,6 +35,7 @@ class NonStaffCostsController < ApplicationController
       else
         format.html do
           @contracts = Contract.order(:name)
+          @reporting_periods = ReportingPeriod.order(date: :desc)
           render :new
         end
         format.json { render json: @non_staff_cost.errors, status: :unprocessable_entity }
@@ -78,6 +80,7 @@ class NonStaffCostsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def non_staff_cost_params
     params.require(:non_staff_cost).permit(:cost, :contract_id,
+                                           :reporting_period_id,
                                            :date, :cost_type)
   end
 end
