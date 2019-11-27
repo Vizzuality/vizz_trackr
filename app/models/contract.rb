@@ -20,7 +20,6 @@ class Contract < ApplicationRecord
     state :proposal, initial: true
     state :live
     state :finished
-    state :archived
     event :start do
       transitions from: :proposal, to: :live
     end
@@ -28,12 +27,8 @@ class Contract < ApplicationRecord
       transitions from: :live, to: :finished
     end
     event :restart do
-      transitions from: [:finished, :archived], to: :live
+      transitions from: :finished, to: :live
     end
-    event :archive do
-      transitions from: [:proposal, :finished], to: :archive
-    end
-
   end
 
   belongs_to :project
