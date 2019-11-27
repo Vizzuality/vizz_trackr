@@ -4,7 +4,7 @@
 <%= form_with(url: 'contracts#index', method: :get, local: true) do |form| %>
   <div class="form-group">
     <%= form.label :status %>
-    <%= form.select :state, options_from_collection_for_select(@states, :name, :name, selected: params[:state]), { prompt: "All" }, class: "form-control", onchange: 'this.form.submit();' %>
+    <%= form.select :state, options_for_select(@states, selected: @state), {}, class: "form-control", onchange: 'this.form.submit();' %>
   </div>
 <% end %>
 

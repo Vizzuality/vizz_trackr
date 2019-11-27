@@ -1,11 +1,12 @@
 class ContractsController < ApplicationController
   before_action :set_contract, only: [:show, :reports, :update, :costs]
+  before_action :set_default_state, only: [:index]
 
   def index
     @contracts = Contract.joins(:project).includes(:full_reports, :project)
       .order('projects.name ASC, contracts.name ASC')
-    @states = Contract.aasm.states
-    @contracts = @contracts.with_status(params[:state]) if params[:state].present?
+    @states = Contract.aasm.states.map{|s| s.name}.prepend(:all)
+    @contracts = @contracts.with_status(@state) unless @state == 'all'
   end
 
   def show
@@ -73,9 +74,11 @@ class ContractsController < ApplicationController
   def set_contract
     @contract = Contract.find(params[:id])
   end
-  # def reporting_period_params
-  #   params.require(:contracts).permit(:state)
-  # end
+
+  def set_default_state
+   @state = params[:state].present? ? params[:state] : 'live'
+  end
+
   def contract_params
     params.require(:contract).permit(:id, :aasm_state, :state)
   end
