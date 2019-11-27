@@ -64,6 +64,13 @@
         <%= form.fields_for :report_parts do |builder| %>
           <%= render 'report_part_fields', form: builder %>
         <% end %>
+        <tr class="nested-list__actions" data-target="nested-list.links">
+          <td colspan="3">
+            <%= button_tag "Add Another Project", type: 'button',
+              class: 'btn btn-secondary',
+              data: { action: "click->nested-list#addRecord", target: "total-percentages.source" } %>
+          </td>
+        </tr>
         <tr>
           <th>Total</th>
           <th>
@@ -75,13 +82,6 @@
             </div>
           </th>
           <th></th>
-        </tr>
-        <tr class="nested-list__actions" data-target="nested-list.links">
-          <td colspan="3">
-            <%= button_tag "Add Another Project", type: 'button',
-              class: 'btn btn-secondary',
-              data: { action: "click->nested-list#addRecord", target: "total-percentages.source" } %>
-          </td>
         </tr>
       </tbody>
     </table>

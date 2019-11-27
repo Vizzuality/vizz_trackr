@@ -6,7 +6,9 @@ export default class extends Controller {
   recalc() {
     var total = 0.0;
     this.sourceTargets.map(function(el) {
-      total += parseFloat(el.value);
+      if(el.value) {
+        total += parseFloat(el.value);
+      }
     });
     this.displayTarget.value = total;
   }
