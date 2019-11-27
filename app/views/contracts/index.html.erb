@@ -37,7 +37,7 @@
           <%= form_with(model: contract, method: :patch, local: true) do |form| %>
             <div class="form-group">
               <%= form.hidden_field(:aasm_state, value: contract.next_state) %>
-              <%= form.submit contract.next_event, class: "btn btn-primary" %>
+              <%= form.submit contract.next_event, class: "btn #{event_color(contract.next_event)}" %>
             </div>
         <% end %>
         </td>
