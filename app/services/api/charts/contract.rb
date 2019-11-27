@@ -14,6 +14,8 @@ module Api
         aggregate = {name: 'Aggregate', data: {}}
         projected = {name: 'Projected', data: {}}
         budget = {name: 'Budget', data: {}, points: false}
+        income = {name: 'Calculated Income', data: {}}
+        linear_income = @contract.linear_income
         @contract.full_reports
           .select('reporting_period_id, reporting_period_name, sum(cost) AS cost, report_estimated')
           .group(:reporting_period_id, :reporting_period_name, :report_estimated)
@@ -32,9 +34,11 @@ module Api
           agg += report.cost
           aggregate[:data][report.reporting_period_name] = agg
           budget[:data][report.reporting_period_name] = @contract.budget&.to_f
+          income[:data][report.reporting_period_name] = linear_income
         end
         data = [contract, projected, aggregate, budget]
         data << non_staff if non_staff[:data].present?
+        data << income if income[:data].present?
         data
       end
     end

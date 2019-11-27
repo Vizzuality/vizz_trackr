@@ -1,0 +1,48 @@
+<% content_for :title, "#{@user.name} - Reports" %>
+<%= render 'actions', user: @user %>
+
+<%= form_with(url: reports_user_path(@user), method: :get, local: true) do |form| %>
+  <div class="form-group">
+    <%= form.label :reporting_period_id %>
+    <%= form.select :reporting_period_id, options_from_collection_for_select(@reporting_periods, :id, :display_name, selected: params[:reporting_period_id]), { prompt: true }, class: "form-control" %>
+  </div>
+  <div class="actions">
+    <%= form.submit "Filter" %>
+  </div>
+<% end %>
+
+<br>
+
+<h4>% of Time in a project</h4>
+<%= column_chart @data, stacked: true %>
+
+<br>
+
+
+<h2>Reports</h2>
+<table class="table table-hover table-bordered">
+  <thead>
+    <tr>
+      <th>Period</th>
+      <th>Contract</th>
+      <th>Percentage</th>
+      <th>Days</th>
+      <th>Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @user.full_reports.joins(:reporting_period).
+        order("reporting_periods.date ASC").each do |report| %>
+        <tr class="<%= "table-warning" if report.report_estimated? %>">
+        <td><%= report.reporting_period_name %></td>
+        <td><%= report.contract_name %></td>
+        <td><%= report.percentage %>%</td>
+        <td><%= report.days %></td>
+        <td><%= number_to_currency(report.cost, unit: '€')  %></td>
+        <td>
+          <%= link_to "Edit", edit_report_path(report.report_id) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -9,7 +9,9 @@ Rails.application.routes.draw do
     resources :bulk_import, only: [:new, :create]
   end
   resources :reports, only: [:edit, :update]
-  resources :users
+  resources :users do
+    get 'reports', on: :member
+  end
   resources :projects
   resources :contracts, only: [:index, :show] do
     get 'reports', on: :member

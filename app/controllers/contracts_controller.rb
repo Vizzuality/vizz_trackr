@@ -43,12 +43,12 @@ class ContractsController < ApplicationController
 
   def costs
     @costs = @contract.full_reports
-      .select('reporting_period_id, sum(cost) AS cost, report_estimated, TRUE as from_staff')
-      .group(:reporting_period_id, :reporting_period_name, :report_estimated)
-      .order(Arel.sql("TO_DATE(reporting_period_name, 'MonthYYYY') ASC"))
+      .select('reporting_period_id, reporting_period_date, sum(cost) AS cost, report_estimated, TRUE as from_staff')
+      .group(:reporting_period_id, :reporting_period_date, :reporting_period_name, :report_estimated)
+      .order(reporting_period_date: :desc)
     @costs += @contract.non_staff_costs
       .joins(:reporting_period)
-      .select('reporting_period_id, sum(cost) AS cost, false as report_estimated, FALSE as from_staff')
+      .select('reporting_period_id, reporting_periods.date AS reporting_period_date, sum(cost) AS cost, false as report_estimated, FALSE as from_staff')
       .group('reporting_period_id, reporting_periods.date')
       .order('reporting_periods.date DESC')
   end

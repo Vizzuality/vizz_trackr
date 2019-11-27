@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit,
+                                  :update, :destroy, :reports]
   before_action :set_entities, only: [:edit, :new]
 
   # GET /users
@@ -10,33 +11,26 @@ class UsersController < ApplicationController
 
   # GET /users/1
   # GET /users/1.json
-  # rubocop:disable Metrics/AbcSize
   def show
-    @reporting_periods = ReportingPeriod.joins(:full_reports)
-      .where(full_reports: {user_id: @user.id})
-      .order(:date).distinct
-    @data = []
-    @reporting_periods.each do |rp|
-      next if params[:reporting_period_id] && rp.id != params[:reporting_period_id].to_i
+    @reports = @user.full_reports
+      .where(reporting_period_date: 3.months.ago..3.months.from_now)
+    @reporting_periods = @reports
+      .select(:reporting_period_id, :reporting_period_name, :reporting_period_date)
+      .distinct.order(:reporting_period_date)
+  end
 
-      rp.full_reports.for_user(@user.id).each do |report|
-        entry = @data.select { |t| t[:name] == report[:contract_name] }.first
-        unless entry
-          entry = {name: report.contract_name}
-          new_entry = true
-        end
-        entry[:data] = {} unless entry[:data]
-        entry[:data][report.reporting_period_name] = report.percentage
-        @data << entry if new_entry
-      end
-    end
+  def reports
+    @reporting_periods = ReportingPeriod
+      .where(id: @user.full_reports.distinct.pluck(:reporting_period_id))
+      .order(:date)
+    @data = ::Api::Charts::User.new(@user)
+      .reports_breakdown(params[:reporting_period_id].presence)
 
     respond_to do |format|
       format.html
       format.json { render json: @data.to_json }
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   # GET /users/new
   def new

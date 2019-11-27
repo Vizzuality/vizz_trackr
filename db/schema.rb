@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_26_105750) do
+ActiveRecord::Schema.define(version: 2019_11_26_161802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(version: 2019_11_26_105750) do
       contracts.name AS contract_name,
       reporting_periods.id AS reporting_period_id,
       to_char((reporting_periods.date)::timestamp with time zone, 'MonthYYYY'::text) AS reporting_period_name,
+      reporting_periods.date AS reporting_period_date,
       users.id AS user_id,
       users.name AS user_name,
       roles.id AS role_id,
