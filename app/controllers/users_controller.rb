@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit,
                                   :update, :destroy, :reports]
   before_action :set_entities, only: [:edit, :new]
+  authorize_resource
 
   # GET /users
   # GET /users.json
@@ -39,7 +40,6 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    authorize! :edit, @user
   end
 
   # POST /users

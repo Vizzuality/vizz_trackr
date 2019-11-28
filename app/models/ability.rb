@@ -35,8 +35,12 @@ class Ability
       can :manage, :all
     else
       can :read, :all
+
       can :edit, User, id: user.id
+      can :reports, User
+
       can :edit, Report, user_id: user.id
+
       can [:reports, :costs], Contract
     end
   end
