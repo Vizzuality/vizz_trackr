@@ -29,6 +29,7 @@ class ReportsController < ApplicationController
 
   # GET /reports/1/edit
   def edit
+    redirect_to reports_user_url(current_user), notice: 'No Report available to edit'  and return unless @report
     @reporting_periods = ReportingPeriod.order(:date)
     @users = User.order(:name)
     @contracts = Contract.order(:name)
@@ -88,7 +89,7 @@ class ReportsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_report
-    @report = Report.find(params[:id])
+    @report = params[:id].present? ? Report.find(params[:id]) : current_user.current_report
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

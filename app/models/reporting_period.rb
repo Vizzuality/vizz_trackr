@@ -10,6 +10,29 @@
 require 'csv'
 
 class ReportingPeriod < ApplicationRecord
+  include AASM
+
+    aasm do
+    state :unstarted, initial: true
+    state :active, before_enter: Proc.new{ ReportingPeriod.deactivate_active_reporting! }
+    state :finished
+    event :start do
+    end
+    event :activate do
+      transitions from: :unstarted, to: :active
+    end
+    event :terminate do
+      transitions from: :active, to: :finished
+    end
+    event :reactivate do
+      transitions from: :finished, to: :active
+    end
+  end
+
+  def self.deactivate_active_reporting!
+    ReportingPeriod.where(aasm_state: 'active').each{|r| r.terminate!}
+  end
+
   has_many :reports, dependent: :destroy
   has_many :report_parts, through: :reports
   has_many :contracts, through: :report_parts
@@ -18,6 +41,14 @@ class ReportingPeriod < ApplicationRecord
   has_many :full_reports
 
   validates_uniqueness_of :date
+
+  def next_event
+    self.aasm.events(permitted: true).first.name.to_s
+  end
+
+  def next_state
+    self.aasm.states(permitted: true).first.name.to_s
+  end
 
   def display_name
     date.strftime('%B %Y')
