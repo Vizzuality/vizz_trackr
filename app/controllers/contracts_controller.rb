@@ -1,6 +1,7 @@
 class ContractsController < ApplicationController
   before_action :set_contract, only: [:show, :reports, :edit, :update, :costs]
   before_action :set_default_state, only: [:index]
+  authorize_resource
 
   def index
     @contracts = Contract.joins(:project).includes(:full_reports, :project)

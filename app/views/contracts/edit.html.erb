@@ -1,7 +1,4 @@
 <% content_for :title, "Editing Contract" %>
-<% content_for :actions,
-  link_to('Show', @contract, class: 'btn btn-sm btn-outline-primary').concat(
-    link_to('Back', contracts_path, class: 'btn btn-sm btn-outline-secondary'))
-%>
+<%= render 'actions', contract: @contract %>
 
 <%= render 'form', contract: @contract, projects: @projects %>
