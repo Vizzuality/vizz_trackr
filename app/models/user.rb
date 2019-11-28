@@ -35,9 +35,10 @@ class User < ApplicationRecord
   validates_uniqueness_of :email, :name
 
   def current_report
-    self.reports
-      .joins(:reporting_period)
-      .where(reporting_periods: {aasm_state: 'active'}).first
+    reporting_period = ReportingPeriod.where(aasm_state: 'active').first
+
+    reports.where(reporting_period_id: reporting_period.id).first || reports
+      .create(reporting_period_id: reporting_period.id, role_id: role_id, team_id: team_id)
   end
 
   private
