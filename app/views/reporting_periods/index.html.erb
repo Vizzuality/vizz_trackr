@@ -20,7 +20,8 @@
       <th>Period</th>
       <th>Final Reports</th>
       <th>Estimated Reports</th>
-      <th></th>
+      <th>Common actions</th>
+      <th>Change status</th>
     </tr>
   </thead>
 
@@ -30,15 +31,25 @@
         <td><%= reporting_period.display_name %></td>
         <td><%= reporting_period.reports.where(estimated: false).count %></td>
         <td><%= reporting_period.reports.where(estimated: true).count %></td>
+
         <td>
-          <%= link_to 'Download', reporting_period_path(reporting_period, format: 'csv') %> |
-          <%= link_to 'Show', reporting_period %>
+          <div class="btn-group mr-2">
+              <%= link_to 'Download', reporting_period_path(reporting_period, format: 'csv'), class: "btn btn-primary" %>
+              <%= link_to 'Show', reporting_period, class: "btn btn-primary" %>
+              <%#= link_to 'New report', new_reporting_period_report_path(reporting_period), class: "btn btn-primary" %>
+              <% if can? :manage, ReportingPeriod %>
+                <%= link_to 'Bulk import', new_reporting_period_bulk_import_path(reporting_period), class: "btn btn-primary" %>
+                <%= link_to 'Edit', edit_reporting_period_path(reporting_period), class: "btn btn-primary" %>
+                <%= link_to 'Destroy', reporting_period, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+              <% end %>
+          </div>
+        </td>
+        <td>
           <% if can? :manage, ReportingPeriod %>
-            |
-            <%= link_to 'New report', new_reporting_period_report_path(reporting_period) %> |
-            <%= link_to 'Bulk import', new_reporting_period_bulk_import_path(reporting_period) %> |
-            <%= link_to 'Edit', edit_reporting_period_path(reporting_period) %> |
-            <%= link_to 'Destroy', reporting_period, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <%= form_with(url: reporting_period_update_state_path(reporting_period), model: reporting_period, method: :patch, local: true) do |form| %>
+                <%= form.hidden_field(:aasm_state, value: reporting_period.next_event) %>
+                <%= form.submit reporting_period.next_event, class: "btn #{event_color(reporting_period.next_event)}" %>
+              <% end %>
           <% end %>
         </td>
       </tr>

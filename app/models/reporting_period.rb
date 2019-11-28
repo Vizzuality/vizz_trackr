@@ -30,7 +30,7 @@ class ReportingPeriod < ApplicationRecord
   end
 
   def self.deactivate_active_reporting!
-    self.where(aasm_state: 'active').map{|r| r.terminate!}
+    ReportingPeriod.where(aasm_state: 'active').each{|r| r.terminate!}
   end
 
   has_many :reports, dependent: :destroy
@@ -41,6 +41,14 @@ class ReportingPeriod < ApplicationRecord
   has_many :full_reports
 
   validates_uniqueness_of :date
+
+  def next_event
+    self.aasm.events(permitted: true).first.name.to_s
+  end
+
+  def next_state
+    self.aasm.states(permitted: true).first.name.to_s
+  end
 
   def display_name
     date.strftime('%B %Y')

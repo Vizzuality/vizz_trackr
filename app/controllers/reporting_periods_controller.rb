@@ -1,5 +1,6 @@
 class ReportingPeriodsController < ApplicationController
-  before_action :set_reporting_period, only: [:show, :edit, :update, :destroy]
+  before_action :set_reporting_period, only: [:show, :edit, :update,
+                                              :destroy, :update_state]
   authorize_resource
 
   # GET /reporting_periods
@@ -76,6 +77,18 @@ class ReportingPeriodsController < ApplicationController
     end
   end
 
+  def update_state
+    respond_to do |format|
+      if @reporting_period.public_send("#{reporting_period_params[:aasm_state]}!")
+        format.html { redirect_to reporting_periods_path, notice: 'Reporting period was successfully updated.' }
+        format.json { render :show, status: :ok, location: @reporting_period }
+      else
+        format.html { render :edit }
+        format.json { render json: @reporting_period.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /reporting_periods/1
   # DELETE /reporting_periods/1.json
   def destroy
@@ -95,6 +108,6 @@ class ReportingPeriodsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def reporting_period_params
-    params.require(:reporting_period).permit(:date)
+    params.require(:reporting_period).permit(:date, :aasm_state)
   end
 end
