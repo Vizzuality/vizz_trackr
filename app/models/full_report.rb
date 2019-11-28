@@ -4,16 +4,20 @@
 #
 #  project_id            :bigint
 #  project_name          :string
+#  project_is_billable   :boolean
 #  contract_id           :bigint
 #  contract_name         :string
 #  reporting_period_id   :bigint
 #  reporting_period_name :text
+#  reporting_period_date :date
 #  user_id               :bigint
 #  user_name             :string
 #  role_id               :bigint
 #  role_name             :string
 #  team_id               :bigint
 #  team_name             :string
+#  report_id             :bigint
+#  report_estimated      :boolean
 #  percentage            :float
 #  cost                  :float
 #  days                  :float

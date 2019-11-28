@@ -9,6 +9,7 @@
 #  reporting_period_id :bigint           not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  estimated           :boolean          default(FALSE)
 #
 
 class Report < ApplicationRecord
