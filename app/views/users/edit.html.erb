@@ -1,6 +1,4 @@
 <% content_for :title, "Editing User" %>
-<% content_for :actions,
-  link_to('Show', @user, class: 'btn btn-sm btn-outline-primary').concat(
-  link_to('Back', users_path, class: 'btn btn-sm btn-outline-secondary'))%>
+<%= render 'actions', user: @user %>
 
 <%= render 'form', user: @user %>

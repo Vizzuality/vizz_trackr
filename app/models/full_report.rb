@@ -4,16 +4,20 @@
 #
 #  project_id            :bigint
 #  project_name          :string
+#  project_is_billable   :boolean
 #  contract_id           :bigint
 #  contract_name         :string
 #  reporting_period_id   :bigint
 #  reporting_period_name :text
+#  reporting_period_date :date
 #  user_id               :bigint
 #  user_name             :string
 #  role_id               :bigint
 #  role_name             :string
 #  team_id               :bigint
 #  team_name             :string
+#  report_id             :bigint
+#  report_estimated      :boolean
 #  percentage            :float
 #  cost                  :float
 #  days                  :float
@@ -23,6 +27,7 @@ class FullReport < ActiveRecord::Base
   belongs_to :reporting_period
   belongs_to :contract
   belongs_to :project
+  belongs_to :report
 
   scope :for_team, ->(team_id) { where(team_id: team_id) }
   scope :for_role, ->(role_id) { where(role_id: role_id) }

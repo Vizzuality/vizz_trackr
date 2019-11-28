@@ -1,5 +1,6 @@
 class ReportingPeriodsController < ApplicationController
   before_action :set_reporting_period, only: [:show, :edit, :update, :destroy]
+  authorize_resource
 
   # GET /reporting_periods
   # GET /reporting_periods.json

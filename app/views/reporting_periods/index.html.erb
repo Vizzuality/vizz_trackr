@@ -1,10 +1,12 @@
 <p id="notice"><%= notice %></p>
 
 <% content_for :title, "Reporting Periods" %>
-<% content_for :actions do
-    link_to 'New Reporting Period', new_reporting_period_path, class: 'btn btn-sm btn-outline-primary'
-  end
-%>
+<% if can? :create, ReportingPeriod %>
+  <% content_for :actions do
+      link_to 'New Reporting Period', new_reporting_period_path, class: 'btn btn-sm btn-outline-primary'
+    end
+  %>
+<% end %>
 
 <br>
 <h4>Cost in Projects</h4>
@@ -30,11 +32,14 @@
         <td><%= reporting_period.reports.where(estimated: true).count %></td>
         <td>
           <%= link_to 'Download', reporting_period_path(reporting_period, format: 'csv') %> |
-          <%= link_to 'New report', new_reporting_period_report_path(reporting_period) %> |
-          <%= link_to 'Bulk import', new_reporting_period_bulk_import_path(reporting_period) %> |
-          <%= link_to 'Show', reporting_period %> |
-          <%= link_to 'Edit', edit_reporting_period_path(reporting_period) %> |
-          <%= link_to 'Destroy', reporting_period, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <%= link_to 'Show', reporting_period %>
+          <% if can? :manage, ReportingPeriod %>
+            |
+            <%= link_to 'New report', new_reporting_period_report_path(reporting_period) %> |
+            <%= link_to 'Bulk import', new_reporting_period_bulk_import_path(reporting_period) %> |
+            <%= link_to 'Edit', edit_reporting_period_path(reporting_period) %> |
+            <%= link_to 'Destroy', reporting_period, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
         </td>
       </tr>
     <% end %>

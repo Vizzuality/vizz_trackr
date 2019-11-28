@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   devise_for :users
   root to: "projects#index"
   resources :analysis, only: [:index]
-  resources :project_stacks, only: [:index]
   resources :reporting_periods do
     resources :reports
     resources :bulk_import, only: [:new, :create]

@@ -11,6 +11,7 @@
 #  alias      :string           default([]), is an Array
 #  start_date :date
 #  end_date   :date
+#  aasm_state :string
 #
 
 class Contract < ApplicationRecord

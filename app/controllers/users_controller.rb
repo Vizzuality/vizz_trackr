@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit,
                                   :update, :destroy, :reports]
   before_action :set_entities, only: [:edit, :new]
+  authorize_resource
 
   # GET /users
   # GET /users.json
@@ -22,7 +23,7 @@ class UsersController < ApplicationController
   def reports
     @reporting_periods = ReportingPeriod
       .where(id: @user.full_reports.distinct.pluck(:reporting_period_id))
-      .order(:date)
+      .order(date: :asc)
     @data = ::Api::Charts::User.new(@user)
       .reports_breakdown(params[:reporting_period_id].presence)
 
@@ -38,7 +39,8 @@ class UsersController < ApplicationController
   end
 
   # GET /users/1/edit
-  def edit; end
+  def edit
+  end
 
   # POST /users
   # POST /users.json
@@ -102,6 +104,8 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:name, :email, :team_id, :role_id, :cost)
+    permitted = [:name, :email, :team_id, :role_id, :cost]
+    permitted << :admin if current_user.admin?
+    params.require(:user).permit(permitted)
   end
 end

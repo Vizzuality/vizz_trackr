@@ -1,10 +1,5 @@
 <% content_for :title, "Reporting Period - #{@reporting_period.display_name}" %>
-
-<% content_for :actions do
-  link_to('Download', reporting_period_path(@reporting_period, format: 'csv'), class: 'btn btn-sm btn-outline-info').concat(
-  link_to('Edit', edit_reporting_period_path(@reporting_period), class: 'btn btn-sm btn-outline-primary').concat(
-    link_to('Back', reporting_periods_path, class: 'btn btn-sm btn-outline-secondary')))
-end %>
+<%= render 'actions', reporting_period: @reporting_period %>
 
 <p id="notice"><%= notice %></p>
 

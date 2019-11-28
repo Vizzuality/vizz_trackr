@@ -2,14 +2,12 @@
 #
 # Table name: projects
 #
-#  id         :bigint           not null, primary key
-#  name       :string
-#  budget     :float
-#  start_date :date
-#  end_date   :date
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  team_id    :bigint
+#  id          :bigint           not null, primary key
+#  name        :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  team_id     :bigint
+#  is_billable :boolean          default(TRUE)
 #
 
 class Project < ApplicationRecord
