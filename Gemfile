@@ -60,6 +60,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'chartkick'
 gem 'devise'
 gem 'scenic'
+gem 'cancancan'
 
 # State machine
 gem 'aasm'
