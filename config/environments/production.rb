@@ -109,12 +109,12 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
-  config.action_mailer.default_url_options = { host: 'vizz-trackr.herokuapp.com', port: 3000 }
+  config.action_mailer.default_url_options = {host: 'vizz-trackr.herokuapp.com'}
 
   ActionMailer::Base.smtp_settings = {
     :user_name => ENV['SENDGRID_USERNAME'],
     :password => ENV['SENDGRID_PASSWORD'],
-    :domain => 'vizz-trackr.herokuapp.com',
+    :domain => 'yourdomain.com',
     :address => 'smtp.sendgrid.net',
     :port => 587,
     :authentication => :plain,
