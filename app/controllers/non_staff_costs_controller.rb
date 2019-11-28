@@ -1,5 +1,6 @@
 class NonStaffCostsController < ApplicationController
   before_action :set_non_staff_cost, only: [:show, :edit, :update, :destroy]
+  authorize_resource
 
   # GET /non_staff_costs
   # GET /non_staff_costs.json
