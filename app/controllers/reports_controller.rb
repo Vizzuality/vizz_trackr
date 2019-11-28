@@ -34,6 +34,7 @@ class ReportsController < ApplicationController
     @contracts = Contract.order(:name)
     @roles = Role.order(:name)
     @teams = Team.order(:name)
+    authorize! :edit, @report
   end
 
   # POST /reports

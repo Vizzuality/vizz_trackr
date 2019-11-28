@@ -40,7 +40,9 @@
         <td><%= report.days %></td>
         <td><%= number_to_currency(report.cost, unit: '€')  %></td>
         <td>
-          <%= link_to "Edit", edit_report_path(report.report_id) %>
+          <% if can? :edit, report.report %>
+            <%= link_to "Edit", edit_report_path(report.report_id) %>
+          <% end %>
         </td>
       </tr>
     <% end %>
