@@ -7,10 +7,14 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+require 'csv'
 
 class ReportingPeriod < ApplicationRecord
   has_many :reports, dependent: :destroy
   has_many :report_parts, through: :reports
+  has_many :contracts, through: :report_parts
+  has_many :users, through: :reports
+
   has_many :full_reports
 
   validates_uniqueness_of :date
@@ -35,6 +39,28 @@ class ReportingPeriod < ApplicationRecord
         dupped.report_parts << part.dup
       end
       reports << dupped
+    end
+  end
+
+  def to_csv
+    content = []
+    users.order(:name).each do |user|
+      data = {}
+      data["staff"] = user.name
+      report = reports.where(user_id: user.id).first
+      contracts.order(:name).each do |contract|
+        percentage = report.report_parts
+          .where(contract_id: contract.id).pluck(:percentage).first
+        data[contract.name] = percentage && (percentage / 100).round(2)
+      end
+      content << data
+    end
+
+    CSV.generate(headers: true, encoding: 'ISO-8859-1') do |csv|
+      csv << content.first.keys
+      content.each do |c|
+        csv << c.values
+      end
     end
   end
 

@@ -16,10 +16,8 @@
   <thead>
     <tr>
       <th>Period</th>
-      <th>Reports</th>
-      <th>Contracts Reported</th>
-      <th>Days in Projects</th>
-      <th>Days non-billable</th>
+      <th>Final Reports</th>
+      <th>Estimated Reports</th>
       <th></th>
     </tr>
   </thead>
@@ -28,15 +26,10 @@
     <% @reporting_periods.each do |reporting_period| %>
       <tr>
         <td><%= reporting_period.display_name %></td>
-        <td><%= reporting_period.full_reports.select(:user_id).distinct.count %></td>
-        <td><%= reporting_period.full_reports.select(:contract_id).distinct.count %></td>
+        <td><%= reporting_period.reports.where(estimated: false).count %></td>
+        <td><%= reporting_period.reports.where(estimated: true).count %></td>
         <td>
-          <%= reporting_period.full_reports.where(project_is_billable: true).sum(:days) %>
-        </td>
-        <td>
-          <%= reporting_period.full_reports.where(project_is_billable: false).sum(:days) %>
-        </td>
-        <td>
+          <%= link_to 'Download', reporting_period_path(reporting_period, format: 'csv') %> |
           <%= link_to 'New report', new_reporting_period_report_path(reporting_period) %> |
           <%= link_to 'Bulk import', new_reporting_period_bulk_import_path(reporting_period) %> |
           <%= link_to 'Show', reporting_period %> |

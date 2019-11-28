@@ -13,15 +13,21 @@ class ReportingPeriodsController < ApplicationController
   # GET /reporting_periods/1
   # GET /reporting_periods/1.json
   def show
-    @total_reporters = @reporting_period.full_reports
-      .select(:user_id).distinct.count
-    @total_project_reports = @reporting_period.total_contracts_reported
-    @roles = Role.order(:name)
+    respond_to do |format|
+      format.html do
+        @total_reporters = @reporting_period.full_reports
+          .select(:user_id).distinct.count
+        @total_project_reports = @reporting_period.total_contracts_reported
+        @roles = Role.order(:name)
 
-    @reports = @reporting_period.full_reports
-      .includes(:contract, :project).order(:user_name)
+        @reports = @reporting_period.full_reports
+          .includes(:contract, :project).order(:user_name)
 
-    @reports = @reports.for_role(params[:role_id]) if params[:role_id].present?
+        @reports = @reports.for_role(params[:role_id]) if params[:role_id].present?
+      end
+      format.csv { send_data @reporting_period.to_csv,
+                   type: 'csv', filename: "report-#{@reporting_period.display_name}.csv" }
+    end
   end
 
   # GET /reporting_periods/new
