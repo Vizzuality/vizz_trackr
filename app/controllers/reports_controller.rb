@@ -59,7 +59,13 @@ class ReportsController < ApplicationController
   def update
     respond_to do |format|
       if @report.update(report_params)
-        format.html { redirect_to reports_user_path(@report.user), notice: 'Report was successfully updated.' }
+        format.html do
+          if @report.user == current_user
+            redirect_to @report.user, notice: 'Report was successfully updated.'
+          else
+            redirect_to @report.reporting_period, notice: 'Report was successfully updated.'
+          end
+        end
         format.json { render :show, status: :ok, location: @report }
       else
         format.html {
