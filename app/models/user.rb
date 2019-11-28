@@ -36,6 +36,7 @@ class User < ApplicationRecord
 
   def current_report
     reporting_period = ReportingPeriod.where(aasm_state: 'active').first
+    return nil unless reporting_period
 
     reports.where(reporting_period_id: reporting_period.id).first || reports
       .create(reporting_period_id: reporting_period.id, role_id: role_id, team_id: team_id)
