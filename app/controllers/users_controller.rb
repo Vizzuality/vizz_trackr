@@ -23,7 +23,7 @@ class UsersController < ApplicationController
   def reports
     @reporting_periods = ReportingPeriod
       .where(id: @user.full_reports.distinct.pluck(:reporting_period_id))
-      .order(:date)
+      .order(date: :asc)
     @data = ::Api::Charts::User.new(@user)
       .reports_breakdown(params[:reporting_period_id].presence)
 
