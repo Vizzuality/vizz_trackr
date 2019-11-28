@@ -1,6 +1,6 @@
 <% content_for :title, "Editing Report - #{@report.reporting_period.display_name}" %>
 <% content_for :actions do
-  link_to 'Back', reporting_periods_path,
+  link_to 'Back', current_user,
     class: 'btn btn-sm btn-outline-primary'
   end
 %>

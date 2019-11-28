@@ -18,6 +18,7 @@ class UsersController < ApplicationController
     @reporting_periods = @reports
       .select(:reporting_period_id, :reporting_period_name, :reporting_period_date)
       .distinct.order(:reporting_period_date)
+    @current_report = @user.current_report
   end
 
   def reports

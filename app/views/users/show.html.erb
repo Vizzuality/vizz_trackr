@@ -28,7 +28,12 @@
     <tr>
       <th>Contract</th>
       <% @reporting_periods.each do |rp| %>
-        <th><%= rp.reporting_period_name %></th>
+        <th>
+          <%= rp.reporting_period_name %>
+          <% if @current_report && @user == current_user && rp.reporting_period_id == @current_report.reporting_period_id %>
+            <%= link_to 'Edit', '/my-report' %>
+          <% end %>
+        </th>
       <% end %>
     </tr>
   </thead>
