@@ -11,7 +11,7 @@
   <td>
     <div class="input-group">
       <%= form.text_field :percentage, class: 'form-control',
-          data: { action: 'report-percentages#recalc', target: 'report-percentages.source' }%>
+          data: { action: 'change->report-percentages#recalc', target: 'report-percentages.source' }%>
       <div class="input-group-prepend">
         <div class="input-group-text">%</div>
       </div>
@@ -20,7 +20,7 @@
   <td>
     <%= button_tag 'Remove', type: 'button',
       class: 'btn btn-danger',
-      data: { action: 'click->nested-list#removeRecord' } %>
+      data: { action: 'click->nested-list#removeRecord click->report-percentages#recalc' } %>
   </td>
   <%= form.hidden_field :_destroy %>
 <% end %>
