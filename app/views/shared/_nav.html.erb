@@ -15,35 +15,41 @@
         Reporting Periods <span class="sr-only"><%= "(current)" if controller_name == 'reporting_periods' %></span>
       <% end %>
     </li>
-    <li class="nav-item <%= 'active' if controller_name == 'contracts' %>">
-      <%= link_to :contracts, class: "nav-link" do %>
-        Contracts <span class="sr-only"><%= "(current)" if controller_name == 'contracts' %></span>
-      <% end %>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle <%= ["contracts", "projects"].include?(controller_name) && "active" %>" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Contracts
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <%= link_to :contracts, class: "dropdown-item" do %>
+          Contracts <span class="sr-only"><%= "(current)" if controller_name == 'contracts' %></span>
+        <% end %>
+        <%= link_to :projects, class: "dropdown-item" do %>
+          Projects <span class="sr-only"><%= "(current)" if controller_name == 'projects' %></span>
+        <% end %>
+        <%= link_to :non_staff_costs, class: "nav-link" do %>
+          Non Staff Costs <span class="sr-only"><%= "(current)" if controller_name == 'non_staff_costs' %></span>
+        <% end %>
+      </div>
     </li>
-    <li class="nav-item <%= 'active' if controller_name == 'projects' %>">
-      <%= link_to :projects, class: "nav-link" do %>
-        Projects <span class="sr-only"><%= "(current)" if controller_name == 'projects' %></span>
-      <% end %>
-    </li>
-    <li class="nav-item <%= 'active' if controller_name == 'non_staff_costs' %>">
-      <%= link_to :non_staff_costs, class: "nav-link" do %>
-        Non Staff Costs <span class="sr-only"><%= "(current)" if controller_name == 'non_staff_costs' %></span>
-      <% end %>
-    </li>
-    <li class="nav-item <%= 'active' if controller_name == 'users' %>">
-      <%= link_to :users, class: "nav-link" do %>
-        People <span class="sr-only"><%= "(current)" if controller_name == 'users' %></span>
-      <% end %>
-    </li>
-    <li class="nav-item <%= 'active' if controller_name == 'teams' %>">
-      <%= link_to :teams, class: "nav-link" do %>
-        Teams <span class="sr-only"><%= "(current)" if controller_name == 'teams' %></span>
-      <% end %>
-    </li>
-    <li class="nav-item <%= 'active' if controller_name == 'roles' %>">
-      <%= link_to :roles, class: "nav-link" do %>
-        Roles <span class="sr-only"><%= "(current)" if controller_name == 'roles' %></span>
-      <% end %>
-    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle <%= ["contracts", "projects"].include?(controller_name) && "active" %>" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        People
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <%= link_to :users, class: "dropdown-item" do %>
+          People <span class="sr-only"><%= "(current)" if controller_name == 'users' %></span>
+        <% end %>
+        <%= link_to :teams, class: "dropdown-item" do %>
+          Teams <span class="sr-only"><%= "(current)" if controller_name == 'teams' %></span>
+        <% end %>
+        <%= link_to :roles, class: "dropdown-item" do %>
+          Roles <span class="sr-only"><%= "(current)" if controller_name == 'roles' %></span>
+        <% end %>
+      </div>
+    <% if current_user.current_report %>
+      <li class="nav-item">
+        <%= link_to 'Latest Report', '/my-report', class: 'btn btn-outline-success my-2 my-sm-0' %>
+      </li>
+    <% end %>
   </ul>
 <% end %>
