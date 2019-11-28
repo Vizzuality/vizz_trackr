@@ -29,6 +29,7 @@ class ReportsController < ApplicationController
 
   # GET /reports/1/edit
   def edit
+    redirect_to reports_user_url(current_user), notice: 'No Report available to edit'  and return unless @report
     @reporting_periods = ReportingPeriod.order(:date)
     @users = User.order(:name)
     @contracts = Contract.order(:name)
