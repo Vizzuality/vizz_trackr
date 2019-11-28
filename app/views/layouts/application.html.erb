@@ -41,7 +41,9 @@
     </nav>
 
     <main role="main" class="container">
-      <%= switch_user_select %>
+      <% if Rails.env.development? %>
+        <%= switch_user_select %>
+      <% end %>
       <div class="alert alert-warning" role="alert">
         This is a Proof of Concept, any figures here might be wrong and should be taken with a pinch of salt.
       </div>
