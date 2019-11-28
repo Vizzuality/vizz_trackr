@@ -1,4 +1,6 @@
 <% content_for :title, "Contracts" %>
+<% content_for :actions,
+  link_to('New Contract', new_contract_path, class: 'btn btn-sm btn-outline-primary') %>
 <p id="notice"><%= notice %></p>
 
 <%= form_with(url: 'contracts#index', method: :get, local: true) do |form| %>
@@ -39,7 +41,8 @@
               <%= form.hidden_field(:aasm_state, value: contract.next_state) %>
               <%= form.submit contract.next_event, class: "btn #{event_color(contract.next_event)}" %>
             </div>
-        <% end %>
+          <% end %>
+          <%= link_to "Edit", edit_contract_path(contract) %>
         </td>
       </tr>
     <% end %>

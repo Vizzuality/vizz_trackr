@@ -1,6 +1,6 @@
 <% content_for :actions,
   link_to('Reports', reports_contract_path(contract), class: 'btn btn-sm btn-outline-primary').concat(
   link_to('Costs', costs_contract_path(contract), class: 'btn btn-sm btn-outline-primary').concat(
-  link_to('Edit', edit_project_path(contract.project), class: 'btn btn-sm btn-outline-primary').concat(
+  link_to('Edit', edit_contract_path(contract), class: 'btn btn-sm btn-outline-primary').concat(
     link_to('Back', contracts_path, class: 'btn btn-sm btn-outline-secondary'))))
 %>

@@ -1,5 +1,5 @@
 class ContractsController < ApplicationController
-  before_action :set_contract, only: [:show, :reports, :update, :costs]
+  before_action :set_contract, only: [:show, :reports, :edit, :update, :costs]
   before_action :set_default_state, only: [:index]
 
   def index
@@ -7,6 +7,36 @@ class ContractsController < ApplicationController
       .order('projects.name ASC, contracts.name ASC')
     @states = Contract.aasm.states.map{|s| s.name}.prepend(:all)
     @contracts = @contracts.with_status(@state) unless @state == 'all'
+  end
+
+  def new
+    @contract = Contract.new
+    @states = Contract.aasm.states.map{|s| s.name}.prepend(:all)
+    @projects = Project.order(:name)
+  end
+
+  # POST /contracts
+  # POST /contracts.json
+  def create
+    @contract = Contract.new(contract_params)
+
+    respond_to do |format|
+      if @contract.save
+        format.html { redirect_to :contracts, notice: 'Contract was successfully created.' }
+        format.json { render :show, status: :created, location: @contract }
+      else
+        format.html {
+          @projects = Project.order(:name)
+          render :new
+        }
+        format.json { render json: @contract.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def edit
+    @projects = Project.order(:name)
+    @states = Contract.aasm.states.map{|s| s.name}.prepend(:all)
   end
 
   def show
@@ -80,6 +110,13 @@ class ContractsController < ApplicationController
   end
 
   def contract_params
-    params.require(:contract).permit(:id, :aasm_state, :state)
+    params.require(:contract).permit(:id,
+                                     :aasm_state, :state,
+                                     :project_id,
+                                     :name,
+                                     :budget,
+                                     :alias_list,
+                                     :start_date,
+                                     :end_date)
   end
 end
