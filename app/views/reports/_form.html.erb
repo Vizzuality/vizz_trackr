@@ -74,18 +74,16 @@
           <th>
             <div class="input-group">
               <input type="text" data-target="report-percentages.display" disabled value="<%= report.report_parts.sum(:percentage) %>" class="form-control">
-              <div class="input-group-prepend">
+              <div class="input-group-append">
                 <div class="input-group-text">%</div>
               </div>
             </div>
           </th>
-          <th>Total</th>
+          <th>
+            <%= form.submit form.object.new_record? ? "Submit" : "Update", class: "btn btn-primary" %>
+          </th>
         </tr>
       </tbody>
     </table>
 	</div>
-
-  <div class="actions">
-    <%= form.submit form.object.new_record? ? "Submit" : "Update", class: "btn btn-primary" %>
-  </div>
 <% end %>
