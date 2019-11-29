@@ -1,0 +1,14 @@
+<% content_for :title, "Rate - #{@rate.code}" %>
+<%= render 'actions', rate: @rate %>
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @rate.code %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @rate.value %>
+</p>

@@ -47,6 +47,9 @@
         <%= link_to :roles, class: "dropdown-item" do %>
           Roles <span class="sr-only"><%= "(current)" if controller_name == 'roles' %></span>
         <% end %>
+        <%= link_to :rates, class: "dropdown-item" do %>
+          Rates <span class="sr-only"><%= "(current)" if controller_name == 'rates' %></span>
+        <% end %>
       </div>
     <% if current_user.current_report %>
       <li class="nav-item">

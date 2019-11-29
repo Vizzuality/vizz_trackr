@@ -15,6 +15,7 @@
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
 #  admin                  :boolean          default(FALSE)
+#  rate_id                :bigint
 #
 
 class User < ApplicationRecord
@@ -25,6 +26,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   belongs_to :team, optional: true
   belongs_to :role, optional: true
+  belongs_to :rate, optional: true
   has_many :reports
   has_many :report_parts, through: :reports
   has_many :reporting_periods, through: :reports

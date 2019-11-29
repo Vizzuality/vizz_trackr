@@ -1,17 +1,17 @@
 # == Schema Information
 #
-# Table name: reporting_periods
+# Table name: rates
 #
 #  id         :bigint           not null, primary key
-#  date       :date
+#  code       :string
+#  value      :float
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  aasm_state :string
 #
 
 require 'test_helper'
 
-class ReportingPeriodTest < ActiveSupport::TestCase
+class RateTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

@@ -1,18 +1,20 @@
 # == Schema Information
 #
-# Table name: reporting_periods
+# Table name: rates
 #
 #  id         :bigint           not null, primary key
-#  date       :date
+#  code       :string
+#  value      :float
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  aasm_state :string
 #
 
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  date: 2019-08-01
+  code: MyString
+  value: 1.5
 
 two:
-  date: 2019-08-01
+  code: MyString
+  value: 1.5

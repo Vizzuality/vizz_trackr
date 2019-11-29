@@ -3,7 +3,7 @@
     .concat(link_to('Members', members_team_path(team), class: 'btn btn-sm btn-outline-primary'))
   if can? :edit, team
     actions = actions
-      .concat(link_to('Edit', edit_team_path(@team), class: 'btn btn-sm btn-outline-primary'))
+      .concat(link_to('Edit', edit_team_path(team), class: 'btn btn-sm btn-outline-primary'))
   end
   actions.concat(link_to('Back', teams_path, class: 'btn btn-sm btn-outline-secondary'))
 end%>

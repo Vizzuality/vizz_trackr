@@ -1,0 +1,34 @@
+<% content_for :title, "Rates" %>
+<% if can? :create, Rate %>
+  <% content_for :actions,
+    link_to('New Rate', new_rate_path, class: 'btn btn-sm btn-outline-primary') %>
+<% end %>
+<p id="notice"><%= notice %></p>
+
+<h1>Rates</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Value</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rates.each do |rate| %>
+      <tr>
+        <td><%= rate.code %></td>
+        <td><%= rate.value %></td>
+        <td>
+          <%= link_to 'Show', rate %>
+          <% if can? :manage, rate %>
+            <%= link_to 'Edit', edit_rate_path(rate) %>
+            <%= link_to 'Destroy', rate, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

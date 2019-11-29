@@ -1,0 +1,8 @@
+<% content_for :actions do
+  actions = link_to('Show', rate, class: 'btn btn-sm btn-outline-primary')
+  if can? :edit, rate
+    actions = actions
+      .concat(link_to('Edit', edit_rate_path(rate), class: 'btn btn-sm btn-outline-primary'))
+  end
+  actions.concat(link_to('Back', rates_path, class: 'btn btn-sm btn-outline-secondary'))
+end%>

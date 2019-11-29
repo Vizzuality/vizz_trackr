@@ -15,6 +15,7 @@
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
 #  admin                  :boolean          default(FALSE)
+#  rate_id                :bigint
 #
 
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
