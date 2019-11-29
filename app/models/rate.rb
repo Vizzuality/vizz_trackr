@@ -11,6 +11,8 @@
 
 class Rate < ApplicationRecord
   has_many :users
+
+  validates_uniqueness_of :code
   def display
     "#{code} [€#{value}]"
   end
