@@ -12,38 +12,32 @@
   </dl>
 <% end %>
 
-<%= form_with(url: @reporting_period, method: :get, local: true) do |form| %>
-  <div class="form-group">
-    <%= form.label :role_id %>
-    <%= form.select :role_id, options_from_collection_for_select(@roles, :id, :name, selected: params[:role_id]), { prompt: true }, class: "form-control", onchange: 'this.form.submit();' %>
-  </div>
-<% end %>
+<h2>Reports Summary</h2>
 
-<h2>Reports</h2>
-<table class="table table-bordered table-striped table-hover">
+<table class="table table-bordered table-hover">
   <thead>
     <tr>
       <th>User</th>
       <th>Team</th>
       <th>Role</th>
-      <th>Contract</th>
-      <th>Percentage</th>
-      <th>Days</th>
-      <th>Cost</th>
+      <th>Percentage reported</th>
+      <th># Contracts</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     <% @reports.each do |report| %>
-      <tr>
-        <td><%= report.user_name %></td>
-        <td><%= report.team_name %></td>
-        <td><%= report.role_name %></td>
-        <td><%= link_to report.contract_full_name, report.contract %></td>
-        <td><%= report.percentage %>%</td>
-        <td><%= report.days %></td>
-        <td><%= number_to_currency(report.cost, unit: '€')  %></td>
-        <td><%= link_to 'Edit', edit_report_path(report.report_id) %></td>
+      <tr class="<%= "table-warning" if report.estimated? %>">
+        <td><%= report.user&.name %></td>
+        <td><%= report.team&.name %></td>
+        <td><%= report.role&.name %></td>
+        <td><%= report.report_parts.sum(:percentage) %></td>
+        <td><%= report.report_parts.count %></td>
+        <td>
+          <% if can? :edit, report %>
+            <%= link_to 'Edit', edit_report_path(report) %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

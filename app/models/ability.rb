@@ -42,6 +42,7 @@ class Ability
       can :edit, Report, user_id: user.id
 
       can [:reports, :costs], Contract
+      can :reports, ReportingPeriod
     end
   end
 end

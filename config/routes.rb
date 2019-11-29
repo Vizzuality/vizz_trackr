@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
-  resources :non_staff_costs
   devise_for :users
   root to: "projects#index"
   resources :analysis, only: [:index]
+  resources :non_staff_costs
   resources :reporting_periods do
-    resources :reports
+    resources :reports, only: [:new, :create]
     resources :bulk_import, only: [:new, :create]
+    get 'reports', on: :member
   end
   patch 'reporting_periods/:id/update_state', to: 'reporting_periods#update_state', as: :reporting_period_update_state
 

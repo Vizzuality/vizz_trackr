@@ -1,6 +1,7 @@
 <% content_for :actions do
   actions = link_to('Show', reporting_period, class: 'btn btn-sm btn-outline-info')
-    .concat(link_to('Download', reporting_period_path(reporting_period, format: 'csv'), class: 'btn btn-sm btn-outline-info'))
+    .concat(link_to('Detailed Reports', reports_reporting_period_path(reporting_period), class: 'btn btn-sm btn-outline-info')
+    .concat(link_to('Download', reporting_period_path(reporting_period, format: 'csv'), class: 'btn btn-sm btn-outline-info')))
   if can? :manage, reporting_period
     actions = actions.concat(link_to('Edit', edit_reporting_period_path(reporting_period), class: 'btn btn-sm btn-outline-primary'))
   end

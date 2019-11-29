@@ -1,5 +1,5 @@
 class ReportingPeriodsController < ApplicationController
-  before_action :set_reporting_period, only: [:show, :edit, :update,
+  before_action :set_reporting_period, only: [:show, :edit, :update, :reports,
                                               :destroy, :update_state]
   authorize_resource
 
@@ -15,13 +15,17 @@ class ReportingPeriodsController < ApplicationController
   # GET /reporting_periods/1
   # GET /reporting_periods/1.json
   def show
+    @total_reporters = @reporting_period.full_reports
+      .select(:user_id).distinct.count
+    @total_project_reports = @reporting_period.total_contracts_reported
+    @reports = @reporting_period.reports
+      .joins(:user).order("users.name ASC")
+  end
+
+  def reports
     respond_to do |format|
       format.html do
-        @total_reporters = @reporting_period.full_reports
-          .select(:user_id).distinct.count
-        @total_project_reports = @reporting_period.total_contracts_reported
         @roles = Role.order(:name)
-
         @reports = @reporting_period.full_reports
           .includes(:contract, :project).order(:user_name)
 
