@@ -69,7 +69,8 @@ class UsersController < ApplicationController
     respond_to do |format|
       @user.skip_password_validation = true
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        redirect = current_user == @user ? @user : users_path
+        format.html { redirect_to redirect, notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html do
