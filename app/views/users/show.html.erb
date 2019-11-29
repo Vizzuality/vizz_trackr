@@ -14,13 +14,24 @@
 
 <p>
   <strong>Team:</strong>
-  <%= @user.team.try(:name) %>
+  <%= @user.team&.name %>
 </p>
 
 <p>
   <strong>Roles:</strong>
-  <%= @user.role.try(:name) %>
+  <%= @user.role&.name %>
 </p>
+
+<% if current_user.admin? %>
+  <p>
+    <strong>Rate:</strong>
+    <%= @user.rate&.code %>
+  </p>
+  <p>
+    <strong>Dedication:</strong>
+    <%= @user.dedication %>
+  </p>
+<% end %>
 
 <h2>Allocations and Schedule</h2>
 <table class="table table-bordered table-hover">

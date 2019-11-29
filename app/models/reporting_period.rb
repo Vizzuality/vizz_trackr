@@ -6,6 +6,7 @@
 #  date       :date
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  aasm_state :string
 #
 require 'csv'
 

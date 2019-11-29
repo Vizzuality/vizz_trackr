@@ -101,11 +101,12 @@ class UsersController < ApplicationController
   def set_entities
     @teams = Team.order(:name)
     @roles = Role.order(:name)
+    @rates = Rate.order(:code)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    permitted = [:name, :email, :team_id, :role_id, :cost]
+    permitted = [:name, :email, :team_id, :role_id, :cost, :rate_id, :dedication]
     permitted << :admin if current_user.admin?
     params.require(:user).permit(permitted)
   end

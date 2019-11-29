@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_28_125606) do
+ActiveRecord::Schema.define(version: 2019_11_29_084151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,13 @@ ActiveRecord::Schema.define(version: 2019_11_28_125606) do
     t.bigint "team_id"
     t.boolean "is_billable", default: true
     t.index ["team_id"], name: "index_projects_on_team_id"
+  end
+
+  create_table "rates", force: :cascade do |t|
+    t.string "code"
+    t.float "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "report_parts", force: :cascade do |t|
@@ -107,7 +114,10 @@ ActiveRecord::Schema.define(version: 2019_11_28_125606) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.boolean "admin", default: false
+    t.bigint "rate_id"
+    t.float "dedication", default: 0.74, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["rate_id"], name: "index_users_on_rate_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["team_id"], name: "index_users_on_team_id"
@@ -123,6 +133,7 @@ ActiveRecord::Schema.define(version: 2019_11_28_125606) do
   add_foreign_key "reports", "roles"
   add_foreign_key "reports", "teams"
   add_foreign_key "reports", "users"
+  add_foreign_key "users", "rates"
   add_foreign_key "users", "roles"
   add_foreign_key "users", "teams"
 

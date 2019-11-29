@@ -11,7 +11,8 @@
       <th>Team</th>
       <th>Role</th>
       <% if current_user.admin? %>
-        <th>Cost per month</th>
+        <th>Rate</th>
+        <th>Dedication</th>
       <% end %>
       <th></th>
     </tr>
@@ -24,7 +25,8 @@
         <td><%= user.team.try(:name) %></td>
         <td><%= user.role.try(:name) %></td>
         <% if current_user.admin? %>
-          <td><%= user.cost %></td>
+          <td><%= user.rate&.code %></td>
+          <td><%= user.dedication %></td>
         <% end %>
         <td>
           <%= link_to 'Show', user %>

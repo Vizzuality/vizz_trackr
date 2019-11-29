@@ -28,7 +28,20 @@
     </div>
 
     <div class="form-group">
-      <%= form.label :cost %>
+      <%= form.label :rate_id %>
+      <%= form.collection_select :rate_id, @rates, :id, :code, {}, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :dedication %>
+      <%= form.text_field :dedication, class: 'form-control' %>
+      <small id="passwordHelpBlock" class="form-text text-muted">
+        Dedication should be a float number between 0 and 1.
+      </small>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :cost, value: "Cost [deprecated]" %>
       <%= form.text_field :cost, class: 'form-control' %>
     </div>
   <% end %>

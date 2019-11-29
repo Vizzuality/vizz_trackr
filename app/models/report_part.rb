@@ -24,9 +24,11 @@ class ReportPart < ApplicationRecord
   def calculate_cost_and_days
     return true unless percentage
 
-    self.cost = if report.user.cost
-                  (percentage / 100 * report.user.cost / 0.74)
-                end
+    cost = if report.user.rate && report.user.dedication
+             (percentage / 100 * report.user.rate&.value / report.user.dedication)
+           elsif report.user.cost
+             (percentage / 100 * report.user.cost / 0.74)
+           end
     self.days = (percentage / 5.0).round(2)
   end
 end
