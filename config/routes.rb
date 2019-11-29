@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  root to: "projects#index"
+  root to: "home#index"
   resources :analysis, only: [:index]
   resources :non_staff_costs
   resources :reporting_periods do
