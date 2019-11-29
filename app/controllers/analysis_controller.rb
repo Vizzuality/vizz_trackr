@@ -1,5 +1,6 @@
 class AnalysisController < ApplicationController
   def index
+    raise CanCan::AccessDenied unless current_user.admin?
     @roles = Role.order(:name)
     @data = ReportingPeriod.analyse(filter_params)
 
