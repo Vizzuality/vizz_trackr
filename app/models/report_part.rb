@@ -25,7 +25,7 @@ class ReportPart < ApplicationRecord
     return true unless percentage
 
     cost = if report.user.rate && report.user.dedication
-             (percentage / 100 * report.user.rate&.value / report.user.dedication)
+             (percentage / 100 * report.user.rate&.value * report.user.dedication)
            elsif report.user.cost
              (percentage / 100 * report.user.cost / 0.74)
            end
