@@ -10,6 +10,7 @@
 #
 
 class Rate < ApplicationRecord
+  has_many :users
   def display
     "#{code} [€#{value}]"
   end

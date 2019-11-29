@@ -12,6 +12,7 @@
     <tr>
       <th>Code</th>
       <th>Value</th>
+      <th># Staff</th>
       <th></th>
     </tr>
   </thead>
@@ -21,6 +22,7 @@
       <tr>
         <td><%= rate.code %></td>
         <td><%= number_to_currency(rate.value, unit: '€') %></td>
+        <td><%= rate.users.count %></td>
         <td>
           <%= link_to 'Show', rate %>
           <% if can? :manage, rate %>

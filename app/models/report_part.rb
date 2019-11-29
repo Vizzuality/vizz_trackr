@@ -29,6 +29,6 @@ class ReportPart < ApplicationRecord
            elsif report.user.cost
              (percentage / 100 * report.user.cost / 0.74)
            end
-    self.days = (percentage / 5.0).round(2)
+    self.days = (percentage / 5.0 * (report.user&.dedication || 1.0)).round(2)
   end
 end
