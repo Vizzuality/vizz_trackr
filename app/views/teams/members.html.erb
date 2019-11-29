@@ -1,0 +1,27 @@
+<% content_for :title, "#{@team.name} - Members" %>
+<%= render 'actions', team: @team %>
+
+<p id="notice"><%= notice %></p>
+
+<h2>Members</h2>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Role</th>
+      <th>Email</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @team.users.
+      order("users.name asc").each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= user.role&.name %></td>
+        <td><%= link_to user.email %></td>
+        <td><%= link_to 'Show', user  %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

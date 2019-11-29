@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-  before_action :set_team, only: [:show, :edit, :update, :destroy]
+  before_action :set_team, only: [:show, :edit, :update, :destroy, :members]
   authorize_resource
 
   # GET /teams
@@ -10,7 +10,15 @@ class TeamsController < ApplicationController
 
   # GET /teams/1
   # GET /teams/1.json
-  def show; end
+  def show
+    @reports = @team.full_reports
+      .where(reporting_period_date: 3.months.ago..3.months.from_now)
+    @reporting_periods = @reports
+      .select(:reporting_period_id, :reporting_period_name, :reporting_period_date)
+      .distinct.order(:reporting_period_date)
+  end
+
+  def members; end
 
   # GET /teams/new
   def new

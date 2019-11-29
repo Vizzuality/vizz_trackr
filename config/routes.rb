@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   end
   get 'my-report', to: 'reports#edit'
   resources :roles
-  resources :teams
+  resources :teams do
+    get 'members', on: :member
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
