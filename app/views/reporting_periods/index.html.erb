@@ -34,7 +34,7 @@
 
         <td>
           <div class="btn-group mr-2">
-              <%= link_to 'Download', reporting_period_path(reporting_period, format: 'csv'), class: "btn btn-primary" %>
+              <%= link_to 'Download', reports_reporting_period_path(reporting_period, format: 'csv'), class: "btn btn-primary" %>
               <%= link_to 'Show', reporting_period, class: "btn btn-primary" %>
               <%#= link_to 'New report', new_reporting_period_report_path(reporting_period), class: "btn btn-primary" %>
               <% if can? :manage, ReportingPeriod %>

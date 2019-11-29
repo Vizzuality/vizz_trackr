@@ -84,6 +84,7 @@ class ReportingPeriod < ApplicationRecord
           .where(contract_id: contract.id).pluck(:percentage).first
         data[contract.name] = percentage && (percentage / 100).round(2)
       end
+      data['estimated'] = report.estimated?
       content << data
     end
 
