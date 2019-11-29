@@ -61,7 +61,10 @@ class ReportingPeriodsController < ApplicationController
         format.html { redirect_to :reporting_periods, notice: 'Reporting period was successfully created.' }
         format.json { render :show, status: :created, location: @reporting_period }
       else
-        format.html { render :new }
+        format.html {
+          @reporting_periods = ReportingPeriod.order(date: :desc)
+          render :new
+        }
         format.json { render json: @reporting_period.errors, status: :unprocessable_entity }
       end
     end
