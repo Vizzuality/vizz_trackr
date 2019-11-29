@@ -10,4 +10,7 @@
 #
 
 class Rate < ApplicationRecord
+  def display
+    "#{code} [€#{value}]"
+  end
 end
