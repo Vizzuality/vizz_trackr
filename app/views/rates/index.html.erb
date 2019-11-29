@@ -20,7 +20,7 @@
     <% @rates.each do |rate| %>
       <tr>
         <td><%= rate.code %></td>
-        <td><%= rate.value %></td>
+        <td><%= number_to_currency(rate.value, unit: '€') %></td>
         <td>
           <%= link_to 'Show', rate %>
           <% if can? :manage, rate %>

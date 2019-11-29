@@ -18,7 +18,12 @@
 
   <div class="form-group">
     <%= form.label :value %>
-    <%= form.text_field :value, class: 'form-control' %>
+    <div class="input-group">
+      <%= form.text_field :value, class: 'form-control' %>
+      <div class="input-group-prepend">
+        <div class="input-group-text">€</div>
+      </div>
+    </div>
     <small class="form-text text-muted">
       Monthly cost for people of this seniority.
     </small>

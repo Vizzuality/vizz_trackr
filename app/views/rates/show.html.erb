@@ -10,5 +10,5 @@
 
 <p>
   <strong>Value:</strong>
-  <%= @rate.value %>
+  <%= number_to_currency(@rate.value, unit: '€') %>
 </p>
