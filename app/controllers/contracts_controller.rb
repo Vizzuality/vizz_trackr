@@ -54,7 +54,10 @@ class ContractsController < ApplicationController
   def update
     respond_to do |format|
       if @contract.update(contract_params)
-        format.html { redirect_to controller: 'contracts', action: 'index' }
+        format.html do
+          redirect_to controller: 'contracts',
+            action: 'index', state: params[:current_state].presence
+        end
         format.json {render json: @contract, status: :ok}
       else
         format.html { render :edit }
