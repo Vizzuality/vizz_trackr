@@ -10,7 +10,13 @@ class RolesController < ApplicationController
 
   # GET /roles/1
   # GET /roles/1.json
-  def show; end
+  def show
+    @reports = @role.full_reports
+      .where(reporting_period_date: 3.months.ago..3.months.from_now)
+    @reporting_periods = @reports
+      .select(:reporting_period_id, :reporting_period_name, :reporting_period_date)
+      .distinct.order(:reporting_period_date)
+  end
 
   # GET /roles/new
   def new

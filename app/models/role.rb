@@ -10,6 +10,7 @@
 
 class Role < ApplicationRecord
   has_many :users
+  has_many :full_reports
 
   validates_uniqueness_of :name
 end

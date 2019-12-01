@@ -9,3 +9,38 @@
   <strong>Name:</strong>
   <%= @role.name %>
 </p>
+
+<h2>Allocations and Schedule</h2>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Contract</th>
+      <% @reporting_periods.each do |rp| %>
+        <th>
+          <%= rp.reporting_period_name %>
+        </th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @reports.select(:user_id, :user_name).distinct.order(:user_name).each do |report| %>
+      <tr>
+        <td><%= link_to report.user_name, user_path(report.user_id) %></td>
+        <% @reporting_periods.each do |rp| %>
+          <% selected_reports = @reports
+            .where(user_id: report.user_id, reporting_period_id: rp.reporting_period_id)
+            .order(percentage: :desc) %>
+          <td class="<%= "table-warning" if selected_reports.where(report_estimated: true).any? %>">
+            <% if selected_reports.any? %>
+              <ul>
+                <% selected_reports.each do |report| %>
+                  <li><%= "#{report.percentage}% - #{report.contract_name}" %></li>
+                <% end %>
+              </ul>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
