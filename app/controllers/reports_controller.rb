@@ -15,7 +15,7 @@ class ReportsController < ApplicationController
   def new
     @reporting_periods = ReportingPeriod.order(:date)
     @users = User.order(:name)
-    @contracts = Contract.order(:name)
+    @contracts = Contract.with_status([:proposal, :live]).order(:name)
     @roles = Role.order(:name)
     @teams = Team.order(:name)
 
@@ -32,7 +32,8 @@ class ReportsController < ApplicationController
     redirect_to user_url(current_user), notice: 'No Report available to edit'  and return unless @report
     @reporting_periods = ReportingPeriod.order(:date)
     @users = User.order(:name)
-    @contracts = Contract.order(:name)
+    @contracts = Contract.with_status([:proposal, :live])
+      .order(:name)
     @roles = Role.order(:name)
     @teams = Team.order(:name)
     authorize! :edit, @report
@@ -71,7 +72,7 @@ class ReportsController < ApplicationController
         format.html {
           @reporting_periods = ReportingPeriod.order(:date)
           @users = User.order(:name)
-          @contracts = Contract.order(:name)
+          @contracts = Contract.with_status([:proposal, :live]).order(:name)
           @roles = Role.order(:name)
           @teams = Team.order(:name)
           render :edit
