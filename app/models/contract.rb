@@ -49,7 +49,7 @@ class Contract < ApplicationRecord
   end
 
   def full_name
-    "#{name} [#{project.name}]"
+    "#{name} [#{project.name}#{(' - internal' unless project.is_billable?)}]"
   end
 
   def linear_income
