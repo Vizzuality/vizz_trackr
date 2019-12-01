@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_29_084151) do
+ActiveRecord::Schema.define(version: 2019_12_01_202954) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,9 +161,9 @@ ActiveRecord::Schema.define(version: 2019_11_29_084151) do
        JOIN reports ON ((reports.id = report_parts.report_id)))
        JOIN contracts ON ((contracts.id = report_parts.contract_id)))
        JOIN reporting_periods ON ((reporting_periods.id = reports.reporting_period_id)))
-       JOIN teams ON ((teams.id = reports.team_id)))
-       JOIN users ON ((users.id = reports.user_id)))
-       JOIN roles ON ((roles.id = reports.role_id)))
+       LEFT JOIN teams ON ((teams.id = reports.team_id)))
+       LEFT JOIN users ON ((users.id = reports.user_id)))
+       LEFT JOIN roles ON ((roles.id = reports.role_id)))
        JOIN projects ON ((projects.id = contracts.project_id)));
   SQL
 end
