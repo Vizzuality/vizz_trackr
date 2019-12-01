@@ -31,7 +31,7 @@ module Api
           else
             contract[:data][report.reporting_period_name] = report.cost
           end
-          agg += report.cost
+          agg += report.cost if report.cost
           aggregate[:data][report.reporting_period_name] = agg
           budget[:data][report.reporting_period_name] = @contract.budget&.to_f
           income[:data][report.reporting_period_name] = linear_income
