@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @reports = @user.full_reports
-      .where(reporting_period_date: 3.months.ago..3.months.from_now)
+      .where(reporting_period_date: 4.months.ago..3.months.from_now)
     @reporting_periods = @reports
       .select(:reporting_period_id, :reporting_period_name, :reporting_period_date)
       .distinct.order(:reporting_period_date)
