@@ -36,7 +36,7 @@ class Ability
     else
       can :read, :all
 
-      can :edit, User, id: user.id
+      can [:edit, :update], User, id: user.id
       can :reports, User
 
       can :edit, Report, user_id: user.id
