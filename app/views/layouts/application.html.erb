@@ -24,7 +24,8 @@
         <% if current_user %>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle <%= controller_name == "users" && "active" %>" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <%= current_user.name %>
+              <%= image_tag(current_user.gravatar_url(35), class: 'rounded-circle') %>
+              <%= current_user.name.split(' ')[0] %>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <%= link_to "Profile", current_user, class: "dropdown-item" %>

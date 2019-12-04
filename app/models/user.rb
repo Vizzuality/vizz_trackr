@@ -45,6 +45,11 @@ class User < ApplicationRecord
               role_id: role_id, team_id: team_id)
   end
 
+  def gravatar_url(size = 50)
+    gravatar_id = Digest::MD5.hexdigest(email.downcase)
+    "https://secure.gravatar.com/avatar/#{gravatar_id}.png?s=#{size}"
+  end
+
   private
 
   def password_required?
