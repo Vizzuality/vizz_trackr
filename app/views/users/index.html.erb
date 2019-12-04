@@ -21,7 +21,10 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%= user.name %></td>
+        <td>
+          <%= image_tag(user.gravatar_url(40), class: 'rounded-circle') %>
+          <%= user.name %>
+        </td>
         <td><%= user.team.try(:name) %></td>
         <td><%= user.role.try(:name) %></td>
         <% if current_user.admin? %>
