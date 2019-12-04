@@ -1,7 +1,11 @@
 <% content_for :title, "#{@user.name}" %>
 <%= render 'actions', user: @user %>
 
-<p id="notice"><%= notice %></p>
+<% if notice %>
+  <p id="notice" class="alert alert-success">
+    <%= notice %>
+  </p>
+<% end %>
 <p>
   <strong>Name:</strong>
   <%= @user.name %>

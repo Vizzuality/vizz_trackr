@@ -59,12 +59,18 @@ class ReportsController < ApplicationController
   # PATCH/PUT /reports/1.json
   def update
     respond_to do |format|
+      was_estimate = @report.estimated
       if @report.update(report_params)
         format.html do
+          message = if !@report.estimated && was_estimate
+                      "Thank you for submitting this month's report!"
+                    else
+                      "Report successfully updated, thank you."
+                    end
           if @report.user == current_user
-            redirect_to @report.user, notice: 'Report was successfully updated.'
+            redirect_to @report.user, notice: message
           else
-            redirect_to @report.reporting_period, notice: 'Report was successfully updated.'
+            redirect_to @report.reporting_period, notice: message
           end
         end
         format.json { render :show, status: :ok, location: @report }
