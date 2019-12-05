@@ -34,7 +34,10 @@
             <% if selected_reports.any? %>
               <ul>
                 <% selected_reports.each do |report| %>
-                  <li><%= "#{report.percentage}% - #{report.contract_name}" %></li>
+                  <li>
+                    <%= "#{report.percentage}% - " %>
+                    <%= link_to(report.contract_name, contract_path(report.contract_id)) %>
+                  </li>
                 <% end %>
               </ul>
             <% end %>
