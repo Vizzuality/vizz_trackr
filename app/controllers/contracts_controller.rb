@@ -1,5 +1,6 @@
 class ContractsController < ApplicationController
-  before_action :set_contract, only: [:show, :reports, :edit, :update, :costs]
+  before_action :set_contract, only: [:show, :reports, :edit, :update,
+                                      :team, :costs]
   before_action :set_default_state, only: [:index]
   authorize_resource
 
@@ -41,7 +42,6 @@ class ContractsController < ApplicationController
   end
 
   def show
-    @contract = Contract.find(params[:id])
     @roles = Role.order(:name)
     @days_per_role = @contract.full_reports
       .select('role_id, sum(days) AS days').group(:role_id)
@@ -101,6 +101,16 @@ class ContractsController < ApplicationController
       .select('reporting_period_id, reporting_periods.date AS reporting_period_date, sum(cost) AS cost, false as report_estimated, FALSE as from_staff')
       .group('reporting_period_id, reporting_periods.date')
       .order('reporting_periods.date DESC')
+  end
+
+  def team
+    @team = @contract.full_reports
+      .select('user_name, user_id, role_name, SUM(days) AS days')
+      .group(:user_name, :user_id, :role_name)
+      .order('SUM(days) DESC, user_name')
+    @reporting_periods = ReportingPeriod
+      .where('date > ?', (Date.today - 5.months).at_beginning_of_month)
+      .order(:date).includes(:full_reports)
   end
 
   private

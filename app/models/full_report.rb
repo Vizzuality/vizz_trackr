@@ -29,6 +29,7 @@ class FullReport < ActiveRecord::Base
   belongs_to :project
   belongs_to :report
   belongs_to :team
+  belongs_to :user
 
   scope :for_team, ->(team_id) { where(team_id: team_id) }
   scope :for_role, ->(role_id) { where(role_id: role_id) }

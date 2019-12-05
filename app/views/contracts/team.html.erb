@@ -1,0 +1,38 @@
+<% content_for :title, "Contract - #{@contract.name} - Team" %>
+<%= render 'actions', contract: @contract %>
+
+<p id="notice"><%= notice %></p>
+<p>
+  <strong>Project:</strong> <%= link_to @contract.project.name, @contract.project  %>
+  <%= billable_tag(@contract.project) %>
+</p>
+<br>
+<h4>The experts</h4>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Role</th>
+      <th>Total days</th>
+      <% @reporting_periods.each do |r| %>
+        <th><%= r.display_name %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @team.each do |member| %>
+      <tr>
+        <td>
+          <%= link_to member.user_name, user_path(member.user_id) %>
+        </td>
+        <td><%= member.role_name %></td>
+        <td><%= member.days %></td>
+        <% @reporting_periods.each do |r| %>
+          <td>
+            <%= r.full_reports.where(contract_id: @contract.id, report_estimated: false, user_id: member.user_id).sum(:days) %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

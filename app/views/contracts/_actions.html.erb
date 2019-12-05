@@ -1,7 +1,8 @@
 <% content_for :actions do %>
   <% actions = link_to('Show', contract, class: 'btn btn-sm btn-outline-primary')
+    .concat(link_to('Team', team_contract_path(contract), class: 'btn btn-sm btn-outline-primary')
     .concat(link_to('Reports', reports_contract_path(contract), class: 'btn btn-sm btn-outline-primary')
-    .concat(link_to('Costs', costs_contract_path(contract), class: 'btn btn-sm btn-outline-primary')))
+    .concat(link_to('Costs', costs_contract_path(contract), class: 'btn btn-sm btn-outline-primary'))))
   if can? :edit, contract
     actions = actions.concat(
       link_to('Edit', edit_contract_path(contract), class: 'btn btn-sm btn-outline-primary'))

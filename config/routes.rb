@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :projects
   resources :contracts do
     get 'reports', on: :member
+    get 'team', on: :member
     get 'costs', on: :member
   end
   get 'my-report', to: 'reports#edit'
