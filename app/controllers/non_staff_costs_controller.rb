@@ -5,7 +5,8 @@ class NonStaffCostsController < ApplicationController
   # GET /non_staff_costs
   # GET /non_staff_costs.json
   def index
-    @non_staff_costs = NonStaffCost.all
+    @non_staff_costs = NonStaffCost.joins(:contract, :reporting_period)
+      .order("reporting_periods.date DESC, contracts.name")
   end
 
   # GET /non_staff_costs/1
