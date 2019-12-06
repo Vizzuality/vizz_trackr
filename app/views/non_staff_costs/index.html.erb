@@ -19,7 +19,7 @@
     <% @non_staff_costs.each do |non_staff_cost| %>
       <tr>
         <td><%= non_staff_cost.reporting_period&.display_name %></td>
-        <td><%= non_staff_cost.contract.full_name %></td>
+        <td><%= link_to non_staff_cost.contract.full_name, non_staff_cost.contract %></td>
         <td><%= number_to_currency(non_staff_cost.cost, unit: '€') %></td>
         <td><%= non_staff_cost.cost_type %></td>
         <td><%= non_staff_cost.details %></td>
