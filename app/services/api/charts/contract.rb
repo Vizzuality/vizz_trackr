@@ -27,12 +27,12 @@ module Api
             agg += nstaff_cost
           end
           if report.report_estimated?
-            projected[:data][report.reporting_period_name] = report.cost
+            projected[:data][report.reporting_period_name] = report.cost.round(2)
           else
-            contract[:data][report.reporting_period_name] = report.cost
+            contract[:data][report.reporting_period_name] = report.cost.round(2)
           end
           agg += report.cost if report.cost
-          aggregate[:data][report.reporting_period_name] = agg
+          aggregate[:data][report.reporting_period_name] = agg.round(2)
           budget[:data][report.reporting_period_name] = @contract.budget&.to_f
           income[:data][report.reporting_period_name] = linear_income
         end
