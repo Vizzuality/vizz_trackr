@@ -32,6 +32,11 @@
   </div>
 
   <div class="form-group">
+    <%= form.label :details %>
+    <%= form.text_field :details, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
     <%= form.label :reporting_period_id %>
     <%= form.collection_select :reporting_period_id, @reporting_periods, :id, :display_name, {}, class: 'form-control' %>
   </div>
