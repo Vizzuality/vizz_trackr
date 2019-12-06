@@ -22,6 +22,7 @@ class NonStaffCostsController < ApplicationController
   # GET /non_staff_costs/1/edit
   def edit
     @contracts = Contract.with_status([:proposal, :live]).order(:name)
+    @reporting_periods = ReportingPeriod.order(date: :desc)
   end
 
   # POST /non_staff_costs
