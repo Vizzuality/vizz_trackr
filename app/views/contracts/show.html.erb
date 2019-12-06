@@ -3,16 +3,11 @@
 
 <p id="notice"><%= notice %></p>
 <p>
+  <strong>Status:</strong> <%= @contract.aasm_state.humanize %>
+</p>
+<p>
   <strong>Project:</strong> <%= link_to @contract.project.name, @contract.project  %>
   <%= billable_tag(@contract.project) %>
-</p>
-<% unless @contract.alias.empty? %>
-  <p>
-    <strong>Alias:</strong> <%= @contract.alias_list %>
-  </p>
-<% end %>
-<p>
-  <strong>Budget:</strong> <%= number_to_currency(@contract.budget, unit: '€') %>
 </p>
 <p>
   <strong>Start Date:</strong> <%= @contract.start_date.strftime('%d/%B/%Y') %>
@@ -20,6 +15,22 @@
 <p>
   <strong>End Date:</strong> <%= @contract.end_date.strftime('%d/%B/%Y') %>
 </p>
+<p><strong>Budget:</strong> <%= @contract.budget ? number_to_currency(@contract.budget, unit: '€') : "Not defined" %></p>
+<p>
+  <strong>Reported result:</strong>
+  <%= number_to_currency(@contract.total_burn, unit: '€') %> (<%= result_with_color(@contract.result) %>%)
+</p>
+<% if @contract.full_reports.where(report_estimated: true).any? %>
+  <p>
+    <strong>Result with projections:</strong>
+    <%= number_to_currency(@contract.total_burn(true), unit: '€') %> (<%= result_with_color(@contract.result(true)) %>%)
+  </p>
+<% end %>
+<% unless @contract.alias.empty? %>
+  <p>
+    <strong>Alias:</strong> <%= @contract.alias_list %>
+  </p>
+<% end %>
 <br>
 
 <h4>Project Burn</h4>

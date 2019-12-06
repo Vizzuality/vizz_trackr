@@ -48,6 +48,21 @@ class Contract < ApplicationRecord
     self.alias = list.split(',').map(&:strip).uniq.sort
   end
 
+  def total_burn with_projections=false
+    relevant_reports = if with_projections
+                 full_reports
+               else
+                 full_reports.where(report_estimated: false)
+               end
+    relevant_reports.sum(:cost) + non_staff_costs.sum(:cost)
+  end
+
+  def result with_projections=false
+    return nil unless budget
+
+    (1 - (total_burn(with_projections) / budget)).round(2) * 100
+  end
+
   def full_name
     "#{name} [#{project.name}#{(' - internal' unless project.is_billable?)}]"
   end
