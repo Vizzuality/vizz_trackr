@@ -10,7 +10,7 @@ module Api
       def reporting_periods_burn_data
         billable_burn = {name: 'Billable', data: {}}
         billable_projection = {name: 'Billable Projection', data: {}}
-        income = {name: 'Income', data: {}}
+        income = {name: 'Income (live contracs)', data: {}}
         @reporting_periods_scope.each do |rp|
           billable_burn[:data][rp.display_name] = rp.full_reports
             .where(project_is_billable: true, report_estimated: false).sum(:cost).round(2)
