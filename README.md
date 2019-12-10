@@ -6,7 +6,7 @@
 
 ## Setting up your local environment
 
-- `git clone git@github.com:simaob/vizz_trackr.git`
+- `git clone git@github.com:Vizzuality/vizz_trackr.git`
 - `cd vizz_trackr`
 - `bundle install`
 - `rails db:create`
@@ -17,6 +17,9 @@
 - `rails server`
 - point your browser to `http://localhost:3000`
 
+## Setting up .env file
+
+Before upping your Rails server, you should also create a `.env` file with the necessary env variables. These are stated in the `.env.sample` file, so you only need to copy the file and fill the variables appropriately.
 
 ## Getting a User setup and more data
 
