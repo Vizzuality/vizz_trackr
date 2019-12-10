@@ -37,6 +37,10 @@
           <% if can? :edit, report %>
             <%= link_to 'Edit', edit_report_path(report) %>
           <% end %>
+
+          <% if report.estimated? and can? :manage, report %>
+            <%= link_to 'Send Slack notification', slack_send_notification_path(report.user) %>
+          <% end %>
         </td>
       </tr>
     <% end %>

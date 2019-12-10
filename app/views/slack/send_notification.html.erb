@@ -1,0 +1,14 @@
+<%= content_for :title, "Slack - Send Notification" %>
+
+<% if @notification_success %>
+  Notification sent!
+<% else %>
+  Error sending notification!
+<% end %>
+
+<br/>
+<br/>
+
+<b>User:</b> <%= @user&.email %>
+<br/>
+<b>Message:</b> <%= @message_text %>
