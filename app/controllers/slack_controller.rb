@@ -10,18 +10,16 @@ class SlackController < ApplicationController
 
     # Get Slack user id by email
     get_response = SlackRequest.get('users.lookupByEmail', { email: @user.email })
-    slack_user_id = get_response['user']['id']
-    @message_text = "This is a friendly reminder for you to submit your monthly report on VizzTrackr :simple_smile:\nPlease click on the following link to do so: http://vizz-trackr.herokuapp.com/my-report"
 
     # Post Slack message
-    post_body_data = "{\"channel\": \"#{slack_user_id}\", \"text\": \"#{@message_text}\"}"
+    message_text = "This is a friendly reminder for you to submit your monthly report on VizzTrackr :simple_smile:\nPlease click on the following link to do so: http://vizz-trackr.herokuapp.com/my-report"
+    post_body_data = "{\"channel\": \"#{get_response['user']['id']}\", \"text\": \"#{message_text}\"}"
     post_response = SlackRequest.post('chat.postMessage', post_body_data)
-    @notification_success = post_response['ok']
 
-    respond_to do |format|
-      format.json
-      format.html
-      format.js
+    if post_response['ok']
+      redirect_to reporting_period_url(params[:reporting_id]), :status=> :found, :notice => "Slack notification sent successfully!"
+    else
+      redirect_to reporting_period_url(params[:reporting_id]), :status=> :found, :alert => "Error sending Slack notification!"
     end
   end
 end

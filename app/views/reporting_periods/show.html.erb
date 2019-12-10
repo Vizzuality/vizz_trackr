@@ -39,7 +39,7 @@
           <% end %>
 
           <% if report.estimated? and can? :manage, report %>
-            <%= link_to 'Send Slack notification', slack_send_notification_path(report.user) %>
+            <%= link_to 'Send Slack notification', slack_send_notification_path(report.reporting_period_id, report.user_id) %>
           <% end %>
         </td>
       </tr>
