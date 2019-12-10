@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_06_073004) do
+ActiveRecord::Schema.define(version: 2019_12_10_215120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,5 +166,13 @@ ActiveRecord::Schema.define(version: 2019_12_06_073004) do
        LEFT JOIN users ON ((users.id = reports.user_id)))
        LEFT JOIN roles ON ((roles.id = reports.role_id)))
        JOIN projects ON ((projects.id = contracts.project_id)));
+  SQL
+  create_view "monthly_incomes", sql_definition: <<-SQL
+      SELECT sum((contracts.budget / date_part('month'::text, age((contracts.end_date)::timestamp with time zone, (contracts.start_date)::timestamp with time zone)))) AS income,
+      (generate_series(date_trunc('month'::text, (contracts.start_date)::timestamp with time zone), (contracts.end_date)::timestamp with time zone, '1 mon'::interval))::date AS month,
+      contracts.aasm_state
+     FROM contracts
+    GROUP BY ((generate_series(date_trunc('month'::text, (contracts.start_date)::timestamp with time zone), (contracts.end_date)::timestamp with time zone, '1 mon'::interval))::date), contracts.aasm_state
+    ORDER BY ((generate_series(date_trunc('month'::text, (contracts.start_date)::timestamp with time zone), (contracts.end_date)::timestamp with time zone, '1 mon'::interval))::date) DESC;
   SQL
 end
