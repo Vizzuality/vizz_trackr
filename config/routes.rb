@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     get 'reports', on: :member
   end
   patch 'reporting_periods/:id/update_state', to: 'reporting_periods#update_state', as: :reporting_period_update_state
+  get 'slack/:reporting_id/:id', to: 'slack#send_notification', as: :slack_send_notification
 
   resources :reports, only: [:edit, :update]
   resources :users do
