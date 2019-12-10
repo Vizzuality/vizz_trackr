@@ -2,7 +2,7 @@ require 'faraday'
 require 'json'
 
 module Slack
-  class SlackRequest
+  class SlackApiHelper
     BASE = 'https://slack.com/api/'
 
     class << self
