@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_11_063737) do
+ActiveRecord::Schema.define(version: 2019_12_11_075215) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -171,9 +171,10 @@ ActiveRecord::Schema.define(version: 2019_12_11_063737) do
   create_view "monthly_incomes", sql_definition: <<-SQL
       SELECT sum((contracts.budget / date_part('month'::text, age((contracts.end_date)::timestamp with time zone, (contracts.start_date)::timestamp with time zone)))) AS income,
       (generate_series(date_trunc('month'::text, (contracts.start_date)::timestamp with time zone), (contracts.end_date)::timestamp with time zone, '1 mon'::interval))::date AS month,
-      contracts.aasm_state
+      contracts.aasm_state,
+      contracts.id AS contract_id
      FROM contracts
-    GROUP BY ((generate_series(date_trunc('month'::text, (contracts.start_date)::timestamp with time zone), (contracts.end_date)::timestamp with time zone, '1 mon'::interval))::date), contracts.aasm_state
+    GROUP BY ((generate_series(date_trunc('month'::text, (contracts.start_date)::timestamp with time zone), (contracts.end_date)::timestamp with time zone, '1 mon'::interval))::date), contracts.id, contracts.aasm_state
     ORDER BY ((generate_series(date_trunc('month'::text, (contracts.start_date)::timestamp with time zone), (contracts.end_date)::timestamp with time zone, '1 mon'::interval))::date) DESC;
   SQL
 end

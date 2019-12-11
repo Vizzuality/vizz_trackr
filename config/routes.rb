@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :reports, only: [:new, :create]
     resources :bulk_import, only: [:new, :create]
     get 'reports', on: :member
+    get 'income', on: :collection
   end
   patch 'reporting_periods/:id/update_state', to: 'reporting_periods#update_state', as: :reporting_period_update_state
   get 'slack/:reporting_id/:id', to: 'slack#send_notification', as: :slack_send_notification

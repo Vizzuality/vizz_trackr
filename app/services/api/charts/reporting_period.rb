@@ -18,7 +18,8 @@ module Api
           billable_projection[:data][rp.display_name] = rp.full_reports
             .where(project_is_billable: true, report_estimated: true).sum(:cost).round(2)
           income[:data][rp.display_name] = MonthlyIncome
-            .where(month: rp.date, aasm_state: 'live').first&.income.round(2)
+            .joins(:contract)
+            .where(month: rp.date, contracts: {aasm_state: 'live'}).sum(:income).round(2)
           non_staff_costs[:data][rp.display_name] = rp
             .non_staff_costs.sum(:cost).round(2)
         end

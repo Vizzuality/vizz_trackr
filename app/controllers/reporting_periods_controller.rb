@@ -84,6 +84,13 @@ class ReportingPeriodsController < ApplicationController
     end
   end
 
+  def income
+    @monthly_incomes = MonthlyIncome
+      .joins(:contract)
+      .where(contracts: {aasm_state: 'live'})
+      .order(month: :asc, contract_id: :asc)
+  end
+
   def update_state
     respond_to do |format|
       if @reporting_period.public_send("#{reporting_period_params[:aasm_state]}!")
