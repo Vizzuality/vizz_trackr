@@ -68,6 +68,12 @@ class Contract < ApplicationRecord
     (budget * percent_complete / 100).round(2)
   end
 
+  def completion_burn_percentage
+    return nil unless budget && percent_complete
+
+    (completion_burn / budget).round(2) * 100
+  end
+
   def full_name
     "#{name} [#{project.name}#{(' - internal' unless project.is_billable?)}]"
   end

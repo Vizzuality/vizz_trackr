@@ -22,8 +22,8 @@
 </p>
 <% if @contract.percent_complete && @contract.budget %>
   <p>
-    <strong>Estimated completion expected burn</strong>
-    <%= number_to_currency(@contract.completion_burn) %>
+    <strong>Burn based on estimated completion percentage</strong>
+    <%= number_to_currency(@contract.completion_burn) %> (<%= result_with_color(@contract.completion_burn_percentage) %>%)
   </p>
 <% end %>
 <% if @contract.full_reports.where(report_estimated: true).any? %>
