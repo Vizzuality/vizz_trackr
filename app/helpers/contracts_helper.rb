@@ -14,7 +14,7 @@ module ContractsHelper
 
   def result_with_color(result)
     return '?' unless result
-    class_name = if result >= 0.0
+    class_name = if result <= 100.0
                    'text-primary'
                  else
                    'text-danger'
