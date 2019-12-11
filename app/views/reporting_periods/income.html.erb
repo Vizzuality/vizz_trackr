@@ -17,7 +17,7 @@
     <% total = 0.0 %>
     <% @monthly_incomes.each do |income| %>
       <tr>
-        <td><%= link_to income.contract&.name, income.contract %></td>
+        <td><%= link_to income.contract&.full_name, income.contract %></td>
         <td><%= income.month %></td>
         <td><%= number_to_currency(income.income) %></td>
       </tr>
