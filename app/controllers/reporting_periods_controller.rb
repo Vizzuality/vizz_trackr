@@ -9,7 +9,7 @@ class ReportingPeriodsController < ApplicationController
     @reporting_periods = ReportingPeriod.order(date: :desc)
       .includes(:full_reports)
     @data = ::Api::Charts::ReportingPeriod.new(@reporting_periods)
-      .reporting_periods_burn_data
+      .reporting_periods_cost_data
   end
 
   # GET /reporting_periods/1
