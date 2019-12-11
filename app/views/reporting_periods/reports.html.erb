@@ -31,7 +31,7 @@
         <td><%= link_to report.contract_full_name, report.contract %></td>
         <td><%= report.percentage %>%</td>
         <td><%= report.days %></td>
-        <td><%= number_to_currency(report.cost, unit: '€')  %></td>
+        <td><%= number_to_currency(report.cost)  %></td>
         <td>
           <% if can? :edit, report.report %>
             <%= link_to 'Edit', edit_report_path(report.report_id) %>

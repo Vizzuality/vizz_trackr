@@ -32,10 +32,10 @@
           <%= billable_tag(contract.project) %>
         </td>
         <td>
-          <%= number_to_currency(contract.budget, unit: '€')  %>
+          <%= number_to_currency(contract.budget)  %>
         </td>
         <td>
-          <%= number_to_currency(contract.full_reports.sum(:cost), unit: '€') %>
+          <%= number_to_currency(contract.full_reports.sum(:cost)) %>
         </td>
         <td>
           <% if can? :manage, contract %>

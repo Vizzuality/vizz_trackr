@@ -28,10 +28,10 @@ end %>
       <tr>
         <td><%= contract.name %></td>
         <td>
-          <%= number_to_currency(contract.budget, unit: '€') %>
+          <%= number_to_currency(contract.budget) %>
         </td>
         <td>
-          <%= number_to_currency(contract.full_reports.sum(:cost), unit: '€') %>
+          <%= number_to_currency(contract.full_reports.sum(:cost)) %>
         </td>
         <td><%= contract.full_reports.sum(:days) %></td>
         <td><%= contract.start_date %></td>

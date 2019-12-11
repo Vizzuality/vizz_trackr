@@ -20,7 +20,7 @@
       <tr>
         <td><%= cost.reporting_period.display_name %></td>
         <td><%= cost.from_staff %></td>
-        <td><%= number_to_currency(cost.cost, unit: '€') %></td>
+        <td><%= number_to_currency(cost.cost) %></td>
       </tr>
     <% end %>
   </tbody>

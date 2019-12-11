@@ -50,7 +50,7 @@
         <td><%= report.role_name %></td>
         <td><%= report.percentage %>%</td>
         <td><%= report.days %></td>
-        <td><%= number_to_currency(report.cost, unit: '€')  %></td>
+        <td><%= number_to_currency(report.cost)  %></td>
       </tr>
     <% end %>
   </tbody>

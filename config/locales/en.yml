@@ -31,3 +31,12 @@
 
 en:
   hello: "Hello world"
+  number:
+    currency:
+      format:
+        delimiter: ','
+        format: '%u %n'
+        precision: 2
+        separator: '.'
+        strip_insignificant_zeros: false
+        unit: '€'

@@ -21,7 +21,7 @@
     <% @rates.each do |rate| %>
       <tr>
         <td><%= rate.code %></td>
-        <td><%= number_to_currency(rate.value, unit: '€') %></td>
+        <td><%= number_to_currency(rate.value) %></td>
         <td><%= rate.users.count %></td>
         <td>
           <%= link_to 'Show', rate %>

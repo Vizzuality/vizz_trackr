@@ -25,8 +25,8 @@
         <td><%= project.name %> <%= billable_tag(project) %></td>
         <td><%= project.team.try(:name) %></td>
         <td><%= project.contracts.size %></td>
-        <td><%= number_to_currency(project.budget, unit: '€') %></td>
-        <td><%= number_to_currency(project.spend, unit: '€') %></td>
+        <td><%= number_to_currency(project.budget) %></td>
+        <td><%= number_to_currency(project.spend) %></td>
         <%= td_for_burn(project.budget, project.spend) %>
         <td>
           <%= link_to 'Show', project %>

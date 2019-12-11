@@ -15,21 +15,21 @@
 <p>
   <strong>End Date:</strong> <%= @contract.end_date.strftime('%d/%B/%Y') %>
 </p>
-<p><strong>Budget:</strong> <%= @contract.budget ? number_to_currency(@contract.budget, unit: '€') : "Not defined" %></p>
+<p><strong>Budget:</strong> <%= @contract.budget ? number_to_currency(@contract.budget) : "Not defined" %></p>
 <p>
   <strong>Reported burn:</strong>
-  <%= number_to_currency(@contract.total_burn, unit: '€') %> (<%= result_with_color(@contract.burn_percentage) %>%)
+  <%= number_to_currency(@contract.total_burn) %> (<%= result_with_color(@contract.burn_percentage) %>%)
 </p>
 <% if @contract.percent_complete && @contract.budget %>
   <p>
     <strong>Estimated completion expected burn</strong>
-    <%= number_to_currency(@contract.completion_burn, unit: '€') %>
+    <%= number_to_currency(@contract.completion_burn) %>
   </p>
 <% end %>
 <% if @contract.full_reports.where(report_estimated: true).any? %>
   <p>
     <strong>Burn with projections:</strong>
-    <%= number_to_currency(@contract.total_burn(true), unit: '€') %> (<%= result_with_color(@contract.burn_percentage(true)) %>%)
+    <%= number_to_currency(@contract.total_burn(true)) %> (<%= result_with_color(@contract.burn_percentage(true)) %>%)
   </p>
 <% end %>
 <% unless @contract.alias.empty? %>
@@ -93,7 +93,7 @@
         <td><%= report.role_name %></td>
         <td><%= report.percentage %>%</td>
         <td><%= report.days %></td>
-        <td><%= number_to_currency(report.cost, unit: '€')  %></td>
+        <td><%= number_to_currency(report.cost) %></td>
       </tr>
     <% end %>
   </tbody>
