@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_11_075215) do
+ActiveRecord::Schema.define(version: 2019_12_11_080953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,7 +173,9 @@ ActiveRecord::Schema.define(version: 2019_12_11_075215) do
       (generate_series(date_trunc('month'::text, (contracts.start_date)::timestamp with time zone), (contracts.end_date)::timestamp with time zone, '1 mon'::interval))::date AS month,
       contracts.aasm_state,
       contracts.id AS contract_id
-     FROM contracts
+     FROM (contracts
+       JOIN projects ON ((projects.id = contracts.project_id)))
+    WHERE ((projects.is_billable = true) AND (contracts.budget IS NOT NULL))
     GROUP BY ((generate_series(date_trunc('month'::text, (contracts.start_date)::timestamp with time zone), (contracts.end_date)::timestamp with time zone, '1 mon'::interval))::date), contracts.id, contracts.aasm_state
     ORDER BY ((generate_series(date_trunc('month'::text, (contracts.start_date)::timestamp with time zone), (contracts.end_date)::timestamp with time zone, '1 mon'::interval))::date) DESC;
   SQL
