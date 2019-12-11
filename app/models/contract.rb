@@ -57,10 +57,10 @@ class Contract < ApplicationRecord
     relevant_reports.sum(:cost) + non_staff_costs.sum(:cost)
   end
 
-  def result with_projections=false
+  def burn_percentage with_projections=false
     return nil unless budget
 
-    (1 - (total_burn(with_projections) / budget)).round(2) * 100
+    (total_burn(with_projections) / budget).round(2) * 100
   end
 
   def full_name

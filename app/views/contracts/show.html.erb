@@ -18,12 +18,12 @@
 <p><strong>Budget:</strong> <%= @contract.budget ? number_to_currency(@contract.budget, unit: '€') : "Not defined" %></p>
 <p>
   <strong>Reported burn:</strong>
-  <%= number_to_currency(@contract.total_burn, unit: '€') %> (<%= result_with_color(@contract.result) %>%)
+  <%= number_to_currency(@contract.total_burn, unit: '€') %> (<%= result_with_color(@contract.burn_percentage) %>%)
 </p>
 <% if @contract.full_reports.where(report_estimated: true).any? %>
   <p>
     <strong>Burn with projections:</strong>
-    <%= number_to_currency(@contract.total_burn(true), unit: '€') %> (<%= result_with_color(@contract.result(true)) %>%)
+    <%= number_to_currency(@contract.total_burn(true), unit: '€') %> (<%= result_with_color(@contract.burn_percentage(true)) %>%)
   </p>
 <% end %>
 <% unless @contract.alias.empty? %>
