@@ -55,8 +55,12 @@ class ContractsController < ApplicationController
     respond_to do |format|
       if @contract.update(contract_params)
         format.html do
+          if request.referrer == contracts_path
           redirect_to controller: 'contracts',
             action: 'index', state: params[:current_state].presence
+          else
+            redirect_to @contract, notice: 'Contract suceessfully updated!'
+          end
         end
         format.json {render json: @contract, status: :ok}
       else
@@ -126,11 +130,8 @@ class ContractsController < ApplicationController
   def contract_params
     params.require(:contract).permit(:id,
                                      :aasm_state, :state,
-                                     :project_id,
-                                     :name,
-                                     :budget,
-                                     :alias_list,
-                                     :start_date,
-                                     :end_date)
+                                     :percent_complete, :project_id,
+                                     :name, :budget,
+                                     :alias_list, :start_date, :end_date)
   end
 end

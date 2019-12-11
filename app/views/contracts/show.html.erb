@@ -20,6 +20,12 @@
   <strong>Reported burn:</strong>
   <%= number_to_currency(@contract.total_burn, unit: '€') %> (<%= result_with_color(@contract.burn_percentage) %>%)
 </p>
+<% if @contract.percent_complete && @contract.budget %>
+  <p>
+    <strong>Estimated completion expected burn</strong>
+    <%= number_to_currency(@contract.completion_burn, unit: '€') %>
+  </p>
+<% end %>
 <% if @contract.full_reports.where(report_estimated: true).any? %>
   <p>
     <strong>Burn with projections:</strong>
