@@ -1,4 +1,10 @@
 <% content_for :title, "Reporting Periods - Incomes" %>
+<% if can? :create, ReportingPeriod %>
+  <% content_for :actions do
+      link_to('Back', reporting_periods_path, class: 'btn btn-sm btn-outline-info')
+    end
+  %>
+<% end %>
 
 <table class="table table-hover table-sm">
   <tr>
@@ -7,11 +13,28 @@
     <th>Income</th>
   </tr>
   <tbody>
+    <% current_month = @monthly_incomes.first&.month %>
+    <% total = 0.0 %>
     <% @monthly_incomes.each do |income| %>
       <tr>
-        <td><%= income.contract&.name %></td>
+        <td><%= link_to income.contract&.name, income.contract %></td>
         <td><%= income.month %></td>
         <td><%= number_to_currency(income.income) %></td>
+      </tr>
+      <% if income.month != current_month %>
+        <tr>
+          <th colspan="2">Total <%= current_month %></th>
+          <th><%= number_to_currency(total) %></th>
+        </tr>
+        <% current_month = income.month; total = income.income %>
+      <% else %>
+        <% total += income.income %>
+      <% end %>
+    <% end %>
+    <% unless current_month.nil? %>
+      <tr>
+        <th colspan="2">Total <%= current_month %></th>
+        <th><%= number_to_currency(total) %></th>
       </tr>
     <% end %>
   </tbody>

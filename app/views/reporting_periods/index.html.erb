@@ -3,7 +3,7 @@
 <% content_for :title, "Reporting Periods" %>
 <% if can? :create, ReportingPeriod %>
   <% content_for :actions do
-      link_to 'New Reporting Period', new_reporting_period_path, class: 'btn btn-sm btn-outline-primary'
+      link_to('Detailed Incomes', income_reporting_periods_path, class: 'btn btn-sm btn-outline-info').concat(link_to('New Reporting Period', new_reporting_period_path, class: 'btn btn-sm btn-outline-primary'))
     end
   %>
 <% end %>

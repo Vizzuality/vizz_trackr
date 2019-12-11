@@ -88,7 +88,7 @@ class ReportingPeriodsController < ApplicationController
     @monthly_incomes = MonthlyIncome
       .joins(:contract)
       .where(contracts: {aasm_state: 'live'})
-      .order(month: :asc, contract_id: :asc)
+      .order(month: :desc, contract_id: :asc)
   end
 
   def update_state
