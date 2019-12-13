@@ -16,11 +16,6 @@
     <% current_month = @monthly_incomes.first&.month %>
     <% total = 0.0 %>
     <% @monthly_incomes.each do |income| %>
-      <tr>
-        <td><%= link_to income.contract&.full_name, income.contract %></td>
-        <td><%= income.month %></td>
-        <td><%= number_to_currency(income.income) %></td>
-      </tr>
       <% if income.month != current_month %>
         <tr>
           <th colspan="2">Total <%= current_month %></th>
@@ -30,6 +25,11 @@
       <% else %>
         <% total += income.income %>
       <% end %>
+      <tr>
+        <td><%= link_to income.contract&.full_name, income.contract %></td>
+        <td><%= income.month %></td>
+        <td><%= number_to_currency(income.income) %></td>
+      </tr>
     <% end %>
     <% unless current_month.nil? %>
       <tr>
