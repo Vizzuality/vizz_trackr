@@ -12,7 +12,7 @@
   </div>
 <% end %>
 
-<table class="table">
+<table class="table table-sm table-hovered">
   <thead>
     <tr>
       <th>Name</th>
@@ -40,13 +40,11 @@
         <td>
           <% if can? :manage, contract %>
             <%= form_with(model: contract, method: :patch, local: true) do |form| %>
-              <div class="form-group">
-                <%= hidden_field_tag :current_state, @state %>
-                <%= form.hidden_field(:aasm_state, value: contract.next_state) %>
-                <%= form.submit contract.next_event, class: "btn #{event_color(contract.next_event)}" %>
-              </div>
+              <%= hidden_field_tag :current_state, @state %>
+              <%= form.hidden_field(:aasm_state, value: contract.next_state) %>
+              <%= form.submit contract.next_event, class: "btn btn-sm #{event_color(contract.next_event)}" %>
+              <%= link_to "Edit", edit_contract_path(contract) %>
             <% end %>
-            <%= link_to "Edit", edit_contract_path(contract) %>
           <% end %>
         </td>
       </tr>
