@@ -60,7 +60,7 @@ class Contract < ApplicationRecord
   def burn_percentage with_projections=false
     return nil unless budget
 
-    (total_burn(with_projections) / budget).round(2) * 100
+    ((total_burn(with_projections) / budget) * 100).round(2)
   end
 
   def completion_burn
@@ -71,7 +71,7 @@ class Contract < ApplicationRecord
   def completion_burn_percentage
     return nil unless budget && percent_complete
 
-    (completion_burn / budget).round(2) * 100
+    ((completion_burn / budget) * 100).round(2)
   end
 
   def full_name
