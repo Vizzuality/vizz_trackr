@@ -40,3 +40,6 @@ en:
         separator: '.'
         strip_insignificant_zeros: false
         unit: '€'
+  date:
+    formats:
+      default: "%d/%m/%Y"

@@ -30,19 +30,21 @@
       <%= form.text_field :budget, class: 'form-control' %>
     </div>
   </div>
-  <div class="form-group">
-    <%= form.label :percent_complete, 'Estimated completion' %>
-    <div class="input-group">
-      <%= form.text_field :percent_complete, class: 'form-control' %>
-      <div class="input-group-append">
-        <div class="input-group-text">%</div>
+  <% unless contract.new_record? %>
+    <div class="form-group">
+      <%= form.label :percent_complete, 'Estimated completion' %>
+      <div class="input-group">
+        <%= form.text_field :percent_complete, class: 'form-control' %>
+        <div class="input-group-append">
+          <div class="input-group-text">%</div>
+        </div>
       </div>
+      <small class="form-text text-muted">
+        Please estimate how close to finished is this contract by estimating the
+        percentage of completion.
+      </small>
     </div>
-    <small class="form-text text-muted">
-      Please estimate how close to finished is this contract by estimating the
-      percentage of completion.
-    </small>
-  </div>
+  <% end %>
 
   <div class="form-group">
     <%= form.label :aasm_state, value: "Contract state" %>
@@ -51,20 +53,12 @@
 
   <div class="form-group">
     <%= form.label :start_date %>
-    <%= form.date_select :start_date, {}, class: 'form-control' %>
-  </div>
-
-  <div class="field">
-    <%= form.label :end_date %>
-    <%= form.date_select :end_date, {}, class: 'form-control' %>
+    <%= form.text_field :start_date, class: 'form-control', data: {provide: 'datepicker'} %>
   </div>
 
   <div class="form-group">
-    <%= form.label :alias_ist %>
-    <%= form.text_field :alias_list, class: 'form-control' %>
-    <small class="form-text text-muted">
-      Comma separated list of alternative names [e.g.: "CW, Climate Watch"]
-    </small>
+    <%= form.label :end_date %>
+    <%= form.text_field :end_date, class: 'form-control', data: {provide: 'datepicker'} %>
   </div>
 
   <div class="actions">
