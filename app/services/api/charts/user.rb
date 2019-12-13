@@ -8,21 +8,13 @@ module Api
       end
 
       def reports_breakdown reporting_period_id
-        data = []
-        reports = @user.full_reports
-          .where(reporting_period_date: 6.months.ago..Time.now)
-        reports = reports.where(reporting_period: reporting_period_id) if reporting_period_id
-        reports.each do |report|
-          entry = data.select { |t| t[:name] == report.contract_name }.first
-          unless entry
-            entry = {name: report.contract_name}
-            new_entry = true
-          end
-          entry[:data] = {} unless entry[:data]
-          entry[:data][report.reporting_period_name] = report.percentage
-          data << entry if new_entry
-        end
-        data.sort{ |a,b| b[:data].size <=> a[:data].size}
+        reports = if reporting_period_id
+                    @user.full_reports.where(reporting_period_id: reporting_period_id)
+                  else
+                    reporting_period = ::ReportingPeriod.last
+                    @user.full_reports.where(reporting_period_id: reporting_period.id)
+                  end
+        reports.group(:contract_name).sum(:percentage)
       end
     end
   end
