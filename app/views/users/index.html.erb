@@ -43,7 +43,7 @@
           <% end %>
           <% if user.active && (can? :delete, user) %>
             |
-            <%= link_to('Terminate', user, method: :delete, data: { confirm: 'Are you sure?' }) %>
+            <%= link_to('Deactivate', user, method: :delete, data: { confirm: 'Are you sure?' }) %>
           <% end %>
         </td>
       </tr>
