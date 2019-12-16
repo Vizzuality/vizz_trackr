@@ -50,6 +50,14 @@ class User < ApplicationRecord
     "https://secure.gravatar.com/avatar/#{gravatar_id}.png?s=#{size}"
   end
 
+  def destroy
+    update_attributes(active: false) if active
+  end
+
+  def active_for_authentication?
+    super && active
+  end
+
   private
 
   def password_required?

@@ -107,7 +107,7 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    permitted = [:name, :email, :team_id, :role_id, :cost, :rate_id, :dedication]
+    permitted = [:name, :email, :team_id, :role_id, :cost, :rate_id, :dedication, :active]
     permitted << :admin if current_user.admin?
     params.require(:user).permit(permitted)
   end
