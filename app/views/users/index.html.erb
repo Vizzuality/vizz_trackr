@@ -13,6 +13,7 @@
       <% if current_user.admin? %>
         <th>Rate</th>
         <th>Dedication</th>
+        <th>Status</th>
       <% end %>
       <th></th>
     </tr>
@@ -32,14 +33,17 @@
           <td><%= user.dedication %></td>
         <% end %>
         <td>
+          <%= user.active ? 'Active' : 'Inactive' %>
+        </td>
+        <td>
           <%= link_to 'Show', user %>
           <% if can? :edit, user %>
             |
             <%= link_to('Edit', edit_user_path(user)) %>
           <% end %>
-          <% if can? :delete, user %>
+          <% if user.active && (can? :delete, user) %>
             |
-            <%= link_to('Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }) %>
+            <%= link_to('Deactivate', user, method: :delete, data: { confirm: 'Are you sure?' }) %>
           <% end %>
         </td>
       </tr>
