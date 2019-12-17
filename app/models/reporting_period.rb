@@ -80,7 +80,7 @@ class ReportingPeriod < ApplicationRecord
       data = {}
       data["staff"] = user.name
       report = reports.where(user_id: user.id).first
-      contracts.order(:name).each do |contract|
+      contracts.includes(:project).order(:name).each do |contract|
         percentage = report.report_parts
           .where(contract_id: contract.id).pluck(:percentage).first
         data[contract.full_name] = percentage && (percentage / 100).round(2)
