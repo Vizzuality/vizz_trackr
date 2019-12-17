@@ -28,14 +28,16 @@
   <tbody>
     <% @reporting_periods.each do |reporting_period| %>
       <tr>
-        <td><%= reporting_period.display_name %></td>
+        <td><%= link_to reporting_period.display_name, reporting_period %></td>
         <td><%= reporting_period.reports.where(estimated: false).count %></td>
         <td><%= reporting_period.reports.where(estimated: true).count %></td>
 
         <td>
           <div class="btn-group mr-2">
+              <% if reporting_period.active? && can?(:manage, ReportingPeriod) %>
+                <%= link_to 'Announce!', announce_reporting_period_path(reporting_period), class: 'btn btn-success' %>
+              <% end %>
               <%= link_to 'Download', reports_reporting_period_path(reporting_period, format: 'csv'), class: "btn btn-primary" %>
-              <%= link_to 'Show', reporting_period, class: "btn btn-primary" %>
               <%#= link_to 'New report', new_reporting_period_report_path(reporting_period), class: "btn btn-primary" %>
               <% if can? :manage, ReportingPeriod %>
                 <%= link_to 'Bulk import', new_reporting_period_bulk_import_path(reporting_period), class: "btn btn-primary" %>

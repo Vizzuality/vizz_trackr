@@ -74,6 +74,22 @@ class ReportingPeriod < ApplicationRecord
     end
   end
 
+  def announcement
+    msg = <<-EOS
+      Hi @channel,
+      #{date.strftime('%B')}'s report is ready to be filled in! Please go to https://vizz-trackr.herokuapp.com/my-report to do it.
+      If you don't have a password yet, please use the Forgot your Password feature with your Vizzuality email.
+      PS: Don't forget to remove the estimate check-box when you are ready to finalise your report. :simple_smile:.
+      Thank you!
+    EOS
+    {
+      channel: Rails.env.production? ? '#general' : '#vizz-tracker',
+      text: msg,
+      icon_emoji: ':vizzuality:',
+      parse: 'full'
+    }.to_json
+  end
+
   def to_csv
     content = []
     users.order(:name).each do |user|

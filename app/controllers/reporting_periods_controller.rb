@@ -1,6 +1,6 @@
 class ReportingPeriodsController < ApplicationController
   before_action :set_reporting_period, only: [:show, :edit, :update, :reports,
-                                              :destroy, :update_state]
+                                              :announce, :destroy, :update_state]
   authorize_resource
 
   # GET /reporting_periods
@@ -20,6 +20,15 @@ class ReportingPeriodsController < ApplicationController
     @total_project_reports = @reporting_period.total_contracts_reported
     @reports = @reporting_period.reports
       .joins(:user).order("users.name ASC")
+  end
+
+  def announce
+    post_response = Slack::SlackApiHelper.post('chat.postMessage', @reporting_period.announcement)
+    if post_response['ok']
+      redirect_to reporting_periods_url, notice: 'Announcement successfully sent to slack!'
+    else
+      redirect_to reporting_periods_url, alert: 'Failed to announce, please try again later.'
+    end
   end
 
   def reports
