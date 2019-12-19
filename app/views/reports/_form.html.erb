@@ -16,16 +16,14 @@
     5 days equals 25%.
     Part time employees don't need to adjust, as this is done automatically.
   </div>
-  <% if report.estimated? %>
-    <div class="alert alert-danger">
-      This report is an estimate, please remember to confirm the project allocation
-      at the end of the month by unticking the checkbox below.
+  <% if report.user == current_user %>
+    <%= form.hidden_field :estimated, value: false %>
+  <% else %>
+    <div class="form-group">
+      <%= form.label :estimated %>
+      <%= form.check_box :estimated, {}, class: "form-control" %>
     </div>
   <% end %>
-  <div class="form-group">
-    <%= form.label :estimated %>
-    <%= form.check_box :estimated, {}, class: "form-control" %>
-  </div>
   <% if report.new_record? %>
     <div class="form-group">
       <%= form.label :reporting_period_id %>
@@ -86,7 +84,7 @@
             </div>
           </th>
           <th>
-            <%= form.submit "Save", class: "btn btn-primary" %>
+            <%= form.submit "Submit", class: "btn btn-primary" %>
           </th>
         </tr>
       </tbody>
