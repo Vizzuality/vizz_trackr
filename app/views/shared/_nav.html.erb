@@ -1,17 +1,5 @@
 <% if current_user %>
   <ul class="navbar-nav mr-auto">
-    <% if current_user.admin? %>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle <%= ["analysis", "project_stacks"].include?(controller_name) && "active" %>" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Analysis
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <%= link_to analysis_index_path, class: "dropdown-item" do %>
-            Means and Deviations
-          <% end %>
-        </div>
-      </li>
-    <% end %>
     <li class="nav-item <%= 'active' if controller_name == 'reporting_periods' %>">
       <%= link_to :reporting_periods, class: "nav-link" do %>
         Reporting Periods <span class="sr-only"><%= "(current)" if controller_name == 'reporting_periods' %></span>
