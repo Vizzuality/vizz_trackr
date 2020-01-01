@@ -43,3 +43,10 @@ en:
   date:
     formats:
       default: "%d/%m/%Y"
+  activerecord:
+    errors:
+      models:
+        report:
+          format: '%{message}'
+        report/report_parts:
+          format: '%{message}'

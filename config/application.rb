@@ -19,5 +19,6 @@ module VizzTrackr
     # the framework and any gems in your application.
     config.autoload_paths << Rails.root.join("lib")
     config.eager_load_paths << Rails.root.join("lib")
+    config.active_model.i18n_customize_full_message = true
   end
 end

@@ -17,7 +17,11 @@ class ReportPart < ApplicationRecord
   belongs_to :contract
 
   before_save :calculate_cost_and_days
-  validates_uniqueness_of :contract_id, scope: :report_id
+  validates_uniqueness_of :contract_id,
+    scope: :report_id,
+    message: ->(object, data) do
+      "Contract #{object.contract.name} added more than once. Please remove the duplicate entries before submitting your report again."
+    end
 
   private
 

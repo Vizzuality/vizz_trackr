@@ -33,7 +33,7 @@ class ReportsController < ApplicationController
     @reporting_periods = ReportingPeriod.order(:date)
     @users = User.order(:name)
     @contracts = Contract.with_status([:proposal, :live])
-      .order(:name)
+      .order(:name).includes(:project)
     @roles = Role.order(:name)
     @teams = Team.order(:name)
     authorize! :edit, @report
@@ -79,6 +79,7 @@ class ReportsController < ApplicationController
           @reporting_periods = ReportingPeriod.order(:date)
           @users = User.order(:name)
           @contracts = Contract.with_status([:proposal, :live]).order(:name)
+            .includes(:project)
           @roles = Role.order(:name)
           @teams = Team.order(:name)
           render :edit
