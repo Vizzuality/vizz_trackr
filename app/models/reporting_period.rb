@@ -65,6 +65,8 @@ class ReportingPeriod < ApplicationRecord
 
   def copy_reports_from source
     source.reports.each do |report|
+      next unless report.user.active?
+
       dupped = report.dup
       dupped.estimated = true
       report.report_parts.each do |part|
