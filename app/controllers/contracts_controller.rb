@@ -9,6 +9,14 @@ class ContractsController < ApplicationController
       .order('projects.name ASC, contracts.name ASC')
     @states = Contract.aasm.states.map{|s| s.name}.prepend(:all)
     @contracts = @contracts.with_status(@state) unless @state == 'all'
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        send_data @contracts.to_csv,
+          type: 'csv', filename: "contracts-with-state-#{@state}.csv"
+      end
+    end
   end
 
   def new
@@ -124,7 +132,7 @@ class ContractsController < ApplicationController
   end
 
   def set_default_state
-   @state = params[:state].present? ? params[:state] : 'live'
+    @state = params[:state].present? ? params[:state] : 'live'
   end
 
   def contract_params
