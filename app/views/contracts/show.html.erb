@@ -10,10 +10,10 @@
   <%= billable_tag(@contract.project) %>
 </p>
 <p>
-  <strong>Start Date:</strong> <%= @contract.start_date.strftime('%d/%B/%Y') %>
+  <strong>Start Date:</strong> <%= @contract.start_date&.strftime('%d/%B/%Y') %>
 </p>
 <p>
-  <strong>End Date:</strong> <%= @contract.end_date.strftime('%d/%B/%Y') %>
+  <strong>End Date:</strong> <%= @contract.end_date&.strftime('%d/%B/%Y') %>
 </p>
 <p><strong>Budget:</strong> <%= @contract.budget ? number_to_currency(@contract.budget) : "Not defined" %></p>
 <p>
