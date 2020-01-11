@@ -39,7 +39,7 @@ class ReportingPeriod < ApplicationRecord
   has_many :contracts, through: :report_parts
   has_many :users, through: :reports
   has_many :full_reports
-  has_many :non_staff_costs
+  has_many :non_staff_costs, dependent: :destroy
 
   validates_uniqueness_of :date
 

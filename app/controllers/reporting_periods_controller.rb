@@ -84,7 +84,7 @@ class ReportingPeriodsController < ApplicationController
   def update
     respond_to do |format|
       if @reporting_period.update(reporting_period_params)
-        format.html { redirect_to @reporting_period, notice: 'Reporting period was successfully updated.' }
+        format.html { redirect_to reporting_periods_path, notice: 'Reporting period was successfully updated.' }
         format.json { render :show, status: :ok, location: @reporting_period }
       else
         format.html { render :edit }
