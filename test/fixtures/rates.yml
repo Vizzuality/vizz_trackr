@@ -12,9 +12,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  code: MyString
+  code: Junior
   value: 1.5
 
 two:
-  code: MyString
+  code: Senior
   value: 1.5
