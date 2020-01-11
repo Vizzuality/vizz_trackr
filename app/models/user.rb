@@ -27,7 +27,7 @@ class User < ApplicationRecord
   belongs_to :team, optional: true
   belongs_to :role, optional: true
   belongs_to :rate, optional: true
-  has_many :reports
+  has_many :reports, dependent: :destroy
   has_many :report_parts, through: :reports
   has_many :reporting_periods, through: :reports
   has_many :contracts, through: :report_parts
@@ -51,7 +51,7 @@ class User < ApplicationRecord
   end
 
   def destroy
-    update_attributes(active: false) if active
+    update(active: false) if active
   end
 
   def active_for_authentication?

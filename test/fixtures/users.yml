@@ -21,13 +21,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
+  name: John Doe
   team: one
   role: one
   email: "myemail@example.com"
 
 two:
-  name: MyString
+  name: Jane Doe
   team: two
   role: two
   email: "myemail2@example.com"
@@ -38,3 +38,4 @@ admin:
   role: one
   email: "admin@example.com"
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  admin: true

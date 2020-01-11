@@ -1,9 +1,9 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
-  include Devise::Test::ControllerHelpers
+  include Devise::Test::IntegrationHelpers
+
   setup do
-    @request.env['devise.mapping'] = Devise.mappings[:admin]
     sign_in users(:admin)
     @user = users(:one)
   end
@@ -22,14 +22,15 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_difference('User.count') do
       post users_url, params: {
         user: {
-          name: @user.name,
+          name: 'New User',
+          email: 'new-user@example.com',
           role_id: @user.role_id,
           team_id: @user.team_id
         }
       }
     end
 
-    assert_redirected_to user_url(User.last)
+    assert_redirected_to users_url
   end
 
   test 'should show user' do
@@ -50,14 +51,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         team_id: @user.team_id
       }
     }
-    assert_redirected_to user_url(@user)
+    assert_redirected_to users_url
   end
 
   test 'should destroy user' do
-    assert_difference('User.count', -1) do
-      delete user_url(@user)
-    end
+    delete user_url(@user)
 
+    assert @user.active, false
     assert_redirected_to users_url
   end
 end
