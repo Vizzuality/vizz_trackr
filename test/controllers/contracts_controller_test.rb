@@ -6,7 +6,6 @@ class ContractsControllerTest < ActionDispatch::IntegrationTest
   test 'should get index' do
     sign_in users(:admin)
     get contracts_url
-    @request.env['devise.mapping'] = Devise.mappings[:user]
     assert_response :success
   end
 end

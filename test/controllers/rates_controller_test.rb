@@ -10,20 +10,17 @@ class RatesControllerTest < ActionDispatch::IntegrationTest
 
   test "should get index" do
     get rates_url
-    @request.env['devise.mapping'] = Devise.mappings[:user]
     assert_response :success
   end
 
   test "should get new" do
     get new_rate_url
-    @request.env['devise.mapping'] = Devise.mappings[:user]
     assert_response :success
   end
 
   test "should create rate" do
     assert_difference('Rate.count') do
       post rates_url, params: { rate: { code: 'Mid', value: @rate.value } }
-      @request.env['devise.mapping'] = Devise.mappings[:user]
     end
 
     assert_redirected_to rate_url(Rate.last)
@@ -31,26 +28,22 @@ class RatesControllerTest < ActionDispatch::IntegrationTest
 
   test "should show rate" do
     get rate_url(@rate)
-    @request.env['devise.mapping'] = Devise.mappings[:user]
     assert_response :success
   end
 
   test "should get edit" do
     get edit_rate_url(@rate)
-    @request.env['devise.mapping'] = Devise.mappings[:user]
     assert_response :success
   end
 
   test "should update rate" do
     patch rate_url(@rate), params: { rate: { code: @rate.code, value: @rate.value } }
-    @request.env['devise.mapping'] = Devise.mappings[:user]
     assert_redirected_to rate_url(@rate)
   end
 
   test "should destroy rate" do
     assert_difference('Rate.count', -1) do
       delete rate_url(@rate)
-      @request.env['devise.mapping'] = Devise.mappings[:user]
     end
 
     assert_redirected_to rates_url

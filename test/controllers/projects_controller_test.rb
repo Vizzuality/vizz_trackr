@@ -11,13 +11,11 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should get index' do
     get projects_url
-    @request.env['devise.mapping'] = Devise.mappings[:user]
     assert_response :success
   end
 
   test 'should get new' do
     get new_project_url
-    @request.env['devise.mapping'] = Devise.mappings[:user]
     assert_response :success
   end
 
@@ -28,7 +26,6 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
           name: 'Counting Crows'
         }
       }
-      @request.env['devise.mapping'] = Devise.mappings[:user]
     end
 
     assert_redirected_to projects_url
@@ -36,13 +33,11 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should show project' do
     get project_url(@project)
-    @request.env['devise.mapping'] = Devise.mappings[:user]
     assert_response :success
   end
 
   test 'should get edit' do
     get edit_project_url(@project)
-    @request.env['devise.mapping'] = Devise.mappings[:user]
     assert_response :success
   end
 
@@ -52,14 +47,12 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
         name: @project.name
       }
     }
-    @request.env['devise.mapping'] = Devise.mappings[:user]
     assert_redirected_to project_url(@project)
   end
 
   test 'should destroy project' do
     assert_difference('Project.count', -1) do
       delete project_url(@project)
-      @request.env['devise.mapping'] = Devise.mappings[:user]
     end
 
     assert_redirected_to projects_url
