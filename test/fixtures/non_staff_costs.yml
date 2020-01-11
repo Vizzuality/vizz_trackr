@@ -17,10 +17,10 @@ one:
   cost: 1.5
   contract: one
   cost_type: MyString
-  date: 2019-08-01
+  reporting_period: one
 
 two:
   cost: 1.5
   contract: two
   cost_type: MyString
-  date: 2019-08-01
+  reporting_period: two
