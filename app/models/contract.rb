@@ -35,7 +35,7 @@ class Contract < ApplicationRecord
   belongs_to :project
   has_many :report_parts, dependent: :destroy
   has_many :full_reports
-  has_many :non_staff_costs
+  has_many :non_staff_costs, dependent: :destroy
 
   validates_uniqueness_of :name
   delegate :is_billable?, to: :project
