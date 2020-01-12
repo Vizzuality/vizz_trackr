@@ -4,8 +4,8 @@ class RatesControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   setup do
-    sign_in users(:admin)
-    @rate = rates(:one)
+    sign_in create(:admin)
+    @rate = create(:rate)
   end
 
   test 'should get index' do

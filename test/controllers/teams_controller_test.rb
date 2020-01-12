@@ -4,8 +4,8 @@ class TeamsControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   setup do
-    sign_in users(:admin)
-    @team = teams(:one)
+    sign_in create(:admin)
+    @team = create(:team)
   end
 
   test 'should get index' do

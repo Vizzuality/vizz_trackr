@@ -4,8 +4,8 @@ class RolesControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   setup do
-    sign_in users(:admin)
-    @role = roles(:one)
+    sign_in create(:admin)
+    @role = create(:role)
   end
 
   test 'should get index' do

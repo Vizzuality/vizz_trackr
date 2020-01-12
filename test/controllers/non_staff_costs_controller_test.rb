@@ -4,8 +4,8 @@ class NonStaffCostsControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   setup do
-    sign_in users(:admin)
-    @non_staff_cost = non_staff_costs(:one)
+    sign_in create(:admin)
+    @non_staff_cost = create(:non_staff_cost)
   end
 
   test 'should get index' do
@@ -25,7 +25,7 @@ class NonStaffCostsControllerTest < ActionDispatch::IntegrationTest
           contract_id: @non_staff_cost.contract_id,
           cost: @non_staff_cost.cost,
           cost_type: @non_staff_cost.cost_type,
-          reporting_period_id: reporting_periods(:one).id
+          reporting_period_id: create(:reporting_period).id
         }
       }
     end

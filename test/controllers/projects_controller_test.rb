@@ -4,9 +4,9 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   setup do
-    sign_in users(:admin)
-    @team = teams(:one)
-    @project = projects(:one)
+    sign_in create(:admin)
+    @team = create(:team)
+    @project = create(:project)
   end
 
   test 'should get index' do
