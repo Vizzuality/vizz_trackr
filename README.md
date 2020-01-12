@@ -1,3 +1,4 @@
+### Vizz Tracker [![Build Status](https://travis-ci.org/Vizzuality/vizz_trackr.svg?branch=master)](https://travis-ci.org/Vizzuality/vizz_trackr) ###
 ## Dependencies
 
 - Ruby 2.6.3

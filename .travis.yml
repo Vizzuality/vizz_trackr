@@ -20,6 +20,6 @@ install:
   - bundle install --jobs=3 --retry=3 --deployment --path=${BUNDLE_PATH:-vendor/bundle}
   - yarn
 before_script:
-  - bundle exec rake db:test:prepare
+  - bundle exec rails db:test:prepare
 script:
   - yarn test
