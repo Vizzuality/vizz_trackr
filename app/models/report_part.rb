@@ -18,21 +18,24 @@ class ReportPart < ApplicationRecord
 
   before_save :calculate_cost_and_days
   validates_uniqueness_of :contract_id,
-    scope: :report_id,
-    message: ->(object, data) do
-      "Contract #{object.contract.name} added more than once. Please remove the duplicate entries before submitting your report again."
-    end
+                          scope: :report_id,
+                          message: ->(object, _) do
+                            "Contract #{object.contract.name} added more than once."\
+                            'Please remove the duplicate entries before submitting your report again.'
+                          end
 
   private
 
+  # rubocop:disable Metrics/AbcSize
   def calculate_cost_and_days
     return true unless percentage
 
     self.cost = if report.user.rate&.value && report.user.dedication
-             (percentage / 100 * report.user.rate.value * report.user.dedication)
-           elsif report.user.cost
-             (percentage / 100 * report.user.cost / 0.74)
-           end
+                  (percentage / 100 * report.user.rate.value * report.user.dedication)
+                elsif report.user.cost
+                  (percentage / 100 * report.user.cost / 0.74)
+                end
     self.days = (percentage / 5.0 * (report.user&.dedication || 1.0)).round(2)
   end
+  # rubocop:enable Metrics/AbcSize
 end

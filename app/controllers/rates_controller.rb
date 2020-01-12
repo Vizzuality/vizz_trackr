@@ -9,8 +9,7 @@ class RatesController < ApplicationController
 
   # GET /rates/1
   # GET /rates/1.json
-  def show
-  end
+  def show; end
 
   # GET /rates/new
   def new
@@ -18,8 +17,7 @@ class RatesController < ApplicationController
   end
 
   # GET /rates/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /rates
   # POST /rates.json
@@ -62,13 +60,14 @@ class RatesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_rate
-      @rate = Rate.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def rate_params
-      params.require(:rate).permit(:code, :value)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_rate
+    @rate = Rate.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def rate_params
+    params.require(:rate).permit(:code, :value)
+  end
 end

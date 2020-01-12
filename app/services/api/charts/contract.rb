@@ -7,6 +7,7 @@ module Api
         @contract = contract
       end
 
+      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       def contract_burn_data
         agg = 0.0
         contract = {name: 'Staff Costs', data: {}}
@@ -41,6 +42,7 @@ module Api
         data << income if income[:data].present?
         data
       end
+      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
     end
   end
 end

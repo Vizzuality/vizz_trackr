@@ -7,13 +7,13 @@ class ContractsController < ApplicationController
   def index
     @contracts = Contract.joins(:project).includes(:full_reports, :project)
       .order('projects.name ASC, contracts.name ASC')
-    @states = Contract.aasm.states.map{|s| s.name}.prepend(:all)
+    @states = Contract.aasm.states.map(&:name).prepend(:all)
     @contracts = @contracts.with_status(@state) unless @state == 'all'
   end
 
   def new
     @contract = Contract.new
-    @states = Contract.aasm.states.map{|s| s.name}.prepend(:all)
+    @states = Contract.aasm.states.map(&:name).prepend(:all)
     @projects = Project.order(:name)
   end
 
@@ -27,10 +27,10 @@ class ContractsController < ApplicationController
         format.html { redirect_to :contracts, notice: 'Contract was successfully created.' }
         format.json { render :show, status: :created, location: @contract }
       else
-        format.html {
+        format.html do
           @projects = Project.order(:name)
           render :new
-        }
+        end
         format.json { render json: @contract.errors, status: :unprocessable_entity }
       end
     end
@@ -38,7 +38,7 @@ class ContractsController < ApplicationController
 
   def edit
     @projects = Project.order(:name)
-    @states = Contract.aasm.states.map{|s| s.name}.prepend(:all)
+    @states = Contract.aasm.states.map(&:name).prepend(:all)
   end
 
   def show
@@ -56,16 +56,17 @@ class ContractsController < ApplicationController
       if @contract.update(contract_params)
         format.html do
           if request.referrer == contracts_path
-          redirect_to controller: 'contracts',
-            action: 'index', state: params[:current_state].presence
+            redirect_to controller: 'contracts',
+                        action: 'index',
+                        state: params[:current_state].presence
           else
             redirect_to @contract, notice: 'Contract suceessfully updated!'
           end
         end
-        format.json {render json: @contract, status: :ok}
+        format.json { render json: @contract, status: :ok }
       else
         format.html { render :edit }
-        format.json {render json: @contract.errors, status: :unprocessable_entity}
+        format.json { render json: @contract.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -102,7 +103,8 @@ class ContractsController < ApplicationController
       .order(reporting_period_date: :desc)
     @costs += @contract.non_staff_costs
       .joins(:reporting_period)
-      .select('reporting_period_id, reporting_periods.date AS reporting_period_date, sum(cost) AS cost, false as report_estimated, FALSE as from_staff')
+      .select('reporting_period_id, reporting_periods.date AS reporting_period_date,'\
+        'sum(cost) AS cost, false as report_estimated, FALSE as from_staff')
       .group('reporting_period_id, reporting_periods.date')
       .order('reporting_periods.date DESC')
   end
@@ -124,7 +126,7 @@ class ContractsController < ApplicationController
   end
 
   def set_default_state
-   @state = params[:state].present? ? params[:state] : 'live'
+    @state = params[:state].present? ? params[:state] : 'live'
   end
 
   def contract_params

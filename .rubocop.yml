@@ -91,3 +91,6 @@ Metrics/ClassLength:
 
 Bundler/OrderedGems:
   Enabled: false
+
+Style/Lambda:
+  EnforcedStyle: literal

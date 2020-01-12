@@ -3,11 +3,11 @@ require 'json'
 
 module Slack
   class SlackApiHelper
-    BASE = 'https://slack.com/api/'
+    BASE = 'https://slack.com/api/'.freeze
 
     class << self
       def errors(response)
-        error = { errors: { status: response["status"], message: response["message"] } }
+        error = {errors: {status: response['status'], message: response['message']}}
         response.merge(error)
       end
 
@@ -22,8 +22,8 @@ module Slack
       end
 
       def get_json(root_path, query = {})
-        query_string = query.map{|k,v| "#{k}=#{v}"}.join("&")
-        path = query.empty?? root_path : "#{root_path}?#{query_string}"
+        query_string = query.map { |k, v| "#{k}=#{v}" }.join('&')
+        path = query.empty? ? root_path : "#{root_path}?#{query_string}"
         response = api.get(path)
         [JSON.parse(response.body), response.status]
       end

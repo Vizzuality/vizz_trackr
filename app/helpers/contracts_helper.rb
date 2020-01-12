@@ -1,19 +1,20 @@
 module ContractsHelper
   def event_color(state)
     case state
-      when 'restart'
-        'btn-primary'
-      when 'finish'
-        'btn-warning'
-      when 'start'
-        'btn-success'
-      else
-        'btn-success'
+    when 'restart'
+      'btn-primary'
+    when 'finish'
+      'btn-warning'
+    when 'start'
+      'btn-success'
+    else
+      'btn-success'
     end
   end
 
   def result_with_color(result)
     return '?' unless result
+
     class_name = if result <= 100.0
                    'text-primary'
                  else
