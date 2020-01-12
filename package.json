@@ -1,6 +1,11 @@
 {
   "name": "vizz_trackr",
   "private": true,
+  "scripts": {
+    "test": "run-p rails:test rails:lint",
+    "rails:test": "bundle exec rails test",
+    "rails:lint": "bundle exec rubocop"
+  },
   "dependencies": {
     "@rails/actioncable": "^6.0.0-alpha",
     "@rails/activestorage": "^6.0.0-alpha",
