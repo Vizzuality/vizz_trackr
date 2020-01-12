@@ -82,7 +82,8 @@ class Contract < ApplicationRecord
   def linear_income
     return nil unless budget && start_date && end_date
 
-    months = (end_date.year * 12 + end_date.month) - (start_date.year * 12 + start_date.month)
+    months = (end_date.year * 12 + end_date.month) - (start_date.year * 12 + start_date.month) + 1
+
     (budget / months).to_f.round(2)
   end
 
