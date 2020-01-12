@@ -1,4 +1,5 @@
-### Vizz Tracker [![Build Status](https://travis-ci.org/Vizzuality/vizz_trackr.svg?branch=master)](https://travis-ci.org/Vizzuality/vizz_trackr) ###
+# Vizz Tracker [![Build Status](https://travis-ci.org/Vizzuality/vizz_trackr.svg?branch=master)](https://travis-ci.org/Vizzuality/vizz_trackr)
+
 ## Dependencies
 
 - Ruby 2.6.3
@@ -10,13 +11,25 @@
 - `git clone git@github.com:Vizzuality/vizz_trackr.git`
 - `cd vizz_trackr`
 - `bundle install`
-- `rails db:create`
-- `rails db:migrate`
+- `yarn install`
+- `bundle exec rails db:create`
+- `bundle exec rails db:migrate`
 
 ## Starting the project
 
-- `rails server`
+- `bundle exec rails server`
 - point your browser to `http://localhost:3000`
+
+## Tests and Style checks
+
+### Tests
+
+- Update your test database if needed `bundle exec rails db:test:prepare`
+- Run them: `bundle exec rails test`
+
+### Style checks
+
+- Run rubocop: `bundle exec rubocop`
 
 ## Setting up .env file
 
