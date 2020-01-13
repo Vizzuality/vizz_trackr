@@ -12,6 +12,7 @@ require 'csv'
 
 class ReportingPeriod < ApplicationRecord
   include AASM
+  include HasStateMachine
 
   aasm do
     state :unstarted, initial: true
@@ -42,14 +43,6 @@ class ReportingPeriod < ApplicationRecord
   has_many :non_staff_costs, dependent: :destroy
 
   validates_uniqueness_of :date
-
-  def next_event
-    aasm.events(permitted: true).first.name.to_s
-  end
-
-  def next_state
-    aasm.states(permitted: true).first.name.to_s
-  end
 
   def display_name
     date.strftime('%B %Y')

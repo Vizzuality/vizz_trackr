@@ -17,6 +17,7 @@ require 'csv'
 
 class Contract < ApplicationRecord
   include AASM
+  include HasStateMachine
 
   aasm do
     state :proposal, initial: true
@@ -86,18 +87,6 @@ class Contract < ApplicationRecord
     months = (end_date.year * 12 + end_date.month) - (start_date.year * 12 + start_date.month) + 1
 
     (budget / months).to_f.round(2)
-  end
-
-  def next_event
-    aasm.events(permitted: true).first.name.to_s
-  end
-
-  def next_state
-    aasm.states(permitted: true).first.name.to_s
-  end
-
-  def self.with_status(status)
-    where(aasm_state: status)
   end
 
   def self.to_csv
