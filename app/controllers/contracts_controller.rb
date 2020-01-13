@@ -14,7 +14,8 @@ class ContractsController < ApplicationController
       format.html
       format.csv do
         send_data @contracts.to_csv,
-          type: 'csv', filename: "contracts-with-state-#{@state}.csv"
+                  type: 'csv',
+                  filename: "contracts-with-state-#{@state}.csv"
       end
     end
   end
