@@ -48,7 +48,11 @@ class ContractsController < ApplicationController
     @total_days = @contract.full_reports.where.not(role_id: nil)
       .pluck('sum(days)').first
 
-    @data = ::Api::Charts::Contract.new(@contract).contract_burn_data
+    @data = if @contract.is_billable?
+              ::Api::Charts::Contract.new(@contract).contract_burn_data
+            else
+              ::Api::Charts::Contract.new(@contract).days_spent_data
+            end
   end
 
   def update
