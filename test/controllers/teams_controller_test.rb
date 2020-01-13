@@ -1,11 +1,11 @@
 require 'test_helper'
 
 class TeamsControllerTest < ActionDispatch::IntegrationTest
-  include Devise::Test::ControllerHelpers
+  include Devise::Test::IntegrationHelpers
+
   setup do
-    @request.env['devise.mapping'] = Devise.mappings[:admin]
-    sign_in users(:admin)
-    @team = teams(:one)
+    sign_in create(:admin)
+    @team = create(:team)
   end
 
   test 'should get index' do
@@ -20,10 +20,10 @@ class TeamsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should create team' do
     assert_difference('Team.count') do
-      post teams_url, params: {team: {name: @team.name}}
+      post teams_url, params: {team: {name: 'Team Super'}}
     end
 
-    assert_redirected_to team_url(Team.last)
+    assert_redirected_to teams_url
   end
 
   test 'should show team' do

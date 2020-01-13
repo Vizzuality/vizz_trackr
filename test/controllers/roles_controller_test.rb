@@ -1,11 +1,11 @@
 require 'test_helper'
 
 class RolesControllerTest < ActionDispatch::IntegrationTest
-  include Devise::Test::ControllerHelpers
+  include Devise::Test::IntegrationHelpers
+
   setup do
-    @request.env['devise.mapping'] = Devise.mappings[:admin]
-    sign_in users(:admin)
-    @role = roles(:one)
+    sign_in create(:admin)
+    @role = create(:role)
   end
 
   test 'should get index' do
@@ -20,10 +20,10 @@ class RolesControllerTest < ActionDispatch::IntegrationTest
 
   test 'should create role' do
     assert_difference('Role.count') do
-      post roles_url, params: {role: {name: @role.name}}
+      post roles_url, params: {role: {name: 'Project Manager'}}
     end
 
-    assert_redirected_to role_url(Role.last)
+    assert_redirected_to roles_url
   end
 
   test 'should show role' do

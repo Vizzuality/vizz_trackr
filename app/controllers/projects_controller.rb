@@ -35,7 +35,10 @@ class ProjectsController < ApplicationController
         format.html { redirect_to :projects, notice: 'Project was successfully created.' }
         format.json { render :show, status: :created, location: @project }
       else
-        format.html { render :new }
+        format.html do
+          @teams = Team.order(:name)
+          render :new
+        end
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
@@ -46,10 +49,13 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update(project_params)
-        format.html { redirect_to :projects, notice: 'Project was successfully updated.' }
+        format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { render :show, status: :ok, location: @project }
       else
-        format.html { render :edit }
+        format.html do
+          @teams = Team.order(:name)
+          render :edit
+        end
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end

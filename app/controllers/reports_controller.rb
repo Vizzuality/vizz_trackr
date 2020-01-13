@@ -1,5 +1,6 @@
 class ReportsController < ApplicationController
   before_action :set_report, only: [:show, :edit, :update, :destroy]
+  before_action :set_resources, only: [:edit]
 
   # GET /reports
   # GET /reports.json
@@ -29,13 +30,7 @@ class ReportsController < ApplicationController
 
   # GET /reports/1/edit
   def edit
-    redirect_to user_url(current_user), notice: 'No Report available to edit'  and return unless @report
-    @reporting_periods = ReportingPeriod.order(:date)
-    @users = User.order(:name)
-    @contracts = Contract.with_status([:proposal, :live])
-      .order(:name).includes(:project)
-    @roles = Role.order(:name)
-    @teams = Team.order(:name)
+    redirect_to user_url(current_user), notice: 'No Report available to edit' and return unless @report
     authorize! :edit, @report
   end
 
@@ -62,28 +57,18 @@ class ReportsController < ApplicationController
       was_estimate = @report.estimated
       if @report.update(report_params)
         format.html do
-          message = if !@report.estimated && was_estimate
-                      "Thank you for submitting this month's report!"
-                    else
-                      "Report successfully updated, thank you."
-                    end
           if @report.user == current_user
-            redirect_to @report.user, notice: message
+            redirect_to @report.user, notice: notice_after_update(was_estimate)
           else
-            redirect_to @report.reporting_period, notice: message
+            redirect_to @report.reporting_period, notice: notice_after_update(was_estimate)
           end
         end
         format.json { render :show, status: :ok, location: @report }
       else
-        format.html {
-          @reporting_periods = ReportingPeriod.order(:date)
-          @users = User.order(:name)
-          @contracts = Contract.with_status([:proposal, :live]).order(:name)
-            .includes(:project)
-          @roles = Role.order(:name)
-          @teams = Team.order(:name)
+        format.html do
+          set_resources
           render :edit
-        }
+        end
         format.json { render json: @report.errors, status: :unprocessable_entity }
       end
     end
@@ -104,6 +89,23 @@ class ReportsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_report
     @report = params[:id].present? ? Report.find(params[:id]) : current_user.current_report
+  end
+
+  def set_resources
+    @reporting_periods = ReportingPeriod.order(:date)
+    @users = User.order(:name)
+    @contracts = Contract.with_status([:proposal, :live])
+      .order(:name).includes(:project)
+    @roles = Role.order(:name)
+    @teams = Team.order(:name)
+  end
+
+  def notice_after_update was_estimate
+    if !@report.estimated && was_estimate
+      'Thank you for submitting this month\'s report!'
+    else
+      'Report successfully updated, thank you.'
+    end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

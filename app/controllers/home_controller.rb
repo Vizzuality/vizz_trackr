@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
   def index
-		@quote = RANDOM_QUOTES.shuffle.first
+    @quote = RANDOM_QUOTES.sample
   end
 end

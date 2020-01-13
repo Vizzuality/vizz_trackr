@@ -1,11 +1,12 @@
 require 'test_helper'
 
 class ProjectsControllerTest < ActionDispatch::IntegrationTest
-  include Devise::Test::ControllerHelpers
+  include Devise::Test::IntegrationHelpers
+
   setup do
-    @request.env['devise.mapping'] = Devise.mappings[:admin]
-    sign_in users(:admin)
-    @project = projects(:one)
+    sign_in create(:admin)
+    @team = create(:team)
+    @project = create(:project)
   end
 
   test 'should get index' do
@@ -22,12 +23,12 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_difference('Project.count') do
       post projects_url, params: {
         project: {
-          name: @project.name
+          name: 'Counting Crows'
         }
       }
     end
 
-    assert_redirected_to project_url(Project.last)
+    assert_redirected_to projects_url
   end
 
   test 'should show project' do

@@ -35,7 +35,7 @@ class Contract < ApplicationRecord
   belongs_to :project
   has_many :report_parts, dependent: :destroy
   has_many :full_reports
-  has_many :non_staff_costs
+  has_many :non_staff_costs, dependent: :destroy
 
   validates_uniqueness_of :name
   delegate :is_billable?, to: :project
@@ -48,16 +48,16 @@ class Contract < ApplicationRecord
     self.alias = list.split(',').map(&:strip).uniq.sort
   end
 
-  def total_burn with_projections=false
+  def total_burn with_projections = false
     relevant_reports = if with_projections
-                 full_reports
-               else
-                 full_reports.where(report_estimated: false)
-               end
+                         full_reports
+                       else
+                         full_reports.where(report_estimated: false)
+                       end
     relevant_reports.sum(:cost) + non_staff_costs.sum(:cost)
   end
 
-  def burn_percentage with_projections=false
+  def burn_percentage with_projections = false
     return nil unless budget
 
     ((total_burn(with_projections) / budget) * 100).round(2)
@@ -65,6 +65,7 @@ class Contract < ApplicationRecord
 
   def completion_burn
     return 0 unless budget && percent_complete
+
     (budget * percent_complete / 100).round(2)
   end
 
@@ -80,19 +81,20 @@ class Contract < ApplicationRecord
 
   def linear_income
     return nil unless budget && start_date && end_date
+
     months = (end_date.year * 12 + end_date.month) - (start_date.year * 12 + start_date.month)
     (budget / months).to_f.round(2)
   end
 
   def next_event
-    self.aasm.events(permitted: true).first.name.to_s
+    aasm.events(permitted: true).first.name.to_s
   end
 
   def next_state
-    self.aasm.states(permitted: true).first.name.to_s
+    aasm.states(permitted: true).first.name.to_s
   end
 
   def self.with_status(status)
-    where(aasm_state: status )
+    where(aasm_state: status)
   end
 end

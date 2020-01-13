@@ -11,6 +11,8 @@
 class Team < ApplicationRecord
   has_many :users
   has_many :full_reports
+  has_many :reports, dependent: :nullify
+  has_many :users, dependent: :nullify
 
   validates_uniqueness_of :name
 end

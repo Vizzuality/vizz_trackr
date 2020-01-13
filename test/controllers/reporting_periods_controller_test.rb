@@ -1,11 +1,11 @@
 require 'test_helper'
 
 class ReportingPeriodsControllerTest < ActionDispatch::IntegrationTest
-  include Devise::Test::ControllerHelpers
+  include Devise::Test::IntegrationHelpers
+
   setup do
-    @request.env['devise.mapping'] = Devise.mappings[:admin]
-    sign_in users(:admin)
-    @reporting_period = reporting_periods(:one)
+    sign_in create(:admin)
+    @reporting_period = create(:reporting_period)
   end
 
   test 'should get index' do
@@ -21,11 +21,11 @@ class ReportingPeriodsControllerTest < ActionDispatch::IntegrationTest
   test 'should create reporting_period' do
     assert_difference('ReportingPeriod.count') do
       post reporting_periods_url, params: {
-        reporting_period: {date: @reporting_period.date}
+        reporting_period: {date: '2020-01-01'}
       }
     end
 
-    assert_redirected_to reporting_period_url(ReportingPeriod.last)
+    assert_redirected_to reporting_periods_url
   end
 
   test 'should show reporting_period' do
@@ -42,7 +42,7 @@ class ReportingPeriodsControllerTest < ActionDispatch::IntegrationTest
     patch reporting_period_url(@reporting_period), params: {
       reporting_period: {date: @reporting_period.date}
     }
-    assert_redirected_to reporting_period_url(@reporting_period)
+    assert_redirected_to reporting_periods_url
   end
 
   test 'should destroy reporting_period' do

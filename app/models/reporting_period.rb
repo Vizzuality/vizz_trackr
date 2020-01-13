@@ -13,9 +13,9 @@ require 'csv'
 class ReportingPeriod < ApplicationRecord
   include AASM
 
-    aasm do
+  aasm do
     state :unstarted, initial: true
-    state :active, before_enter: Proc.new{ ReportingPeriod.deactivate_active_reporting! }
+    state :active, before_enter: proc { ReportingPeriod.deactivate_active_reporting! }
     state :finished
     event :start do
     end
@@ -31,7 +31,7 @@ class ReportingPeriod < ApplicationRecord
   end
 
   def self.deactivate_active_reporting!
-    ReportingPeriod.where(aasm_state: 'active').each{|r| r.terminate!}
+    ReportingPeriod.where(aasm_state: 'active').each(&:terminate!)
   end
 
   has_many :reports, dependent: :destroy
@@ -39,16 +39,16 @@ class ReportingPeriod < ApplicationRecord
   has_many :contracts, through: :report_parts
   has_many :users, through: :reports
   has_many :full_reports
-  has_many :non_staff_costs
+  has_many :non_staff_costs, dependent: :destroy
 
   validates_uniqueness_of :date
 
   def next_event
-    self.aasm.events(permitted: true).first.name.to_s
+    aasm.events(permitted: true).first.name.to_s
   end
 
   def next_state
-    self.aasm.states(permitted: true).first.name.to_s
+    aasm.states(permitted: true).first.name.to_s
   end
 
   def display_name
@@ -92,10 +92,20 @@ class ReportingPeriod < ApplicationRecord
   end
 
   def to_csv
+    content = users_as_rows
+    CSV.generate(headers: true, encoding: 'ISO-8859-1') do |csv|
+      csv << content.first.keys
+      content.each do |c|
+        csv << c.values
+      end
+    end
+  end
+
+  def users_as_rows
     content = []
     users.order(:name).each do |user|
       data = {}
-      data["staff"] = user.name
+      data['staff'] = user.name
       report = reports.where(user_id: user.id).first
       contracts.includes(:project).order(:name).each do |contract|
         percentage = report.report_parts
@@ -105,13 +115,7 @@ class ReportingPeriod < ApplicationRecord
       data['estimated'] = report.estimated?
       content << data
     end
-
-    CSV.generate(headers: true, encoding: 'ISO-8859-1') do |csv|
-      csv << content.first.keys
-      content.each do |c|
-        csv << c.values
-      end
-    end
+    content
   end
 
   def contracts_mean_variance_and_stdev filters

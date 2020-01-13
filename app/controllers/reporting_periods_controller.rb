@@ -19,7 +19,7 @@ class ReportingPeriodsController < ApplicationController
       .select(:user_id).distinct.count
     @total_project_reports = @reporting_period.total_contracts_reported
     @reports = @reporting_period.reports
-      .joins(:user).order("users.name ASC")
+      .joins(:user).order('users.name ASC')
   end
 
   def announce
@@ -40,8 +40,11 @@ class ReportingPeriodsController < ApplicationController
 
         @reports = @reports.for_role(params[:role_id]) if params[:role_id].present?
       end
-      format.csv { send_data @reporting_period.to_csv,
-                   type: 'csv', filename: "report-#{@reporting_period.display_name}.csv" }
+      format.csv do
+        send_data @reporting_period.to_csv,
+                  type: 'csv',
+                  filename: "report-#{@reporting_period.display_name}.csv"
+      end
     end
   end
 
@@ -70,10 +73,10 @@ class ReportingPeriodsController < ApplicationController
         format.html { redirect_to :reporting_periods, notice: 'Reporting period was successfully created.' }
         format.json { render :show, status: :created, location: @reporting_period }
       else
-        format.html {
+        format.html do
           @reporting_periods = ReportingPeriod.order(date: :desc)
           render :new
-        }
+        end
         format.json { render json: @reporting_period.errors, status: :unprocessable_entity }
       end
     end
@@ -84,7 +87,7 @@ class ReportingPeriodsController < ApplicationController
   def update
     respond_to do |format|
       if @reporting_period.update(reporting_period_params)
-        format.html { redirect_to @reporting_period, notice: 'Reporting period was successfully updated.' }
+        format.html { redirect_to reporting_periods_path, notice: 'Reporting period was successfully updated.' }
         format.json { render :show, status: :ok, location: @reporting_period }
       else
         format.html { render :edit }
