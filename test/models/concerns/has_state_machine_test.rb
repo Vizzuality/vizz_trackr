@@ -36,4 +36,3 @@ class HasStateMachineTest < ActiveSupport::TestCase
     assert_equal 'finished', @dummy.next_state
   end
 end
-
