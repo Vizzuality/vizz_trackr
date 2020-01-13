@@ -1,7 +1,8 @@
 <% content_for :title, "Contracts" %>
 <% if can? :create, Contract %>
   <% content_for :actions,
-    link_to('New Contract', new_contract_path, class: 'btn btn-sm btn-outline-primary') %>
+    link_to('Download', contracts_path(state: @state, format: 'csv'), class: 'btn btn-sm btn-outline-info')
+      .concat(link_to('New Contract', new_contract_path, class: 'btn btn-sm btn-outline-primary'))%>
 <% end %>
 <p id="notice"><%= notice %></p>
 

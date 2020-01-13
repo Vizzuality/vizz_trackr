@@ -13,6 +13,7 @@
 #  end_date   :date
 #  aasm_state :string
 #
+require 'csv'
 
 class Contract < ApplicationRecord
   include AASM
@@ -83,7 +84,26 @@ class Contract < ApplicationRecord
   def linear_income
     return nil unless budget && start_date && end_date
 
-    months = (end_date.year * 12 + end_date.month) - (start_date.year * 12 + start_date.month)
+    months = (end_date.year * 12 + end_date.month) - (start_date.year * 12 + start_date.month) + 1
+
     (budget / months).to_f.round(2)
+  end
+
+  def self.to_csv
+    CSV.generate(headers: true) do |csv|
+      csv << ['Project', 'Contract', 'Start date', 'End Date',
+              'Budget (EUR)', 'Internal?', 'Status']
+      all.each do |contract|
+        csv << [
+          contract.project&.name,
+          contract.name,
+          contract.start_date&.strftime('%d/%m/%Y'),
+          contract.end_date&.strftime('%d/%m/%Y'),
+          contract.budget,
+          !contract.project.is_billable?,
+          contract.aasm_state.humanize
+        ]
+      end
+    end
   end
 end

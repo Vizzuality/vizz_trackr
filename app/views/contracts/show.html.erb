@@ -39,8 +39,8 @@
 <% end %>
 <br>
 
-<h4>Project Burn</h4>
-<%= line_chart @data, prefix: '€', thousands: "," %>
+<h4><%= @contract.is_billable? ? "Project Burn" : "Days spent" %></h4>
+<%= line_chart @data, prefix: @contract.is_billable? ? '€' : nil, thousands: "," %>
 
 <br>
 <h4>Time per role</h4>
