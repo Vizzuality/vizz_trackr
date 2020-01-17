@@ -9,6 +9,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  reporting_period_id :bigint           not null
+#  details             :string
 #
 
 class NonStaffCost < ApplicationRecord

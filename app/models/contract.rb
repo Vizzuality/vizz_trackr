@@ -2,16 +2,18 @@
 #
 # Table name: contracts
 #
-#  id         :bigint           not null, primary key
-#  name       :string
-#  project_id :bigint           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  budget     :float
-#  alias      :string           default([]), is an Array
-#  start_date :date
-#  end_date   :date
-#  aasm_state :string
+#  id               :bigint           not null, primary key
+#  name             :string
+#  project_id       :bigint           not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  budget           :float
+#  alias            :string           default([]), is an Array
+#  start_date       :date
+#  end_date         :date
+#  aasm_state       :string
+#  percent_complete :float
+#  code             :string
 #
 require 'csv'
 
@@ -39,7 +41,7 @@ class Contract < ApplicationRecord
   has_many :full_reports
   has_many :non_staff_costs, dependent: :destroy
 
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :code
   delegate :is_billable?, to: :project
 
   def alias_list
@@ -91,11 +93,12 @@ class Contract < ApplicationRecord
 
   def self.to_csv
     CSV.generate(headers: true) do |csv|
-      csv << ['Project', 'Contract', 'Start date', 'End Date',
+      csv << ['Project', 'Code', 'Contract', 'Start date', 'End Date',
               'Budget (EUR)', 'Internal?', 'Status']
       all.each do |contract|
         csv << [
           contract.project&.name,
+          contract.code,
           contract.name,
           contract.start_date&.strftime('%d/%m/%Y'),
           contract.end_date&.strftime('%d/%m/%Y'),

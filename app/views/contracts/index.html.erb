@@ -16,6 +16,7 @@
 <table class="table table-sm table-hovered">
   <thead>
     <tr>
+      <th>Code</th>
       <th>Name</th>
       <th>Project</th>
       <th>Budget</th>
@@ -27,6 +28,7 @@
   <tbody>
     <% @contracts.each do |contract| %>
       <tr>
+        <td><%= contract.code %></td>
         <td><%= link_to contract.name, contract %></td>
         <td>
           <%= link_to contract.project.name, contract.project %>

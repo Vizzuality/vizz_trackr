@@ -3,6 +3,9 @@
 
 <p id="notice"><%= notice %></p>
 <p>
+  <strong>Code:</strong> <%= @contract.code %>
+</p>
+<p>
   <strong>Status:</strong> <%= @contract.aasm_state.humanize %>
 </p>
 <p>

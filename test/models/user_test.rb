@@ -16,6 +16,8 @@
 #  remember_created_at    :datetime
 #  admin                  :boolean          default(FALSE)
 #  rate_id                :bigint
+#  dedication             :float            default(0.74), not null
+#  active                 :boolean          default(TRUE)
 #
 
 require 'test_helper'
