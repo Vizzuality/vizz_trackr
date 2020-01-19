@@ -1,43 +1,46 @@
-<% content_for :title, "Contract - #{@contract.name} - Team" %>
+<% content_for :title, "Contract - #{@contract.name}" %>
 <%= render 'actions', contract: @contract %>
-
 <p id="notice"><%= notice %></p>
-<p>
-  <strong>Project:</strong> <%= link_to @contract.project.name, @contract.project  %>
-  <%= billable_tag(@contract.project) %>
-</p>
-<br>
-<h4>The experts</h4>
-<table class="table table-sm table-bordered table-hover">
-  <thead>
-    <tr>
-      <th rowspan="2">Name</th>
-      <th rowspan="2">Role</th>
-      <th colspan="<%= @reporting_periods.count %>" class="text-center">
-        days in the last 4 months
-      </th>
-      <th rowspan="2">Total days</th>
-    </tr>
-    <tr>
-      <% @reporting_periods.each do |r| %>
-        <th><%= r.display_name %></th>
-      <% end %>
-    </tr>
-  </thead>
-  <tbody>
-    <% @team.each do |member| %>
-      <tr>
-        <td>
-          <%= link_to member.user_name, user_path(member.user_id) %>
-        </td>
-        <td><%= member.role_name %></td>
-        <% @reporting_periods.each do |r| %>
-          <td>
-            <%= r.full_reports.where(contract_id: @contract.id, report_estimated: false, user_id: member.user_id).sum(:days) %>
-          </td>
-        <% end %>
-        <td><%= member.days %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title">The Experts</h5>
+          <table class="table table-sm table-bordered table-hover">
+            <thead>
+              <tr>
+                <th rowspan="2">Name</th>
+                <th rowspan="2">Role</th>
+                <th colspan="<%= @reporting_periods.count %>" class="text-center">
+                  days in the last 4 months
+                </th>
+                <th rowspan="2">Total days</th>
+              </tr>
+              <tr>
+                <% @reporting_periods.each do |r| %>
+                  <th><%= r.display_name %></th>
+                <% end %>
+              </tr>
+            </thead>
+            <tbody>
+              <% @team.each do |member| %>
+                <tr>
+                  <td>
+                    <%= link_to member.user_name, user_path(member.user_id) %>
+                  </td>
+                  <td><%= member.role_name %></td>
+                  <% @reporting_periods.each do |r| %>
+                    <td>
+                      <%= r.full_reports.where(contract_id: @contract.id, report_estimated: false, user_id: member.user_id).sum(:days) %>
+                    </td>
+                  <% end %>
+                  <td><%= member.days %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
