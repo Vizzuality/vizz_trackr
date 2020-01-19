@@ -59,7 +59,7 @@
 
 // ELEMENTS
 
-// @import "elements/buttons";
+@import "elements/buttons";
 // @import "elements/dropdown";
 // @import "elements/navs";
 // @import "elements/badges";
@@ -103,8 +103,8 @@
 //@import "components/loading-buttons/loading-buttons";
 //// Drawer
 //@import "components/drawer/drawer";
-//// Hamburger button
-//@import "components/hamburgers/hamburgers";
+// Hamburger button
+@import "components/hamburgers/hamburgers";
 //// Notifications
 //@import "components/notifications/sweetalerts";
 //@import "components/notifications/toastr";
@@ -118,9 +118,9 @@
 //@import "components/maps/vector-maps";
 //// Tree View
 //@import "components/tree-view/tree-view";
-//// Tables
+// Tables
 //@import "components/tables/datatables";
-//@import "components/tables/tables";
+@import "components/tables/tables";
 // Icons
 @import "components/icons/linearicons";
 @import "components/icons/p7icons";

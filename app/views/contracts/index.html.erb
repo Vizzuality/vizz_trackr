@@ -31,8 +31,8 @@
         <td><%= contract.code %></td>
         <td><%= link_to contract.name, contract %></td>
         <td>
-          <%= link_to contract.project.name, contract.project %>
           <%= billable_tag(contract.project) %>
+          <%= link_to contract.project.name, contract.project %>
         </td>
         <td>
           <%= number_to_currency(contract.budget)  %>
