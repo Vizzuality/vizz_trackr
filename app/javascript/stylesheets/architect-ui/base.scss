@@ -60,10 +60,10 @@
 // ELEMENTS
 
 @import "elements/buttons";
-// @import "elements/dropdown";
-// @import "elements/navs";
+@import "elements/dropdown";
+@import "elements/navs";
 // @import "elements/badges";
-// @import "elements/cards";
+@import "elements/cards";
 // @import "elements/tabs";
 // @import "elements/accordions";
 // @import "elements/modals";
@@ -79,8 +79,8 @@
 // DASHBOARD BOXES
 
 // @import "widgets/chart-boxes/chart-boxes";
-// @import "widgets/content-boxes/content-boxes";
-// @import "widgets/profile-boxes/profile-boxes";
+@import "widgets/content-boxes/content-boxes";
+@import "widgets/profile-boxes/profile-boxes";
 // PAGES
 @import "pages/userpages";
 // Applications
@@ -96,7 +96,7 @@
 //// FlagKit
 //@import "components/icons/flagkit/flagkit";
 //// Image Crop
-//@import "components/image-crop/image-crop";
+@import "components/image-crop/image-crop";
 //// Guided Tours
 //@import "components/guided-tours/guided-tours";
 //// Loading buttons

@@ -3,11 +3,11 @@
     <div class="header-btn-lg pr-0">
       <div class="widget-content p-0">
         <div class="widget-content-wrapper">
-          <div class="widget-content-left">
-            <% if current_user %>
+          <% if current_user %>
+            <div class="widget-content-left">
               <div class="btn-group">
                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                  <%= image_tag(current_user.gravatar_url(42), alt: current_user.name, class: 'rounded-circle') %>
+                  <%= image_tag(current_user.gravatar_url(42), width: 42, alt: current_user.name, class: 'rounded-circle') %>
                   <i class="fa fa-angle-down ml-2 opacity-8"></i>
                 </a>
                 <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu-lg dropdown-menu dropdown-menu-right">
@@ -18,7 +18,7 @@
                         <div class="widget-content p-0">
                           <div class="widget-content-wrapper">
                             <div class="widget-content-left mr-3">
-                              <%= image_tag(current_user.gravatar_url(42), alt: current_user.name, class: 'rounded-circle') %>
+                              <%= image_tag(current_user.gravatar_url(42), width: 42, alt: current_user.name, class: 'rounded-circle') %>
                             </div>
                             <div class="widget-content-left">
                               <div class="widget-heading">
@@ -39,18 +39,6 @@
                   <div class="scroll-area-xs" style="height: 150px;">
                     <div class="scrollbar-container ps">
                       <ul class="nav flex-column">
-                        <li class="nav-item-header nav-item">Activity
-                        </li>
-                        <li class="nav-item">
-                          <a href="javascript:void(0);" class="nav-link">Chat
-                            <div class="ml-auto badge badge-pill badge-info">8
-                            </div>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a href="javascript:void(0);" class="nav-link">Recover Password
-                          </a>
-                        </li>
                         <li class="nav-item-header nav-item">My Account
                         </li>
                         <li class="nav-item">
@@ -62,48 +50,20 @@
                       </ul>
                     </div>
                   </div>
-                  <ul class="nav flex-column">
-                    <li class="nav-item-divider mb-0 nav-item"></li>
-                  </ul>
-                  <div class="grid-menu grid-menu-2col">
-                    <div class="no-gutters row">
-                      <div class="col-sm-6">
-                        <button class="btn-icon-vertical btn-transition btn-transition-alt pt-2 pb-2 btn btn-outline-warning">
-                          <i class="pe-7s-chat icon-gradient bg-amy-crisp btn-icon-wrapper mb-2"></i>
-                          Message Inbox
-                        </button>
-                      </div>
-                      <div class="col-sm-6">
-                        <button class="btn-icon-vertical btn-transition btn-transition-alt pt-2 pb-2 btn btn-outline-danger">
-                          <i class="pe-7s-ticket icon-gradient bg-love-kiss btn-icon-wrapper mb-2"></i>
-                          <b>Support Tickets</b>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <ul class="nav flex-column">
-                    <li class="nav-item-divider nav-item">
-                    </li>
-                    <li class="nav-item-btn text-center nav-item">
-                      <button class="btn-wide btn btn-primary btn-sm">
-                        Open Messages
-                      </button>
-                    </li>
-                  </ul>
                 </div>
               </div>
-              <div class="widget-content-left  ml-3 header-user-info">
-                <div class="widget-heading">
-                  <%= current_user.name %>
-                </div>
-                <div class="widget-subheading">
-                  <%= current_user.role&.name %>
-                </div>
+            </div>
+            <div class="widget-content-left ml-3 header-user-info">
+              <div class="widget-heading">
+                <%= current_user.name %>
               </div>
-            <% else %>
-              <%= link_to "Login", new_user_session_path, class: "nav-link" %>
-            <% end %>
-          </div>
+              <div class="widget-subheading">
+                <%= current_user.role&.name %>
+              </div>
+            </div>
+          <% else %>
+            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+          <% end %>
         </div>
       </div>
     </div>
