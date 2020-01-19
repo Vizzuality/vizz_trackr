@@ -1,5 +1,10 @@
 <div class="app-header__content">
   <div class="app-header-right">
+    <% if current_user && current_user.current_report %>
+      <div class="header-dots">
+        <%= link_to 'Latest Report', '/my-report', class: 'btn btn-outline-success my-2 my-sm-0' %>
+      </div>
+    <% end %>
     <div class="header-btn-lg pr-0">
       <div class="widget-content p-0">
         <div class="widget-content-wrapper">
