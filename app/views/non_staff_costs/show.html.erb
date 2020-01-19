@@ -1,19 +1,30 @@
 <p id="notice"><%= notice %></p>
+<% content_for :title, 'Non Staff Cost' %>
 
-<p>
-  <strong>Cost:</strong>
-  <%= @non_staff_cost.cost %>
-</p>
+<% content_for :actions do
+  link_to('Edit', edit_non_staff_cost_path(@non_staff_cost)).concat(
+    link_to('Back', non_staff_costs_path))
+end %>
 
-<p>
-  <strong>Contract:</strong>
-  <%= @non_staff_cost.contract_id %>
-</p>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+      <p>
+        <strong>Cost:</strong>
+        <%= @non_staff_cost.cost %>
+      </p>
 
-<p>
-  <strong>Cost type:</strong>
-  <%= @non_staff_cost.cost_type %>
-</p>
+      <p>
+        <strong>Contract:</strong>
+        <%= @non_staff_cost.contract_id %>
+      </p>
 
-<%= link_to 'Edit', edit_non_staff_cost_path(@non_staff_cost) %> |
-<%= link_to 'Back', non_staff_costs_path %>
+      <p>
+        <strong>Cost type:</strong>
+        <%= @non_staff_cost.cost_type %>
+      </p>
+      </div>
+    </div>
+  </div>
+</div>
