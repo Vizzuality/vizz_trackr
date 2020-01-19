@@ -4,30 +4,38 @@
 
 <p id="notice"><%= notice %></p>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Members count</th>
-      <th></th>
-    </tr>
-  </thead>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Members count</th>
+              <th></th>
+            </tr>
+          </thead>
 
-  <tbody>
-    <% @roles.each do |role| %>
-      <tr>
-        <td><%= role.name %></td>
-        <td><%= role.users.count %></td>
-        <td>
-          <%= link_to 'Show', role %>
-          <% if can? :manage, role %>
-            |
-            <%= link_to 'Edit', edit_role_path(role) %>
-            |
-            <%= link_to 'Destroy', role, method: :delete, data: { confirm: 'Are you sure?' } %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+          <tbody>
+            <% @roles.each do |role| %>
+              <tr>
+                <td><%= role.name %></td>
+                <td><%= role.users.count %></td>
+                <td>
+                  <%= link_to 'Show', role %>
+                  <% if can? :manage, role %>
+                    |
+                    <%= link_to 'Edit', edit_role_path(role) %>
+                    |
+                    <%= link_to 'Destroy', role, method: :delete, data: { confirm: 'Are you sure?' } %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

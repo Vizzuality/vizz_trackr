@@ -6,29 +6,37 @@
 
 <p id="notice"><%= notice %></p>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Members count</th>
-      <th></th>
-    </tr>
-  </thead>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Members count</th>
+              <th></th>
+            </tr>
+          </thead>
 
-  <tbody>
-    <% @teams.each do |team| %>
-      <tr>
-        <td><%= team.name %></td>
-        <td><%= team.users.count %></td>
-        <td>
-          <%= link_to 'Show', team %>
-          <% if can? :manage, team %>
-            |
-            <%= link_to 'Edit', edit_team_path(team) %>
-            |
-            <%= link_to 'Destroy', team, method: :delete, data: { confirm: 'Are you sure?' } %>
-          <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+          <tbody>
+            <% @teams.each do |team| %>
+              <tr>
+                <td><%= team.name %></td>
+                <td><%= team.users.count %></td>
+                <td>
+                  <%= link_to 'Show', team %>
+                  <% if can? :manage, team %>
+                    |
+                    <%= link_to 'Edit', edit_team_path(team) %>
+                    |
+                    <%= link_to 'Destroy', team, method: :delete, data: { confirm: 'Are you sure?' } %>
+                  <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
