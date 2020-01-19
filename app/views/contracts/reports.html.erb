@@ -21,37 +21,53 @@
   </div>
 <% end %>
 
-<br>
-<h4># Days by people in the project</h4>
-<%= column_chart @data, stacked: true %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title"># Days by people in the project</h5>
+        <div class="widget-chart-wrapper widget-chart-wrapper-lg opacity-10 m-0">
+          <%= column_chart @data, stacked: true %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<br>
 
-<h2>Reports</h2>
-<table class="table table-striped table-bordered">
-  <thead>
-    <tr>
-      <th>Period</th>
-      <th>User</th>
-      <th>Team</th>
-      <th>Role</th>
-      <th>Percentage</th>
-      <th>Days</th>
-      <th>Cost</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @contract.full_reports.joins(:reporting_period).
-       order("reporting_periods.date ASC").each do |report| %>
-      <tr>
-        <td><%= report.reporting_period_name %></td>
-        <td><%= report.user_name %></td>
-        <td><%= report.team_name %></td>
-        <td><%= report.role_name %></td>
-        <td><%= report.percentage %>%</td>
-        <td><%= report.days %></td>
-        <td><%= number_to_currency(report.cost)  %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Reports</h5>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Period</th>
+              <th>User</th>
+              <th>Team</th>
+              <th>Role</th>
+              <th>Percentage</th>
+              <th>Days</th>
+              <th>Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @contract.full_reports.joins(:reporting_period).
+               order("reporting_periods.date ASC").each do |report| %>
+              <tr>
+                <td><%= report.reporting_period_name %></td>
+                <td><%= report.user_name %></td>
+                <td><%= report.team_name %></td>
+                <td><%= report.role_name %></td>
+                <td><%= report.percentage %>%</td>
+                <td><%= report.days %></td>
+                <td><%= number_to_currency(report.cost)  %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
