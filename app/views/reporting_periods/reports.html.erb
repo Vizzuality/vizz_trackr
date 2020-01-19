@@ -8,36 +8,44 @@
   </div>
 <% end %>
 
-<h2>Reports</h2>
-<table class="table table-bordered table-hover">
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Team</th>
-      <th>Role</th>
-      <th>Contract</th>
-      <th>Percentage</th>
-      <th>Days</th>
-      <th>Cost</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @reports.each do |report| %>
-      <tr>
-        <td><%= report.user_name %></td>
-        <td><%= report.team_name %></td>
-        <td><%= report.role_name %></td>
-        <td><%= link_to report.contract_full_name, report.contract %></td>
-        <td><%= report.percentage %>%</td>
-        <td><%= report.days %></td>
-        <td><%= number_to_currency(report.cost)  %></td>
-        <td>
-          <% if can? :edit, report.report %>
-            <%= link_to 'Edit', edit_report_path(report.report_id) %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Reports</h5>
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Team</th>
+              <th>Role</th>
+              <th>Contract</th>
+              <th>Percentage</th>
+              <th>Days</th>
+              <th>Cost</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @reports.each do |report| %>
+              <tr>
+                <td><%= link_to report.user_name, report.user %></td>
+                <td><%= report.team_name %></td>
+                <td><%= report.role_name %></td>
+                <td><%= link_to report.contract_full_name, report.contract %></td>
+                <td><%= report.percentage %>%</td>
+                <td><%= report.days %></td>
+                <td><%= number_to_currency(report.cost)  %></td>
+                <td>
+                  <% if can? :edit, report.report %>
+                    <%= link_to 'Edit', edit_report_path(report.report_id) %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
