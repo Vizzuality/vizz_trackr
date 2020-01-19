@@ -13,46 +13,52 @@
   </div>
 <% end %>
 
-<table class="table table-sm table-hovered">
-  <thead>
-    <tr>
-      <th>Code</th>
-      <th>Name</th>
-      <th>Project</th>
-      <th>Budget</th>
-      <th>Costs/Time</th>
-      <th>Action</th>
-    </tr>
-  </thead>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <table class="table table-sm table-hovered">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Name</th>
+              <th>Project</th>
+              <th>Budget</th>
+              <th>Costs/Time</th>
+              <th>Action</th>
+            </tr>
+          </thead>
 
-  <tbody>
-    <% @contracts.each do |contract| %>
-      <tr>
-        <td><%= contract.code %></td>
-        <td><%= link_to contract.name, contract %></td>
-        <td>
-          <%= billable_tag(contract.project) %>
-          <%= link_to contract.project.name, contract.project %>
-        </td>
-        <td>
-          <%= number_to_currency(contract.budget)  %>
-        </td>
-        <td>
-          <%= contract.project.is_billable? ? number_to_currency(contract.full_reports.sum(:cost)) : "#{contract.full_reports.sum(:days)} days" %>
-        </td>
-        <td>
-          <% if can? :manage, contract %>
-            <%= form_with(model: contract, method: :patch, local: true) do |form| %>
-              <%= hidden_field_tag :current_state, @state %>
-              <%= form.hidden_field(:aasm_state, value: contract.next_state) %>
-              <%= form.submit contract.next_event, class: "btn btn-sm #{event_color(contract.next_event)}" %>
-              <%= link_to "Edit", edit_contract_path(contract) %>
+          <tbody>
+            <% @contracts.each do |contract| %>
+              <tr>
+                <td><%= contract.code %></td>
+                <td><%= link_to contract.name, contract %></td>
+                <td>
+                  <%= billable_tag(contract.project) %>
+                  <%= link_to contract.project.name, contract.project %>
+                </td>
+                <td>
+                  <%= number_to_currency(contract.budget)  %>
+                </td>
+                <td>
+                  <%= contract.project.is_billable? ? number_to_currency(contract.full_reports.sum(:cost)) : "#{contract.full_reports.sum(:days)} days" %>
+                </td>
+                <td>
+                  <% if can? :manage, contract %>
+                    <%= form_with(model: contract, method: :patch, local: true) do |form| %>
+                      <%= hidden_field_tag :current_state, @state %>
+                      <%= form.hidden_field(:aasm_state, value: contract.next_state) %>
+                      <%= form.submit contract.next_event, class: "btn btn-sm #{event_color(contract.next_event)}" %>
+                      <%= link_to "Edit", edit_contract_path(contract) %>
+                    <% end %>
+                  <% end %>
+                </td>
+              </tr>
             <% end %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
