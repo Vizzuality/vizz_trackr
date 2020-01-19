@@ -22,7 +22,10 @@
   <tbody>
     <% @projects.each do |project| %>
       <tr>
-        <td><%= project.name %> <%= billable_tag(project) %></td>
+        <td>
+          <%= billable_tag(project) %>
+          <%= project.name %>
+        </td>
         <td><%= project.team.try(:name) %></td>
         <td><%= project.contracts.size %></td>
         <td><%= number_to_currency(project.budget) %></td>
