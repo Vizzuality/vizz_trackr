@@ -1,93 +1,101 @@
-<%= form_with(model: report, local: true) do |form| %>
-  <% if report.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(report.errors.count, "error") %> prohibited this report from being saved:</h2>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <%= form_with(model: report, local: true) do |form| %>
+          <% if report.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(report.errors.count, "error") %> prohibited this report from being saved:</h2>
 
-      <ul>
-        <% report.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="alert alert-success">
-    1 day equals 5%.
-    5 days equals 25%.
-    Part time employees don't need to adjust, as this is done automatically.
-  </div>
-  <% if report.user == current_user %>
-    <%= form.hidden_field :estimated, value: false %>
-  <% else %>
-    <div class="form-group">
-      <%= form.label :estimated %>
-      <%= form.check_box :estimated, {}, class: "form-control" %>
-    </div>
-  <% end %>
-  <% if report.new_record? %>
-    <div class="form-group">
-      <%= form.label :reporting_period_id %>
-      <%= form.collection_select :reporting_period_id, @reporting_periods, :id,
-        :display_name, {}, class: 'form-control' %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :user_id %>
-      <%= form.collection_select :user_id, @users, :id,
-        :name, {selected: form.object.user_id || current_user.id}, class: 'form-control' %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :team_id %>
-      <%= form.collection_select :team_id, @teams, :id,
-        :name, {selected: form.object.team_id || current_user.team_id}, class: 'form-control' %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :role_id %>
-      <%= form.collection_select :role_id, @roles, :id,
-        :name, {selected: form.object.role_id || current_user.role_id}, class: 'form-control' %>
-    </div>
-  <% end %>
-
-	<div data-controller="nested-list">
-		<template>
-			<%= form.fields_for :report_parts, ReportPart.new, child_index: 'NEW_RECORD' do |builder| %>
-				<%= render "report_part_fields", form: builder %>
-			<% end %>
-    </template>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Project</th>
-          <th>Percentage</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody data-controller="report-percentages">
-        <%= form.fields_for :report_parts do |builder| %>
-          <%= render 'report_part_fields', form: builder %>
-        <% end %>
-        <tr class="nested-list__actions" data-target="nested-list.links">
-          <th>
-            <%= button_tag "Add Line", type: 'button',
-              class: 'btn btn-secondary',
-              data: { action: "click->nested-list#addRecord", target: "total-percentages.source" } %>
-            <span class="float-right pt-2">Total</span>
-          </th>
-          <th>
-            <div class="input-group">
-              <input type="text" data-target="report-percentages.display" disabled value="<%= report.report_parts.sum(:percentage) %>" class="form-control">
-              <div class="input-group-append">
-                <div class="input-group-text">%</div>
-              </div>
+              <ul>
+                <% report.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
             </div>
-          </th>
-          <th>
-            <%= form.submit "Submit", class: "btn btn-primary" %>
-          </th>
-        </tr>
-      </tbody>
-    </table>
-	</div>
-<% end %>
+          <% end %>
+
+          <div class="alert alert-success">
+            1 day equals 5%.
+            5 days equals 25%.
+            Part time employees don't need to adjust, as this is done automatically.
+          </div>
+          <% if report.user == current_user %>
+            <%= form.hidden_field :estimated, value: false %>
+          <% else %>
+            <div class="form-group">
+              <%= form.label :estimated %>
+              <%= form.check_box :estimated, {}, class: "form-control" %>
+            </div>
+          <% end %>
+          <% if report.new_record? %>
+            <div class="form-group">
+              <%= form.label :reporting_period_id %>
+              <%= form.collection_select :reporting_period_id, @reporting_periods, :id,
+                :display_name, {}, class: 'form-control' %>
+            </div>
+
+            <div class="form-group">
+              <%= form.label :user_id %>
+              <%= form.collection_select :user_id, @users, :id,
+                :name, {selected: form.object.user_id || current_user.id}, class: 'form-control' %>
+            </div>
+
+            <div class="form-group">
+              <%= form.label :team_id %>
+              <%= form.collection_select :team_id, @teams, :id,
+                :name, {selected: form.object.team_id || current_user.team_id}, class: 'form-control' %>
+            </div>
+
+            <div class="form-group">
+              <%= form.label :role_id %>
+              <%= form.collection_select :role_id, @roles, :id,
+                :name, {selected: form.object.role_id || current_user.role_id}, class: 'form-control' %>
+            </div>
+          <% end %>
+
+          <div data-controller="nested-list">
+            <template>
+              <%= form.fields_for :report_parts, ReportPart.new, child_index: 'NEW_RECORD' do |builder| %>
+                <%= render "report_part_fields", form: builder %>
+              <% end %>
+            </template>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Project</th>
+                  <th>Percentage</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody data-controller="report-percentages">
+                <%= form.fields_for :report_parts do |builder| %>
+                  <%= render 'report_part_fields', form: builder %>
+                <% end %>
+                <tr class="nested-list__actions" data-target="nested-list.links">
+                  <th>
+                    <%= button_tag "Add Line", type: 'button',
+                      class: 'btn btn-secondary',
+                      data: { action: "click->nested-list#addRecord", target: "total-percentages.source" } %>
+                    <span class="float-right pt-2">Total</span>
+                  </th>
+                  <th>
+                    <div class="input-group">
+                      <input type="text" data-target="report-percentages.display" disabled value="<%= report.report_parts.sum(:percentage) %>" class="form-control">
+                      <div class="input-group-append">
+                        <div class="input-group-text">%</div>
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <%= form.submit "Submit", class: "btn btn-primary" %>
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

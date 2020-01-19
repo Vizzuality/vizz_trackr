@@ -4,49 +4,57 @@
 
 <p id="notice"><%= notice %></p>
 
-<table class="table table-striped table-bordered">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Team</th>
-      <th>Role</th>
-      <% if current_user.admin? %>
-        <th>Rate</th>
-        <th>Dedication</th>
-        <th>Status</th>
-      <% end %>
-      <th></th>
-    </tr>
-  </thead>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Team</th>
+              <th>Role</th>
+              <% if current_user.admin? %>
+                <th>Rate</th>
+                <th>Dedication</th>
+                <th>Status</th>
+              <% end %>
+              <th></th>
+            </tr>
+          </thead>
 
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td>
-          <%= image_tag(user.gravatar_url(40), class: 'rounded-circle') %>
-          <%= user.name %>
-        </td>
-        <td><%= user.team.try(:name) %></td>
-        <td><%= user.role.try(:name) %></td>
-        <% if current_user.admin? %>
-          <td><%= user.rate&.code %></td>
-          <td><%= user.dedication %></td>
-        <% end %>
-        <td>
-          <%= user.active ? 'Active' : 'Inactive' %>
-        </td>
-        <td>
-          <%= link_to 'Show', user %>
-          <% if can? :edit, user %>
-            |
-            <%= link_to('Edit', edit_user_path(user)) %>
-          <% end %>
-          <% if user.active && (can? :delete, user) %>
-            |
-            <%= link_to('Deactivate', user, method: :delete, data: { confirm: 'Are you sure?' }) %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td>
+                  <%= image_tag(user.gravatar_url(40), class: 'rounded-circle') %>
+                  <%= user.name %>
+                </td>
+                <td><%= user.team.try(:name) %></td>
+                <td><%= user.role.try(:name) %></td>
+                <% if current_user.admin? %>
+                  <td><%= user.rate&.code %></td>
+                  <td><%= user.dedication %></td>
+                <% end %>
+                <td>
+                  <%= user.active ? 'Active' : 'Inactive' %>
+                </td>
+                <td>
+                  <%= link_to 'Show', user %>
+                  <% if can? :edit, user %>
+                    |
+                    <%= link_to('Edit', edit_user_path(user)) %>
+                  <% end %>
+                  <% if user.active && (can? :delete, user) %>
+                    |
+                    <%= link_to('Deactivate', user, method: :delete, data: { confirm: 'Are you sure?' }) %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
