@@ -1,7 +1,7 @@
 <% if current_user %>
   <ul class="vertical-nav-menu">
     <li class="app-sidebar__heading">Menu</li>
-    <li>
+    <li class="<%= "mm-active" if controller_name == 'reporting_periods' %>">
       <a href="#">
         <i class="metismenu-icon pe-7s-rocket"></i>
         Reporting Periods
@@ -9,14 +9,14 @@
       </a>
       <ul>
         <li>
-          <%= link_to :reporting_periods do %>
+          <%= link_to :reporting_periods, class: (controller_name == 'reporting_periods' && 'mm-active') do %>
             <i class="metismenu-icon"></i>
             All
           <% end %>
         </li>
       </ul>
     </li>
-    <li>
+    <li class="<%= "mm-active" if ['contracts', 'projects', 'non_staff_costs'].include?(controller_name) %>">
       <a href="#">
         <i class="metismenu-icon pe-7s-browser"></i>
         Contracts & Projects
@@ -24,26 +24,26 @@
       </a>
       <ul>
         <li>
-          <%= link_to :contracts do %>
+          <%= link_to :contracts, class: (controller_name == 'contracts' && 'mm-active') do %>
             <i class="metismenu-icon"></i>
             Contracts
           <% end %>
         </li>
         <li>
-          <%= link_to :projects do %>
+          <%= link_to :projects, class: (controller_name == 'projects' && 'mm-active') do %>
             <i class="metismenu-icon"></i>
             Projects
           <% end %>
         </li>
         <li>
-          <%= link_to :non_staff_costs do %>
+          <%= link_to :non_staff_costs, class: (controller_name == 'non_staff_costs' && 'mm-active') do %>
             <i class="metismenu-icon"></i>
             Non Staff Costs
           <% end %>
         </li>
       </ul>
     </li>
-    <li>
+    <li class="<%= "mm-active" if ['users', 'teams', 'roles', 'rates'].include?(controller_name) %>">
       <a href="#">
         <i class="metismenu-icon pe-7s-users"></i>
         People
@@ -51,25 +51,25 @@
       </a>
       <ul>
         <li>
-          <%= link_to :users do %>
+          <%= link_to :users, class: (controller_name == 'users' && 'mm-active') do %>
             <i class="metismenu-icon"></i>
             People
           <% end %>
         </li>
         <li>
-          <%= link_to :teams do %>
+          <%= link_to :teams, class: (controller_name == 'teams' && 'mm-active') do %>
             <i class="metismenu-icon"></i>
             Teams
           <% end %>
         </li>
         <li>
-          <%= link_to :roles do %>
+          <%= link_to :roles, class: (controller_name == 'roles' && 'mm-active') do %>
             <i class="metismenu-icon"></i>
             Roles
           <% end %>
         </li>
         <li>
-          <%= link_to :roles do %>
+          <%= link_to :rates, class: (controller_name == 'rates' && 'mm-active') do %>
             <i class="metismenu-icon"></i>
             Rates
           <% end %>
