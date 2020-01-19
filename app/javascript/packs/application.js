@@ -28,6 +28,6 @@ $.fn.datepicker.defaults.format = "dd/mm/yyyy";
 // Sidebar Menu
 $( document ).on('turbolinks:load', function() {
   setTimeout(function () {
-    $(".vertical-nav-menu").metisMenu();
+    $('.vertical-nav-menu').metisMenu();
   }, 100);
 });
