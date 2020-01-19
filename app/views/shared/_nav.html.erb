@@ -1,5 +1,9 @@
 <% if current_user %>
   <ul class="vertical-nav-menu">
+    <% if Rails.env.development? %>
+      <li class="app-sidebar__heading">Development</li>
+      <li><%= switch_user_select %></li>
+    <% end %>
     <li class="app-sidebar__heading">Menu</li>
     <li class="<%= "mm-active" if controller_name == 'reporting_periods' %>">
       <a href="#">

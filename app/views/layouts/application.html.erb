@@ -98,13 +98,10 @@
               <div class="page-title-wrapper">
                 <div class="page-title-heading">
                   <div><%= yield(:title) %></div>
-                  <% if Rails.env.development? %>
-                    <%= switch_user_select %>
-                  <% end %>
                 </div>
-              </div>
-              <div class="page-title-actions">
-                <%= yield(:actions).html_safe %>
+                <div class="page-title-actions">
+                  <%= yield(:actions).html_safe %>
+                </div>
               </div>
             </div>
             <%= yield %>
