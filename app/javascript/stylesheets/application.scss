@@ -3,12 +3,4 @@
 @supports (font-variation-settings: normal) {
   html { font-family: 'Inter var', sans-serif; }
 }
-@import 'variables';
-@import '~bootstrap/scss/bootstrap';
-@import '~bootstrap-datepicker/dist/css/bootstrap-datepicker3';
-
-/* Show it is fixed to the top */
-body {
-  min-height: 75rem;
-  padding-top: 4.5rem;
-}
+@import 'architect-ui/base';

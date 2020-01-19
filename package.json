@@ -19,10 +19,12 @@
     "popper.js": "^1.15.0",
     "serialize-javascript": "^2.1.1",
     "stimulus": "^1.1.1",
-    "turbolinks": "^5.2.0"
+    "turbolinks": "^5.2.0",
+    "metismenu": "^3.0.5"
   },
   "version": "0.1.0",
   "devDependencies": {
+    "animate-sass": "^0.8.2",
     "npm-run-all": "^4.1.5",
     "webpack-dev-server": "^3.7.2"
   }

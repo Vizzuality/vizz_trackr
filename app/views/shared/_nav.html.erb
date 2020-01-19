@@ -1,48 +1,80 @@
 <% if current_user %>
-  <ul class="navbar-nav mr-auto">
-    <li class="nav-item <%= 'active' if controller_name == 'reporting_periods' %>">
-      <%= link_to :reporting_periods, class: "nav-link" do %>
-        Reporting Periods <span class="sr-only"><%= "(current)" if controller_name == 'reporting_periods' %></span>
-      <% end %>
-    </li>
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle <%= ['contracts', 'projects'].include?(controller_name) && 'active' %>" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Contracts
+  <ul class="vertical-nav-menu">
+    <li class="app-sidebar__heading">Menu</li>
+    <li class="mm-active">
+      <a href="#">
+        <i class="metismenu-icon pe-7s-rocket"></i>
+        Reporting Periods
+        <i class="metismenu-state-icon pe-7s-angle-down care-left"></li>
       </a>
-      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <%= link_to :contracts, class: "dropdown-item" do %>
-          Contracts <span class="sr-only"><%= "(current)" if controller_name == 'contracts' %></span>
-        <% end %>
-        <%= link_to :projects, class: "dropdown-item" do %>
-          Projects <span class="sr-only"><%= "(current)" if controller_name == 'projects' %></span>
-        <% end %>
-        <%= link_to :non_staff_costs, class: "dropdown-item" do %>
-          Non Staff Costs <span class="sr-only"><%= "(current)" if controller_name == 'non_staff_costs' %></span>
-        <% end %>
-      </div>
+      <ul>
+        <li>
+          <%= link_to :reporting_periods, class: "mm-active" do %>
+            <i class="metismenu-icon"></i>
+            All
+          <% end %>
+        </li>
+      </ul>
     </li>
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle <%= ['people', 'teams', 'roles'].include?(controller_name) && 'active' %>" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <li>
+      <a href="#">
+        <i class="metismenu-icon pe-7s-browser"></i>
+        Contracts & Projects & Projects
+        <i class="metismenu-state-icon pe-7s-angle-down care-left"></li>
+      </a>
+      <ul>
+        <li>
+          <%= link_to :contracts do %>
+            <i class="metismenu-icon"></i>
+            Contracts
+          <% end %>
+        </li>
+        <li>
+          <%= link_to :projects do %>
+            <i class="metismenu-icon"></i>
+            Projects
+          <% end %>
+        </li>
+        <li>
+          <%= link_to :non_staff_costs do %>
+            <i class="metismenu-icon"></i>
+            Non Staff Costs
+          <% end %>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="#">
+        <i class="metismenu-icon pe-7s-users"></i>
         People
+        <i class="metismenu-state-icon pe-7s-angle-down care-left"></li>
       </a>
-      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <%= link_to :users, class: "dropdown-item" do %>
-          People <span class="sr-only"><%= "(current)" if controller_name == 'users' %></span>
-        <% end %>
-        <%= link_to :teams, class: "dropdown-item" do %>
-          Teams <span class="sr-only"><%= "(current)" if controller_name == 'teams' %></span>
-        <% end %>
-        <%= link_to :roles, class: "dropdown-item" do %>
-          Roles <span class="sr-only"><%= "(current)" if controller_name == 'roles' %></span>
-        <% end %>
-        <%= link_to :rates, class: "dropdown-item" do %>
-          Rates <span class="sr-only"><%= "(current)" if controller_name == 'rates' %></span>
-        <% end %>
-      </div>
-    <% if current_user.current_report %>
-      <li class="nav-item">
-        <%= link_to 'Latest Report', '/my-report', class: 'btn btn-outline-success my-2 my-sm-0' %>
-      </li>
-    <% end %>
+      <ul>
+        <li>
+          <%= link_to :users do %>
+            <i class="metismenu-icon"></i>
+            People
+          <% end %>
+        </li>
+        <li>
+          <%= link_to :teams do %>
+            <i class="metismenu-icon"></i>
+            Teams
+          <% end %>
+        </li>
+        <li>
+          <%= link_to :roles do %>
+            <i class="metismenu-icon"></i>
+            Roles
+          <% end %>
+        </li>
+        <li>
+          <%= link_to :roles do %>
+            <i class="metismenu-icon"></i>
+            Rates
+          <% end %>
+        </li>
+      </ul>
+    </li>
   </ul>
 <% end %>
