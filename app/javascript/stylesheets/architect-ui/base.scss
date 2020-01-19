@@ -87,12 +87,12 @@
 @import "applications/applications-base";
 // COMPONENTS
 // Perfect Scrollbar
-//@import "components/perfect-scrollbar/perfect-scrollbar";
+@import "components/perfect-scrollbar/perfect-scrollbar";
 //
-//// FontAwesome
-//@import "components/icons/fontawesome/fontawesome";
-//// Ionicons
-//@import "components/icons/ionicons/ionicons";
+// FontAwesome
+@import "components/icons/fontawesome/fontawesome";
+// Ionicons
+@import "components/icons/ionicons/ionicons";
 //// FlagKit
 //@import "components/icons/flagkit/flagkit";
 //// Image Crop
@@ -121,9 +121,9 @@
 //// Tables
 //@import "components/tables/datatables";
 //@import "components/tables/tables";
-//// Icons
-//@import "components/icons/linearicons";
-//@import "components/icons/p7icons";
+// Icons
+@import "components/icons/linearicons";
+@import "components/icons/p7icons";
 //
 //// FORMS
 //
