@@ -1,4 +1,3 @@
-<p id="notice"><%= notice %></p>
 
 <% content_for :title, "Projects" %>
 <% if can? :create, Project %>
@@ -6,38 +5,48 @@
     link_to('New Project', new_project_path, class: 'btn btn-sm btn-outline-primary') %>
 <% end %>
 
-<table class="table table-sm table-hovered">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Team</th>
-      <th>Contracts #</th>
-      <th>Budget</th>
-      <th>Costs</th>
-      <th>Burn %</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @projects.each do |project| %>
-      <tr>
-        <td><%= project.name %> <%= billable_tag(project) %></td>
-        <td><%= project.team.try(:name) %></td>
-        <td><%= project.contracts.size %></td>
-        <td><%= number_to_currency(project.budget) %></td>
-        <td><%= number_to_currency(project.spend) %></td>
-        <%= td_for_burn(project.budget, project.spend) %>
-        <td>
-          <%= link_to 'Show', project %>
-          <% if can? :manage, project %>
-            <%= link_to 'Edit', edit_project_path(project) %>
-            <%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <table class="table table-sm table-hovered">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Team</th>
+              <th>Contracts #</th>
+              <th>Budget</th>
+              <th>Costs</th>
+              <th>Burn %</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
 
-<br>
+          <tbody>
+            <% @projects.each do |project| %>
+              <tr>
+                <td>
+                  <%= billable_tag(project) %>
+                  <%= link_to project.name, project %>
+                </td>
+                <td><%= project.team.try(:name) %></td>
+                <td><%= project.contracts.size %></td>
+                <td><%= number_to_currency(project.budget) %></td>
+                <td><%= number_to_currency(project.spend) %></td>
+                <%= td_for_burn(project.budget, project.spend) %>
+                <td>
+                  <%= link_to 'Show', project %>
+                  <% if can? :manage, project %>
+                    <%= link_to 'Edit', edit_project_path(project) %>
+                    <%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

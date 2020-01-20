@@ -1,31 +1,46 @@
-<%= form_with(model: reporting_period, local: true) do |form| %>
-  <% if reporting_period.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(reporting_period.errors.count, "error") %> prohibited this reporting_period from being saved:</h2>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <%= form_with(model: reporting_period, local: true) do |form| %>
+          <% if reporting_period.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(reporting_period.errors.count, "error") %> prohibited this reporting_period from being saved:</h2>
 
-      <ul>
-        <% reporting_period.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+              <ul>
+                <% reporting_period.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="position-relative row form-group">
+            <%= form.label :date, class: "col-sm-2 col-form-label" %>
+            <div class="col-sm-10">
+              <%= form.date_select :date, { discard_day: true, order: [:month, :year] }, class: "form-control" %>
+            </div>
+          </div>
+
+          <% if reporting_period.new_record? %>
+            <div class="position-relative row form-group">
+              <%= label_tag :copy_reporting_period_id, 'Copy Reports as Plan From', class: 'col-sm-2 col-form-label' %>
+              <div class="col-sm-10">
+                <%= select_tag :copy_reporting_period_id,
+                  options_from_collection_for_select(@reporting_periods, :id, :display_name),
+                  include_blank: true, class: "form-control" %>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="position-relative row form-group">
+            <div class="col-sm-10 offset-sm-2">
+              <%= form.submit "Submit", class: "btn btn-primary" %>
+            </div>
+          </div>
         <% end %>
-      </ul>
+      </div>
     </div>
-  <% end %>
-
-  <div class="form-group">
-    <%= form.label :date %>
-    <%= form.date_select :date, { discard_day: true, order: [:month, :year] }, class: "form-control" %>
   </div>
+</div>
 
-  <% if reporting_period.new_record? %>
-    <div class="form-group">
-      <%= label_tag :copy_reporting_period_id, 'Copy Reports as Plan From' %>
-      <%= select_tag :copy_reporting_period_id,
-        options_from_collection_for_select(@reporting_periods, :id, :display_name),
-        include_blank: true, class: "form-control" %>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= form.submit "Submit", class: "btn btn-primary" %>
-  </div>
-<% end %>

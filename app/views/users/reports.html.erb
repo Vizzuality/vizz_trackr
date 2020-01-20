@@ -11,41 +11,55 @@
   </div>
 <% end %>
 
-<br>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title">% of Time in a project</h5>
+        <div class="widget-chart-wrapper widget-chart-wrapper-lg opacity-10 m-0">
+          <%= pie_chart @data, stacked: true %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<h4>% of Time in a project</h4>
-<%= pie_chart @data, stacked: true %>
 
-<br>
-
-
-<h2>Reports</h2>
-<table class="table table-hover table-bordered">
-  <thead>
-    <tr>
-      <th>Period</th>
-      <th>Contract</th>
-      <th>Percentage</th>
-      <th>Days</th>
-      <th>Cost</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @user.full_reports.joins(:reporting_period).
-        order("reporting_periods.date DESC").each do |report| %>
-        <tr class="<%= "table-warning" if report.report_estimated? %>">
-        <td><%= report.reporting_period_name %></td>
-        <td><%= report.contract_name %></td>
-        <td><%= report.percentage %>%</td>
-        <td><%= report.days %></td>
-        <td><%= number_to_currency(report.cost) %></td>
-        <td>
-          <% if can? :edit, report.report %>
-            <%= link_to "Edit", edit_report_path(report.report_id) %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Reports</h5>
+        <table class="table table-hover table-bordered">
+          <thead>
+            <tr>
+              <th>Period</th>
+              <th>Contract</th>
+              <th>Percentage</th>
+              <th>Days</th>
+              <th>Cost</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @user.full_reports.joins(:reporting_period).
+                order("reporting_periods.date DESC").each do |report| %>
+                <tr class="<%= "table-warning" if report.report_estimated? %>">
+                <td><%= report.reporting_period_name %></td>
+                <td><%= report.contract_name %></td>
+                <td><%= report.percentage %>%</td>
+                <td><%= report.days %></td>
+                <td><%= number_to_currency(report.cost) %></td>
+                <td>
+                  <% if can? :edit, report.report %>
+                    <%= link_to "Edit", edit_report_path(report.report_id) %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

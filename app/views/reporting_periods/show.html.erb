@@ -1,48 +1,92 @@
 <% content_for :title, "Reporting Period - #{@reporting_period.display_name}" %>
 <%= render 'actions', reporting_period: @reporting_period %>
 
-<p id="notice"><%= notice %></p>
-
 <% if @reporting_period.report_parts.any? %>
-  <dl>
-    <dt>Total Reporters</dt><dd><%= @total_reporters %></dd>
-    <dt>Total Projects</dt><dd><%= @total_project_reports %></dd>
-    <dt>Average Projects per Reporter</dt>
-    <dd><%=  number_with_precision(@total_project_reports.to_f / @total_reporters, precision: 2.0) %></dd>
-  </dl>
+  <div class="row">
+    <div class="col-md-6 col-xl-4">
+      <div class="card mb-3 widget-content bg-night-sky">
+        <div class="widget-content-wrapper text-white">
+          <div class="widget-content-left">
+            <div class="widget-heading">Reporters</div>
+            <div class="widget-subheading">How many members of staff filled a report this period.</div>
+          </div>
+          <div class="widget-content-right">
+            <div class="widget-numbers text-white"><span><%= @total_reporters %></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="card mb-3 widget-content bg-slick-carbon">
+        <div class="widget-content-wrapper text-white">
+          <div class="widget-content-left">
+            <div class="widget-heading">Projects</div>
+            <div class="widget-subheading">Number of projects reported in this period.</div>
+          </div>
+          <div class="widget-content-right">
+            <div class="widget-numbers text-white"><span><%= @total_project_reports %></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="card mb-3 widget-content bg-grow-early">
+        <div class="widget-content-wrapper text-white">
+          <div class="widget-content-left">
+            <div class="widget-heading">Avg Project per Person</div>
+            <div class="widget-subheading">Average number of projects reported.</div>
+          </div>
+          <div class="widget-content-right">
+            <div class="widget-numbers text-white">
+              <span>
+                <%=  number_with_precision(@reporting_period.full_reports.count.to_f / @total_reporters, precision: 2.0) %>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 <% end %>
 
-<h2>Reports Summary</h2>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Reports Summary</h5>
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Team</th>
+              <th>Role</th>
+              <th>Percentage reported</th>
+              <th># Contracts</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @reports.each do |report| %>
+              <tr class="<%= "table-warning" if report.estimated? %>">
+                <td><%= link_to report.user&.name, report.user %></td>
+                <td><%= report.team&.name %></td>
+                <td><%= report.role&.name %></td>
+                <td><%= report.report_parts.sum(:percentage) %></td>
+                <td><%= report.report_parts.count %></td>
+                <td>
+                  <% if can? :edit, report %>
+                    <%= link_to 'Edit', edit_report_path(report) %>
+                  <% end %>
 
-<table class="table table-bordered table-hover">
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Team</th>
-      <th>Role</th>
-      <th>Percentage reported</th>
-      <th># Contracts</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @reports.each do |report| %>
-      <tr class="<%= "table-warning" if report.estimated? %>">
-        <td><%= report.user&.name %></td>
-        <td><%= report.team&.name %></td>
-        <td><%= report.role&.name %></td>
-        <td><%= report.report_parts.sum(:percentage) %></td>
-        <td><%= report.report_parts.count %></td>
-        <td>
-          <% if can? :edit, report %>
-            <%= link_to 'Edit', edit_report_path(report) %>
-          <% end %>
-
-          <% if report.estimated? and can? :manage, report %>
-            <%= link_to 'Send Slack notification', slack_send_notification_path(report.reporting_period_id, report.user_id) %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+                  <% if report.estimated? and can? :manage, report %>
+                    <%= link_to 'Send Slack notification', slack_send_notification_path(report.reporting_period_id, report.user_id) %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

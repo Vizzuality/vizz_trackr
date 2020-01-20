@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <% content_for :title, "Reporting Periods" %>
 <% if can? :create, ReportingPeriod %>
   <% content_for :actions do
@@ -8,53 +6,68 @@
   %>
 <% end %>
 
-<br>
-<h4>Cost in Projects</h4>
-<%= line_chart @data, prefix: '€', thousands: "," %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Cost in Projects</h5>
+        <div class="widget-chart-wrapper widget-chart-wrapper-lg opacity-10 m-0">
+          <%= line_chart @data, prefix: '€', thousands: "," %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<br>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Period</th>
+              <th>Final Reports</th>
+              <th>Estimated Reports</th>
+              <th>Common actions</th>
+              <th>Change status</th>
+            </tr>
+          </thead>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Period</th>
-      <th>Final Reports</th>
-      <th>Estimated Reports</th>
-      <th>Common actions</th>
-      <th>Change status</th>
-    </tr>
-  </thead>
+          <tbody>
+            <% @reporting_periods.each do |reporting_period| %>
+              <tr>
+                <td><%= link_to reporting_period.display_name, reporting_period %></td>
+                <td><%= reporting_period.reports.where(estimated: false).count %></td>
+                <td><%= reporting_period.reports.where(estimated: true).count %></td>
 
-  <tbody>
-    <% @reporting_periods.each do |reporting_period| %>
-      <tr>
-        <td><%= link_to reporting_period.display_name, reporting_period %></td>
-        <td><%= reporting_period.reports.where(estimated: false).count %></td>
-        <td><%= reporting_period.reports.where(estimated: true).count %></td>
-
-        <td>
-          <div class="btn-group mr-2">
-              <% if reporting_period.active? && can?(:manage, ReportingPeriod) %>
-                <%= link_to 'Announce!', announce_reporting_period_path(reporting_period), class: 'btn btn-success' %>
-              <% end %>
-              <%= link_to 'Download', reports_reporting_period_path(reporting_period, format: 'csv'), class: "btn btn-primary" %>
-              <%#= link_to 'New report', new_reporting_period_report_path(reporting_period), class: "btn btn-primary" %>
-              <% if can? :manage, ReportingPeriod %>
-                <%= link_to 'Bulk import', new_reporting_period_bulk_import_path(reporting_period), class: "btn btn-primary" %>
-                <%= link_to 'Edit', edit_reporting_period_path(reporting_period), class: "btn btn-primary" %>
-                <%= link_to 'Destroy', reporting_period, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
-              <% end %>
-          </div>
-        </td>
-        <td>
-          <% if can? :manage, ReportingPeriod %>
-              <%= form_with(url: reporting_period_update_state_path(reporting_period), model: reporting_period, method: :patch, local: true) do |form| %>
-                <%= form.hidden_field(:aasm_state, value: reporting_period.next_event) %>
-                <%= form.submit reporting_period.next_event, class: "btn #{event_color(reporting_period.next_event)}" %>
-              <% end %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+                <td>
+                  <div class="btn-group mr-2">
+                    <% if reporting_period.active? && can?(:manage, ReportingPeriod) %>
+                      <%= link_to 'Announce!', announce_reporting_period_path(reporting_period), class: 'btn btn-success' %>
+                    <% end %>
+                    <%= link_to 'Download', reports_reporting_period_path(reporting_period, format: 'csv'), class: "btn btn-primary" %>
+                    <%#= link_to 'New report', new_reporting_period_report_path(reporting_period), class: "btn btn-primary" %>
+                    <% if can? :manage, ReportingPeriod %>
+                      <%= link_to 'Bulk import', new_reporting_period_bulk_import_path(reporting_period), class: "btn btn-primary" %>
+                      <%= link_to 'Edit', edit_reporting_period_path(reporting_period), class: "btn btn-primary" %>
+                      <%= link_to 'Destroy', reporting_period, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+                    <% end %>
+                  </div>
+                </td>
+                <td>
+                  <% if can? :manage, ReportingPeriod %>
+                    <%= form_with(url: reporting_period_update_state_path(reporting_period), model: reporting_period, method: :patch, local: true) do |form| %>
+                      <%= form.hidden_field(:aasm_state, value: reporting_period.next_event) %>
+                      <%= form.submit reporting_period.next_event, class: "btn #{event_color(reporting_period.next_event)}" %>
+                    <% end %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

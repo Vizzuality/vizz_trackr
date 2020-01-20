@@ -1,0 +1,76 @@
+<div class="app-header__content">
+  <div class="app-header-right">
+    <% if current_user && current_user.current_report %>
+      <div class="header-dots">
+        <%= link_to 'Latest Report', '/my-report', class: 'btn btn-outline-success my-2 my-sm-0' %>
+      </div>
+    <% end %>
+    <div class="header-btn-lg pr-0">
+      <div class="widget-content p-0">
+        <div class="widget-content-wrapper">
+          <% if current_user %>
+            <div class="widget-content-left">
+              <div class="btn-group">
+                <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
+                  <%= image_tag(current_user.gravatar_url(42), width: 42, alt: current_user.name, class: 'rounded-circle') %>
+                  <i class="fa fa-angle-down ml-2 opacity-8"></i>
+                </a>
+                <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu-lg dropdown-menu dropdown-menu-right">
+                  <div class="dropdown-menu-header">
+                    <div class="dropdown-menu-header-inner bg-info">
+                      <div class="menu-header-image opacity-2" style="background-image: url('assets/images/dropdown-header/city3.jpg');"></div>
+                      <div class="menu-header-content text-left">
+                        <div class="widget-content p-0">
+                          <div class="widget-content-wrapper">
+                            <div class="widget-content-left mr-3">
+                              <%= image_tag(current_user.gravatar_url(42), width: 42, alt: current_user.name, class: 'rounded-circle') %>
+                            </div>
+                            <div class="widget-content-left">
+                              <div class="widget-heading">
+                                <%= current_user.name %>
+                              </div>
+                              <div class="widget-subheading opacity-8">
+                                A short profile description
+                              </div>
+                            </div>
+                            <div class="widget-content-right mr-2">
+                              <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "btn-pill btn-shadow btn-shine btn btn-focus" %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="scroll-area-xs" style="height: 150px;">
+                    <div class="scrollbar-container ps">
+                      <ul class="nav flex-column">
+                        <li class="nav-item-header nav-item">My Account
+                        </li>
+                        <li class="nav-item">
+                          <%= link_to "Profile", current_user, class: "nav-link" %>
+                        </li>
+                        <li class="nav-item">
+                          <%= link_to "My Reports", reports_user_path(current_user), class: "nav-link" %>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="widget-content-left ml-3 header-user-info">
+              <div class="widget-heading">
+                <%= current_user.name %>
+              </div>
+              <div class="widget-subheading">
+                <%= current_user.role&.name %>
+              </div>
+            </div>
+          <% else %>
+            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -24,6 +24,7 @@ class Project < ApplicationRecord
   has_many :project_finances
 
   validates_uniqueness_of :name
+  validates_presence_of :name
 
   def budget
     contracts.try(:sum, :budget)

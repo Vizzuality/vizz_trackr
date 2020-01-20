@@ -6,36 +6,37 @@
   %>
 <% end %>
 
-<table class="table table-hover table-sm">
-  <tr>
-    <th>Contract</th>
-    <th>Month</th>
-    <th>Income</th>
-  </tr>
-  <tbody>
-    <% current_month = @monthly_incomes.first&.month %>
-    <% total = 0.0 %>
-    <% @monthly_incomes.each do |income| %>
-      <% if income.month != current_month %>
-        <tr>
-          <th colspan="2">Total <%= current_month %></th>
-          <th><%= number_to_currency(total) %></th>
-        </tr>
-        <% current_month = income.month; total = income.income %>
-      <% else %>
-        <% total += income.income %>
-      <% end %>
-      <tr>
-        <td><%= link_to income.contract&.full_name, income.contract %></td>
-        <td><%= income.month %></td>
-        <td><%= number_to_currency(income.income) %></td>
-      </tr>
-    <% end %>
-    <% unless current_month.nil? %>
-      <tr>
-        <th colspan="2">Total <%= current_month %></th>
-        <th><%= number_to_currency(total) %></th>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <table class="table table-hover table-sm">
+          <tr>
+            <th>Contract</th>
+            <% @timeframe.each do |month| %>
+              <th><%= month.strftime('%B %y') %></th>
+            <% end %>
+          </tr>
+          <tbody>
+            <% totals = {} %>
+            <% @contracts.each do |contract| %>
+              <tr>
+                <td><%= link_to contract.name, contract %></td>
+                <% @timeframe.each do |month| %>
+                  <% val = @monthly_incomes.find { |m| m.contract_id ==  contract.id && m.month ==  month }&.income %>
+                  <td><%= number_to_currency(val) if val %></td>
+                <% end %>
+              </tr>
+            <% end %>
+            <tr>
+              <th>Total</th>
+              <% @timeframe.each do |month| %>
+                <td><%= number_to_currency(@monthly_incomes.where(month: month).sum(:income)) %></td>
+              <% end %>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
