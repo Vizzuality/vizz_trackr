@@ -21,6 +21,7 @@
           </tr>
           <tbody>
             <% @contracts.each do |contract| %>
+              <% next unless @monthly_incomes.find{|m| m.contract_id == contract.id} %>
               <tr>
                 <td><%= contract.project&.name %></td>
                 <td><%= link_to contract.name, contract %></td>
@@ -32,19 +33,19 @@
               </tr>
             <% end %>
             <tr>
-              <th>Total</th>
+              <th colspan=3>Total</th>
               <% @timeframe.each do |month| %>
                 <td><%= number_to_currency(@monthly_incomes.where(month: month).sum(:income)) %></td>
               <% end %>
             </tr>
             <tr>
-              <th>Total Live</th>
+              <th colspan=3>Total Live</th>
               <% @timeframe.each do |month| %>
                 <td><%= number_to_currency(@monthly_incomes.where(month: month, aasm_state: 'live').sum(:income)) %></td>
               <% end %>
             </tr>
             <tr>
-              <th>Total Proposals</th>
+              <th colspan=3>Total Proposals</th>
               <% @timeframe.each do |month| %>
                 <td><%= number_to_currency(@monthly_incomes.where(month: month, aasm_state: 'proposal').sum(:income)) %></td>
               <% end %>
