@@ -1,8 +1,6 @@
 <% content_for :title, "Reporting Period - #{@reporting_period.display_name}" %>
 <%= render 'actions', reporting_period: @reporting_period %>
 
-<p id="notice"><%= notice %></p>
-
 <% if @reporting_period.report_parts.any? %>
   <div class="row">
     <div class="col-md-6 col-xl-4">

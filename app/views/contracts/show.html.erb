@@ -1,7 +1,6 @@
 <% content_for :title, "Contract - #{@contract.name} - #{@contract.aasm_state.humanize}" %>
 <%= render 'actions', contract: @contract %>
 
-<p id="notice"><%= notice %></p>
 <div class="row">
   <div class="col-md-6">
     <div class="main-card mb-3 card">

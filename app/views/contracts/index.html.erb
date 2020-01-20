@@ -4,7 +4,6 @@
     link_to('Download', contracts_path(state: @state, format: 'csv'), class: 'btn btn-sm btn-outline-info')
       .concat(link_to('New Contract', new_contract_path, class: 'btn btn-sm btn-outline-primary'))%>
 <% end %>
-<p id="notice"><%= notice %></p>
 
 <%= form_with(url: 'contracts#index', method: :get, local: true) do |form| %>
   <div class="form-group">

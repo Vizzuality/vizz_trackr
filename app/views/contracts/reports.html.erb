@@ -1,7 +1,6 @@
 <% content_for :title, "Contract - #{@contract.name}" %>
 <%= render 'actions', contract: @contract %>
 
-<p id="notice"><%= notice %></p>
 <p>
   <strong>Project:</strong> <%= link_to @contract.project.name, @contract.project  %>
 </p>

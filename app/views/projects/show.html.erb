@@ -2,8 +2,6 @@
   <%= "Project - #{@project.name}" %>
   <%= billable_tag(@project) %>
 <% end %>
-<p id="notice"><%= notice %></p>
-
 <% content_for :actions do
   link_to('Edit', edit_project_path(@project), class: 'btn btn-sm btn-outline-primary').concat(
     link_to('Back', projects_path, class: 'btn btn-sm btn-outline-secondary'))
