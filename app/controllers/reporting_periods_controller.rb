@@ -99,12 +99,14 @@ class ReportingPeriodsController < ApplicationController
   def income
     @monthly_incomes = MonthlyIncome
       .joins(:contract)
-      .where(contracts: {aasm_state: 'live'},
+      .where(contracts: {aasm_state: ['proposal', 'live']},
              month: 2.months.ago..6.months.from_now)
       .order(month: :desc)
     @timeframe = (@monthly_incomes.minimum(:month)..@monthly_incomes.maximum(:month))
       .map { |d| Date.new(d.year, d.month, 1) }.uniq
-    @contracts = Contract.where(aasm_state: 'live').order(:name)
+    @contracts = Contract.where(aasm_state: ['proposal', 'live'])
+      .joins(:project).where(projects: {is_billable: true})
+      .order('projects.name ASC')
   end
 
   def update_state

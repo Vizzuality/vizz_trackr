@@ -12,16 +12,19 @@
       <div class="card-body">
         <table class="table table-hover table-sm">
           <tr>
+            <th>Project</th>
             <th>Contract</th>
+            <th>State</th>
             <% @timeframe.each do |month| %>
               <th><%= month.strftime('%B %y') %></th>
             <% end %>
           </tr>
           <tbody>
-            <% totals = {} %>
             <% @contracts.each do |contract| %>
               <tr>
+                <td><%= contract.project&.name %></td>
                 <td><%= link_to contract.name, contract %></td>
+                <td><%= contract.aasm_state.humanize %></td>
                 <% @timeframe.each do |month| %>
                   <% val = @monthly_incomes.find { |m| m.contract_id ==  contract.id && m.month ==  month }&.income %>
                   <td><%= number_to_currency(val) if val %></td>
@@ -32,6 +35,18 @@
               <th>Total</th>
               <% @timeframe.each do |month| %>
                 <td><%= number_to_currency(@monthly_incomes.where(month: month).sum(:income)) %></td>
+              <% end %>
+            </tr>
+            <tr>
+              <th>Total Live</th>
+              <% @timeframe.each do |month| %>
+                <td><%= number_to_currency(@monthly_incomes.where(month: month, aasm_state: 'live').sum(:income)) %></td>
+              <% end %>
+            </tr>
+            <tr>
+              <th>Total Proposals</th>
+              <% @timeframe.each do |month| %>
+                <td><%= number_to_currency(@monthly_incomes.where(month: month, aasm_state: 'proposal').sum(:income)) %></td>
               <% end %>
             </tr>
           </tbody>
