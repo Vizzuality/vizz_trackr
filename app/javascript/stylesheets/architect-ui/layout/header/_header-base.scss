@@ -58,6 +58,10 @@
     width: $logo-width;
     background: url('architect-ui/utils/images/logo-inverse.png');
   }
+
+  .short-page-title {
+    display: none;
+  }
 }
 
 .app-header__menu,

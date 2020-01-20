@@ -139,6 +139,14 @@
           display: none;
         }
 
+        .long-page-title {
+          display: none;
+        }
+
+        .short-page-title {
+          display: block;
+        }
+
         .header__pane {
           margin-right: auto;
         }
@@ -184,6 +192,14 @@
           display: block !important;
           margin: 0 auto;
           width: $logo-width - 76;
+        }
+
+        .long-page-title {
+          display: block;
+        }
+
+        .short-page-title {
+          display: none;
         }
 
         .header__pane {
