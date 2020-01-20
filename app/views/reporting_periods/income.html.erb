@@ -10,15 +10,17 @@
   <div class="col-md-12">
     <div class="main-card mb-3 card">
       <div class="card-body">
-        <table class="table table-hover table-sm">
-          <tr>
-            <th>Project</th>
-            <th>Contract</th>
-            <th>State</th>
-            <% @timeframe.each do |month| %>
-              <th width="8%"><%= month.strftime('%B %y') %></th>
-            <% end %>
-          </tr>
+        <table class="table table-bordered table-hover table-sm">
+          <thead>
+            <tr>
+              <th>Project</th>
+              <th>Contract</th>
+              <th>State</th>
+              <% @timeframe.each do |month| %>
+                <th scope="col" style="width: 11%"><%= month.strftime('%B %y') %></th>
+              <% end %>
+            </tr>
+          </thead>
           <tbody>
             <% @contracts.each do |contract| %>
               <% next unless @monthly_incomes.find{|m| m.contract_id == contract.id} %>
@@ -28,7 +30,7 @@
                 <td><%= contract.aasm_state.humanize %></td>
                 <% @timeframe.each do |month| %>
                   <% val = @monthly_incomes.find { |m| m.contract_id ==  contract.id && m.month ==  month }&.income %>
-                  <td><%= number_to_currency(val) if val %></td>
+                  <td style="width: 11%"><%= number_to_currency(val) if val %></td>
                 <% end %>
               </tr>
             <% end %>
