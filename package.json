@@ -12,6 +12,7 @@
     "@rails/activestorage": "^6.0.0-alpha",
     "@rails/ujs": "^6.0.0-alpha",
     "@rails/webpacker": "^4.0.7",
+    "animate-sass": "^0.8.2",
     "bootstrap": "4.3.1",
     "bootstrap-datepicker": "1.9.0",
     "chart.js": "^2.8.0",
@@ -29,7 +30,6 @@
   },
   "version": "0.1.0",
   "devDependencies": {
-    "animate-sass": "^0.8.2",
     "npm-run-all": "^4.1.5",
     "webpack-dev-server": "^3.7.2"
   }
