@@ -26,10 +26,8 @@ import "controllers";
 $.fn.datepicker.defaults.format = "dd/mm/yyyy";
 
 // Sidebar Menu
-$(document).on('turbolinks:load', function() {
-  setTimeout(function () {
+document.addEventListener('turbolinks:load', function() {
     $('.vertical-nav-menu').metisMenu();
-  }, 100);
 
 
   $('.close-sidebar-btn').click(function () {
