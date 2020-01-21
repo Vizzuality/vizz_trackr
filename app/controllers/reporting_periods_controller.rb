@@ -18,8 +18,13 @@ class ReportingPeriodsController < ApplicationController
     @total_reporters = @reporting_period.full_reports
       .select(:user_id).distinct.count
     @total_project_reports = @reporting_period.total_contracts_reported
-    @reports = @reporting_period.reports
+    @user_reports = @reporting_period.reports
       .joins(:user).order('users.name ASC')
+    @contract_reports = @reporting_period.full_reports
+      .joins(contract: :project)
+      .select(:contract_id, :contract_name, 'sum(cost) AS cost, sum(days) AS days, contracts.percent_complete, projects.is_billable')
+      .group(:contract_id, :contract_name, 'contracts.percent_complete, projects.is_billable')
+      .order(:contract_name)
   end
 
   def announce

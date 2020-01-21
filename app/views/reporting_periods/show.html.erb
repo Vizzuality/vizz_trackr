@@ -50,27 +50,49 @@
 <% end %>
 
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-6">
     <div class="main-card mb-3 card">
       <div class="card-body">
-        <h5 class="card-title">Reports Summary</h5>
+        <h5 class="card-title">Contracts breakdown</h5>
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>Contract</th>
+              <th>Cost/Time Reported</th>
+              <th>Monthly Income</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @contract_reports.each do |report| %>
+              <tr>
+                <td><%= link_to report.contract_name, contract_path(report.contract_id) %></td>
+                <td><%= report.is_billable? ? number_to_currency(report.cost) : pluralize(report.days, 'day') %></td>
+                <td><%= number_to_currency(report.contract.linear_income) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Staff breakdown</h5>
         <table class="table table-bordered table-hover">
           <thead>
             <tr>
               <th>User</th>
-              <th>Team</th>
-              <th>Role</th>
               <th>Percentage reported</th>
               <th># Contracts</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            <% @reports.each do |report| %>
+            <% @user_reports.each do |report| %>
               <tr class="<%= "table-warning" if report.estimated? %>">
                 <td><%= link_to report.user&.name, report.user %></td>
-                <td><%= report.team&.name %></td>
-                <td><%= report.role&.name %></td>
                 <td><%= report.report_parts.sum(:percentage) %></td>
                 <td><%= report.report_parts.count %></td>
                 <td>

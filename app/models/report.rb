@@ -21,5 +21,5 @@ class Report < ApplicationRecord
   accepts_nested_attributes_for :report_parts, allow_destroy: true
   validates_associated :report_parts,
                        message: 'You can\'t report on the same contract more than'\
-                       'once per month. Please remove duplicate lines and submit your report again.'
+                       ' once per month. Please remove duplicate lines and submit your report again.'
 end
