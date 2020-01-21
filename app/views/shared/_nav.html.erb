@@ -7,15 +7,15 @@
     <li class="app-sidebar__heading">Menu</li>
     <li class="<%= "mm-active" if controller_name == 'reporting_periods' %>">
       <a href="#">
-        <i class="metismenu-icon pe-7s-date"></i>
-        Reporting Periods
+        <i class="metismenu-icon pe-7s-piggy"></i>
+        Finances
         <i class="metismenu-state-icon pe-7s-angle-down care-left"></i>
       </a>
       <ul>
         <li>
           <%= link_to :reporting_periods, class: (controller_name == 'reporting_periods' && action_name == 'index' && 'mm-active') do %>
             <i class="metismenu-icon"></i>
-            All
+            Reporting Periods
           <% end %>
         </li>
         <% if can? :create, ReportingPeriod %>
