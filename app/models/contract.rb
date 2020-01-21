@@ -42,7 +42,7 @@ class Contract < ApplicationRecord
   has_many :non_staff_costs, dependent: :destroy
   has_many :monthly_incomes, dependent: :destroy
 
-  validates_uniqueness_of :name, :code
+  validates_uniqueness_of :name # , :code
   delegate :is_billable?, to: :project
 
   def alias_list
