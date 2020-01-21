@@ -26,14 +26,13 @@ import "controllers";
 $.fn.datepicker.defaults.format = "dd/mm/yyyy";
 
 // Sidebar Menu
-$( document ).on('turbolinks:load', function() {
+$(document).on('turbolinks:load', function() {
   setTimeout(function () {
     $('.vertical-nav-menu').metisMenu();
   }, 100);
 
 
   $('.close-sidebar-btn').click(function () {
-
     var classToSwitch = $(this).attr('data-class');
     var containerElement = '.app-container';
     $(containerElement).toggleClass(classToSwitch);

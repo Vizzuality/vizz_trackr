@@ -100,7 +100,7 @@ class ReportingPeriodsController < ApplicationController
     @monthly_incomes = MonthlyIncome
       .joins(:contract)
       .where(contracts: {aasm_state: %w(proposal live)},
-             month: 1.months.ago..6.months.from_now)
+             month: Time.now.beginning_of_month..5.months.from_now)
       .order(month: :desc)
     @timeframe = (@monthly_incomes.minimum(:month)..@monthly_incomes.maximum(:month))
       .map { |d| Date.new(d.year, d.month, 1) }.uniq

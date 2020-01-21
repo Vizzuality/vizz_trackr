@@ -13,11 +13,19 @@
       </a>
       <ul>
         <li>
-          <%= link_to :reporting_periods, class: (controller_name == 'reporting_periods' && 'mm-active') do %>
+          <%= link_to :reporting_periods, class: (controller_name == 'reporting_periods' && action_name == 'index' && 'mm-active') do %>
             <i class="metismenu-icon"></i>
             All
           <% end %>
         </li>
+        <% if can? :create, ReportingPeriod %>
+          <li>
+            <%= link_to income_reporting_periods_path, class: (controller_name == 'reporting_periods' && action_name == 'income' && 'mm-active') do %>
+              <i class="metismenu-icon"></i>
+              Income (6 months)
+            <% end %>
+          </li>
+        <% end %>
       </ul>
     </li>
     <li class="<%= "mm-active" if ['contracts', 'projects', 'non_staff_costs'].include?(controller_name) %>">
