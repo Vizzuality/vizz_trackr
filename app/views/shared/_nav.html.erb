@@ -5,7 +5,7 @@
       <li><%= switch_user_select %></li>
     <% end %>
     <li class="app-sidebar__heading">Menu</li>
-    <li class="<%= "mm-active" if controller_name == 'reporting_periods' %>">
+    <li class="<%= "mm-active" if ['reporting_periods', 'results'].include?(controller_name) %>">
       <a href="#">
         <i class="metismenu-icon pe-7s-piggy"></i>
         Finances
