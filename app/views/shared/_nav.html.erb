@@ -24,6 +24,12 @@
             Income (6 months)
           <% end %>
         </li>
+        <li>
+          <%= link_to results_path, class: (controller_name == 'results' && action_name == 'index' && 'mm-active') do %>
+            <i class="metismenu-icon"></i>
+            Monthly breakdown
+          <% end %>
+        </li>
       </ul>
     </li>
     <li class="<%= "mm-active" if ['contracts', 'projects', 'non_staff_costs'].include?(controller_name) %>">

@@ -1,0 +1,65 @@
+<% content_for :title, "Results - Overview" %>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <%= form_with(url: results_path, method: :get, local: true) do |form| %>
+          <div class="form-group">
+            <%= label_tag :year, 'Select year' %>
+            <%= select_tag :year, options_for_select(@years, @year), class: "form-control" %>
+          </div>
+          <div class="actions">
+            <%= form.submit "Filter" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Costs and Incomes for <%= @year %></h5>
+        <div class="table-responsive">
+          <table class="table mb-0 table-bordered">
+            <thead>
+              <tr>
+                <th rowspan="2">Contract</th>
+                <% @reporting_periods.each do |rp| %>
+                  <th colspan="2"><%= rp.display_name %></th>
+                <% end %>
+              </tr>
+              <tr>
+                <% @reporting_periods.each do |rp| %>
+                  <th class="table-danger">Cost</th>
+                  <th class="table-success">Income</th>
+                <% end %>
+              </tr>
+            </thead>
+            <tbody>
+              <% @contracts.each do |contract| %>
+                <tr>
+                  <td><%= link_to contract.name, contract %></td>
+                  <% @reporting_periods.each do |rp| %>
+                    <td class="table-danger">
+                      <% val = rp.full_reports.where(contract_id: contract.id)&.sum(:cost) %>
+                      <%= number_to_currency(val) if val > 0.0 %>
+                    </td>
+                    <td class="table-success">
+                      <% if contract.start_date <= rp.date && contract.end_date >= rp.date %>
+                        <%= number_to_currency(contract.linear_income) %>
+                      <% end %>
+                    </td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
