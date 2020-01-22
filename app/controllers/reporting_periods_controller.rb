@@ -22,7 +22,9 @@ class ReportingPeriodsController < ApplicationController
       .joins(:user).order('users.name ASC')
     @contract_reports = @reporting_period.full_reports
       .joins(contract: :project)
-      .select(:contract_id, :contract_name, 'sum(cost) AS cost, sum(days) AS days, contracts.percent_complete, projects.is_billable')
+      .select(:contract_id,
+              :contract_name,
+              'sum(cost) AS cost, sum(days) AS days, contracts.percent_complete, projects.is_billable')
       .group(:contract_id, :contract_name, 'contracts.percent_complete, projects.is_billable')
       .order(:contract_name)
   end

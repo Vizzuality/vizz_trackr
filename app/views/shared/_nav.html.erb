@@ -18,18 +18,20 @@
             Reporting Periods
           <% end %>
         </li>
-        <li>
-          <%= link_to income_reporting_periods_path, class: (controller_name == 'reporting_periods' && action_name == 'income' && 'mm-active') do %>
-            <i class="metismenu-icon"></i>
-            Income (6 months)
-          <% end %>
-        </li>
-        <li>
-          <%= link_to results_path, class: (controller_name == 'results' && action_name == 'index' && 'mm-active') do %>
-            <i class="metismenu-icon"></i>
-            Monthly breakdown
-          <% end %>
-        </li>
+        <% if current_user.admin? %>
+          <li>
+            <%= link_to income_reporting_periods_path, class: (controller_name == 'reporting_periods' && action_name == 'income' && 'mm-active') do %>
+              <i class="metismenu-icon"></i>
+              Income (6 months)
+            <% end %>
+          </li>
+          <li>
+            <%= link_to results_path, class: (controller_name == 'results' && action_name == 'index' && 'mm-active') do %>
+              <i class="metismenu-icon"></i>
+              Monthly breakdown
+            <% end %>
+          </li>
+        <% end %>
       </ul>
     </li>
     <li class="<%= "mm-active" if ['contracts', 'projects', 'non_staff_costs'].include?(controller_name) %>">
