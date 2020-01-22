@@ -1,7 +1,7 @@
 <% content_for :title, "Results - Overview" %>
 
 <div class="row">
-  <div class="col-md-8">
+  <div class="col col-lg-8">
     <div class="main-card mb-3 card">
       <div class="card-body">
         <%= form_with(url: results_path, method: :get, local: true) do |form| %>
@@ -19,7 +19,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-8">
+  <div class="col col-lg-8">
     <div class="main-card mb-3 card">
       <div class="card-body">
         <h5 class="card-title">Costs and Incomes for <%= @year %></h5>
