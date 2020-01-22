@@ -43,4 +43,19 @@ document.addEventListener('turbolinks:load', function() {
       closeBtn.addClass('is-active');
     }
   });
+
+  $('.mobile-toggle-nav').click(function () {
+    $(this).toggleClass('is-active');
+    $('.app-container').toggleClass('sidebar-mobile-open');
+  });
+
+  $('.mobile-toggle-header-nav').click(function () {
+    $(this).toggleClass('active');
+    $('.app-header__content').toggleClass('header-mobile-open');
+  });
+
+  $('.mobile-app-menu-btn').click(function () {
+    $('.hamburger', this).toggleClass('is-active');
+    $('.app-inner-layout').toggleClass('open-mobile-menu');
+  });
 });
