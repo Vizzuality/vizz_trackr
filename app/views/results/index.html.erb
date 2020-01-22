@@ -34,8 +34,8 @@
               </tr>
               <tr>
                 <% @reporting_periods.each do |rp| %>
-                  <th class="table-danger">Cost</th>
-                  <th class="table-success">Income</th>
+                  <th>Cost</th>
+                  <th>Income</th>
                 <% end %>
               </tr>
             </thead>
@@ -44,11 +44,11 @@
                 <tr>
                   <td><%= link_to contract.name, contract %></td>
                   <% @reporting_periods.each do |rp| %>
-                    <td class="table-danger">
-                      <% val = rp.full_reports.where(contract_id: contract.id)&.sum(:cost) %>
-                      <%= number_to_currency(val) if val > 0.0 %>
+                    <td class="text-danger">
+                      <% val = rp.full_reports.select{|fr| fr[:contract_id] ==  contract.id}&.map(&:cost)&.compact&.reduce(&:+) %>
+                      <%= number_to_currency(val) if val %>
                     </td>
-                    <td class="table-success">
+                    <td class="text-success">
                       <% if contract.start_date <= rp.date && contract.end_date >= rp.date %>
                         <%= number_to_currency(contract.linear_income) %>
                       <% end %>
