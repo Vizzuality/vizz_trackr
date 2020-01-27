@@ -1,6 +1,17 @@
 <% content_for :title, "Contract - #{@contract.name} - #{@contract.aasm_state.humanize}" %>
 <%= render 'actions', contract: @contract %>
 
+<% if @contract.start_date <= Date.parse('01/10/2018') || @contract.end_date <= Date.parse('01/10/2018') %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    VizzTrackr only includes reporting data since October 2018, so the data for
+    this contract is probably not complete, please take it with a pinch of salt.
+    Data review and amendment is currently underway.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<% end %>
+
 <div class="row">
   <div class="col-md-6">
     <div class="main-card mb-3 card">
