@@ -12,6 +12,11 @@
         <p>
           <strong>Code:</strong> <%= @contract.code %>
         </p>
+        <% if @contract.notes.present? %>
+          <p>
+            <strong>Notes:</strong> <%= @contract.notes %>
+          </p>
+        <% end %>
         <p>
           <strong>Start Date:</strong> <%= @contract.start_date&.strftime('%d/%B/%Y') %>
         </p>

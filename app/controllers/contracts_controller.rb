@@ -73,7 +73,7 @@ class ContractsController < ApplicationController
                         action: 'index',
                         state: params[:current_state].presence
           else
-            redirect_to @contract, notice: 'Contract suceessfully updated!'
+            redirect_to @contract, notice: 'Contract successfully updated!'
           end
         end
         format.json { render json: @contract, status: :ok }
@@ -143,7 +143,7 @@ class ContractsController < ApplicationController
   end
 
   def contract_params
-    params.require(:contract).permit(:id, :code,
+    params.require(:contract).permit(:id, :code, :notes,
                                      :aasm_state, :state,
                                      :percent_complete, :project_id,
                                      :name, :budget,

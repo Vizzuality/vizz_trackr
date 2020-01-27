@@ -30,7 +30,7 @@ end %>
               order("contracts.name asc").each do |contract| %>
               <tr>
                 <td><%= contract.code %></td>
-                <td><%= contract.name %></td>
+                <td><%= contract.name %> (<%= contract.aasm_state.humanize %>)</td>
                 <td>
                   <%= number_to_currency(contract.budget) %>
                 </td>
@@ -40,7 +40,13 @@ end %>
                 <td><%= contract.full_reports.sum(:days) %></td>
                 <td><%= contract.start_date %></td>
                 <td><%= contract.end_date %></td>
-                <td><%= link_to 'Show', contract  %></td>
+                <td>
+                  <%= link_to 'Show', contract  %>
+                  <% if can? :edit, contract %>
+                    |
+                    <%= link_to 'Edit', edit_contract_path(contract) %>
+                  <% end %>
+                </td>
               </tr>
             <% end %>
           </tbody>
