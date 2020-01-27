@@ -19,6 +19,13 @@
   </div>
 
   <div class="position-relative row form-group">
+    <%= form.label :notes, class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <%= form.text_field :notes, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="position-relative row form-group">
     <%= form.label :budget, class: "col-sm-2 col-form-label" %>
     <div class="col-sm-10">
       <div class="input-group">

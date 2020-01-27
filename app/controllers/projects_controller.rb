@@ -83,6 +83,7 @@ class ProjectsController < ApplicationController
     params.require(:project).permit(:name, :team_id, :is_billable,
                                     contracts_attributes: [:id, :name, :_destroy,
                                                            :budget, :alias_list,
+                                                           :code, :notes,
                                                            :start_date, :end_date])
   end
 end
