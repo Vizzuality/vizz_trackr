@@ -173,6 +173,7 @@
               <th>Percentage</th>
               <th>Days</th>
               <th>Cost</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -186,6 +187,9 @@
                 <td><%= report.percentage %>%</td>
                 <td><%= report.days %></td>
                 <td><%= number_to_currency(report.cost) %></td>
+                <% if can? :manage, report.report %>
+                  <td><%= link_to 'Edit', edit_report_path(report.report) %></td>
+                <% end %>
               </tr>
             <% end %>
           </tbody>

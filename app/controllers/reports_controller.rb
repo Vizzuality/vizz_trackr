@@ -16,7 +16,8 @@ class ReportsController < ApplicationController
   def new
     @reporting_periods = ReportingPeriod.order(:date)
     @users = User.order(:name)
-    @contracts = Contract.with_status([:proposal, :live]).order(:name)
+    @contracts = Contract.with_status([:proposal, :live])
+      .order(:name)
     @roles = Role.order(:name)
     @teams = Team.order(:name)
 
@@ -94,8 +95,14 @@ class ReportsController < ApplicationController
   def set_resources
     @reporting_periods = ReportingPeriod.order(:date)
     @users = User.order(:name)
-    @contracts = Contract.with_status([:proposal, :live])
-      .order(:name).includes(:project)
+    # if editing an old report, let's not constraint the available contracts to report on
+    @contracts = if @report.reporting_period.aasm_state != 'active'
+                   Contract.order(:aasm_state, :name).includes(:project)
+                 else
+                   Contract.with_status([:proposal, :live])
+                     .or(Contract.where(id: @report.report_parts.pluck(:contract_id)))
+                     .order(:name).includes(:project)
+                 end
     @roles = Role.order(:name)
     @teams = Team.order(:name)
   end
