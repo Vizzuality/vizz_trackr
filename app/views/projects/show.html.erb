@@ -26,8 +26,7 @@ end %>
             </tr>
           </thead>
           <tbody>
-            <% @project.contracts.
-              order("contracts.name asc").each do |contract| %>
+            <% @project.contracts.order("contracts.end_date desc").each do |contract| %>
               <tr>
                 <td><%= contract.code %></td>
                 <td><%= contract.name %> (<%= contract.aasm_state.humanize %>)</td>
