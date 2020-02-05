@@ -45,6 +45,8 @@ class Contract < ApplicationRecord
   validates_uniqueness_of :name # , :code
   delegate :is_billable?, to: :project
 
+  before_destroy :no_report_parts
+
   def alias_list
     self.alias.join(', ')
   end
@@ -109,5 +111,14 @@ class Contract < ApplicationRecord
         ]
       end
     end
+  end
+
+  private
+
+  def no_report_parts
+    return unless report_parts.any?
+
+    errors.add(:base, "Contract #{name} [#{code}] has time reported against it, please change those reports before trying to delete it again.")
+    throw :abort
   end
 end

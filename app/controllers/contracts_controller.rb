@@ -1,6 +1,6 @@
 class ContractsController < ApplicationController
   before_action :set_contract, only: [:show, :reports, :edit, :update,
-                                      :team, :costs]
+                                      :team, :costs, :destroy]
   before_action :set_default_state, only: [:index]
   authorize_resource
 
@@ -130,6 +130,14 @@ class ContractsController < ApplicationController
     @reporting_periods = ReportingPeriod
       .where('date > ?', (Date.today - 5.months).at_beginning_of_month)
       .order(:date).includes(:full_reports)
+  end
+
+  def destroy
+    if @contract.destroy
+      redirect_to request.referrer
+    else
+      redirect_to request.referrer, notice: @contract.errors.full_messages.join(',')
+    end
   end
 
   private

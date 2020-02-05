@@ -65,10 +65,14 @@
     </div>
   </div>
 
-  <li class="input">
-    <%= button_tag 'Remove', type: 'button',
-    class: 'btn btn-danger',
-    data: { action: 'click->nested-list#removeRecord' } %>
-  </li>
+  <% if !form.object.report_parts.any? %>
+    <li class="input">
+      <%= button_tag 'Remove', type: 'button',
+        class: 'btn btn-danger',
+        data: { action: 'click->nested-list#removeRecord' } %>
+    </li>
+  <% else %>
+    <p>Contract has time reported against it, so it can't be removed unless those reports are discarded.</p>
+  <% end %>
   <%= form.hidden_field :_destroy %>
 <% end %>

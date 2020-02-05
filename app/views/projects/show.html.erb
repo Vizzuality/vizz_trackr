@@ -45,6 +45,10 @@ end %>
                     |
                     <%= link_to 'Edit', edit_contract_path(contract) %>
                   <% end %>
+                  <% if can? :manage, contract %>
+                    |
+                    <%= link_to 'Destroy', contract, method: :delete, data: { confirm: 'Are you sure?' } %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>
