@@ -40,7 +40,7 @@ class Contract < ApplicationRecord
   has_many :report_parts, dependent: :destroy
   has_many :full_reports
   has_many :non_staff_costs, dependent: :destroy
-  has_many :monthly_incomes, dependent: :destroy
+  has_many :monthly_incomes
 
   validates_uniqueness_of :name # , :code
   delegate :is_billable?, to: :project
