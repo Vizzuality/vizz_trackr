@@ -119,7 +119,7 @@ class Contract < ApplicationRecord
     return unless report_parts.any?
 
     errors.add(:base, "Contract #{name} [#{code}] has time reported against it,"\
-               " please change those reports before trying to delete it again.")
+               ' please change those reports before trying to delete it again.')
     throw :abort
   end
 end
