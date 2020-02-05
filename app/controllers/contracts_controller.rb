@@ -146,7 +146,7 @@ class ContractsController < ApplicationController
     params.require(:contract).permit(:id, :code, :notes,
                                      :aasm_state, :state,
                                      :percent_complete, :project_id,
-                                     :name, :budget,
+                                     :name, :budget, :summary,
                                      :alias_list, :start_date, :end_date)
   end
 end

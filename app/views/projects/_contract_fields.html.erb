@@ -26,6 +26,13 @@
   </div>
 
   <div class="position-relative row form-group">
+    <%= form.label :summary, class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <%= form.text_field :summary, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="position-relative row form-group">
     <%= form.label :budget, class: "col-sm-2 col-form-label" %>
     <div class="col-sm-10">
       <div class="input-group">
@@ -34,6 +41,13 @@
         </div>
         <%= form.text_field :budget, class: 'form-control' %>
       </div>
+    </div>
+  </div>
+
+  <div class="position-relative row form-group">
+    <%= form.label :aasm_state, value: "Contract state", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <%= form.select :aasm_state, @contract_states, {selected: form.object.aasm_state}, class: 'form-control' %>
     </div>
   </div>
 
@@ -48,16 +62,6 @@
     <%= form.label :end_date, class: "col-sm-2 col-form-label" %>
     <div class="col-sm-10">
       <%= form.text_field :end_date, class: 'form-control', data: {provide: 'datepicker'} %>
-    </div>
-  </div>
-
-  <div class="position-relative row form-group">
-    <%= form.label :alias_list, class: "col-sm-2 col-form-label" %>
-    <div class="col-sm-10">
-      <%= form.text_field :alias_list, class: 'form-control' %>
-      <small class="form-text text-muted">
-        Comma separated list of alternative names [e.g.: "CW, Climate Watch"]
-      </small>
     </div>
   </div>
 

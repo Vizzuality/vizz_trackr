@@ -28,16 +28,9 @@
             <strong>Notes:</strong> <%= @contract.notes %>
           </p>
         <% end %>
-        <p>
-          <strong>Start Date:</strong> <%= @contract.start_date&.strftime('%d/%B/%Y') %>
-        </p>
-        <p>
-          <strong>End Date:</strong> <%= @contract.end_date&.strftime('%d/%B/%Y') %>
-        </p>
-        <p><strong>Budget:</strong> <%= @contract.budget ? number_to_currency(@contract.budget) : "Not defined" %></p>
-        <% unless @contract.alias.empty? %>
+        <% if @contract.summary.present? %>
           <p>
-            <strong>Alias:</strong> <%= @contract.alias_list %>
+            <strong>Summary:</strong> <%= @contract.summary %>
           </p>
         <% end %>
       </div>
@@ -46,6 +39,13 @@
   <div class="col-md-6">
     <div class="main-card mb-3 card">
       <div class="card-body">
+        <p>
+          <strong>Start Date:</strong> <%= @contract.start_date&.strftime('%d/%B/%Y') %>
+        </p>
+        <p>
+          <strong>End Date:</strong> <%= @contract.end_date&.strftime('%d/%B/%Y') %>
+        </p>
+        <p><strong>Budget:</strong> <%= @contract.budget ? number_to_currency(@contract.budget) : "Not defined" %></p>
         <h5 class="card-title">Burn</h5>
         <p>
           <strong>Reported burn:</strong>

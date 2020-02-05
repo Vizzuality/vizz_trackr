@@ -18,11 +18,13 @@ class ProjectsController < ApplicationController
     @project = Project.new
     @teams = Team.order(:name)
     @project.contracts.build
+    @contract_states = Contract.aasm.states.map(&:name).prepend(:all)
   end
 
   # GET /projects/1/edit
   def edit
     @teams = Team.order(:name)
+    @contract_states = Contract.aasm.states.map(&:name).prepend(:all)
   end
 
   # POST /projects
@@ -37,6 +39,7 @@ class ProjectsController < ApplicationController
       else
         format.html do
           @teams = Team.order(:name)
+          @contract_states = Contract.aasm.states.map(&:name).prepend(:all)
           render :new
         end
         format.json { render json: @project.errors, status: :unprocessable_entity }
@@ -54,6 +57,7 @@ class ProjectsController < ApplicationController
       else
         format.html do
           @teams = Team.order(:name)
+          @contract_states = Contract.aasm.states.map(&:name).prepend(:all)
           render :edit
         end
         format.json { render json: @project.errors, status: :unprocessable_entity }
@@ -83,7 +87,8 @@ class ProjectsController < ApplicationController
     params.require(:project).permit(:name, :team_id, :is_billable,
                                     contracts_attributes: [:id, :name, :_destroy,
                                                            :budget, :alias_list,
-                                                           :code, :notes,
+                                                           :code, :notes, :summary,
+                                                           :aasm_state,
                                                            :start_date, :end_date])
   end
 end
