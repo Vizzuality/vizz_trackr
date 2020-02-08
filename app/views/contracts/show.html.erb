@@ -134,7 +134,8 @@
           <thead>
             <tr>
               <th>Functional Area</th>
-              <th>%</th>
+              <th>% in contract</th>
+              <th>% reported</th>
               <th>Total days</th>
             </tr>
           </thead>
@@ -143,12 +144,13 @@
               <% role_days = @days_per_role.where(role_id: role.id).first&.days || 0 %>
               <tr>
                 <td><%= link_to role.name, role %></td>
+                <td><%= @contract.budget_lines.where(role: role.id).first&.percentage %></td>
                 <td><%= @total_days && (role_days / @total_days.to_f * 100).round(2) %>%</td>
                 <td><%= role_days  %></td>
               </tr>
             <% end %>
             <tr>
-              <td colspan="2"><strong>Total</strong></td>
+              <td colspan="3"><strong>Total</strong></td>
               <td><%= @total_days %></td>
             </tr>
           </tbody>
