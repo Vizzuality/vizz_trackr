@@ -1,5 +1,6 @@
 <% content_for :title, "Contract - #{@contract.name} - #{@contract.aasm_state.humanize}" %>
 <%= render 'actions', contract: @contract %>
+<% content_for :modals, render('progress_modal', contract: @contract) %>
 
 <% if @contract.start_date <= Date.parse('01/10/2018') || @contract.end_date <= Date.parse('01/10/2018') %>
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -60,7 +61,7 @@
           <strong>Estimated progress:</strong>
           <%= result_with_color(@contract.previous_progress_report&.percentage || 0.0) %>%
           <% if @contract.previous_progress_report %>
-            <%= link_to 'View all' %>
+            <%= link_to 'View all', '#', data: {toggle: 'modal', target: '#progressModal'} %>
             |
             <%= link_to 'Edit', edit_contract_progress_report_path(@contract, @contract.previous_progress_report) %>
           <% end %>
@@ -134,8 +135,6 @@
     </div>
   </div>
 </div>
-
-
 
 <div class="row">
   <div class="col-md-12">

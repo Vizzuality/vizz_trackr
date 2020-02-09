@@ -119,6 +119,9 @@
           </div>
         </div>
       </div>
+
+      <%= yield(:modals).html_safe %>
+
       <% if Rails.env.production? %>
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ENV["GOOGLE_ANALYTICS"] %>"></script>
