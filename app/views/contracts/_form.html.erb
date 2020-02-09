@@ -1,8 +1,9 @@
-<div class="row">
-  <div class="col-md-12">
-    <div class="main-card mb-3 card">
-      <div class="card-body">
-        <%= form_with(model: contract, local: true) do |form| %>
+<%= form_with(model: contract, local: true) do |form| %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="main-card mb-3 card">
+        <div class="card-body">
+          <h5 class="card-title">Details</h5>
           <% if contract.errors.any? %>
             <div id="error_explanation">
               <h2><%= pluralize(contract.errors.count, "error") %> prohibited this contract from being saved:</h2>
@@ -87,8 +88,15 @@
               <%= form.text_field :end_date, class: 'form-control', data: {provide: 'datepicker'} %>
             </div>
           </div>
-          <hr>
-          <h5>Budget and breakdown</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="main-card mb-3 card">
+        <div class="card-body">
+          <h5 class="card-title">Budget and breakdown</h5>
 
           <div class="position-relative row form-group">
             <%= form.label :budget, class: "col-sm-2 col-form-label" %>
@@ -135,8 +143,8 @@
               <%= form.submit "Submit", class: "btn btn-primary" %>
             </div>
           </div>
-        <% end %>
+        </div>
       </div>
     </div>
   </div>
-</div>
+<% end %>
