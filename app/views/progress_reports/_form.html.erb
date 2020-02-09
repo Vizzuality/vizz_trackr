@@ -1,0 +1,65 @@
+<%= form_with(model: [contract, progress_report], local: true) do |form| %>
+  <% previous_report = contract.previous_progress_report(progress_report) %>
+  <% if previous_report %>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="main-card mb-3 card">
+          <div class="card-body">
+            <h5 class="card-title">Previous report</h5>
+            <p>
+              <%= previous_report.reporting_period.display_name %>,
+              <%= previous_report.percentage %>% complete.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="main-card mb-3 card">
+        <div class="card-body">
+          <% if progress_report.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(progress_report.errors.count, "error") %> prohibited this progress_report from being saved:</h2>
+
+              <ul>
+                <% progress_report.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="position-relative row form-group">
+            <%= form.label :reporting_period_id, class: "col-sm-2 col-form-label" %>
+            <div class="col-sm-10">
+              <%= form.collection_select :reporting_period_id, @reporting_periods, :id, :display_name,
+                {selected: progress_report.new_record? ? @active_period.id : progress_report.reporting_period_id}, class: 'form-control' %>
+            </div>
+          </div>
+          <div class="position-relative row form-group">
+            <%= form.label :percentage, 'Progress percentage', class: "col-sm-2 col-form-label" %>
+            <div class="col-sm-10">
+              <div class="input-group">
+                <%= form.text_field :percentage, class: 'form-control', step: 'any',
+                  type: 'number', min: previous_report&.percentage.to_f || 0.0, max: 100.0 %>
+                <div class="input-group-append">
+                  <div class="input-group-text">%</div>
+                </div>
+              </div>
+              <small class="form-text text-muted">
+                Please estimate how much of the contract is already complete in terms of scope.
+              </small>
+            </div>
+          </div>
+          <div class="position-relative row form-group">
+            <div class="col-sm-10 offset-sm-2">
+              <%= form.submit "Submit", class: "btn btn-primary" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

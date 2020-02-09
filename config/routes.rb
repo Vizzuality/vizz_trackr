@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   end
   resources :projects
   resources :contracts do
+    resources :progress_reports, only: [:new, :create, :edit, :update]
     member do
       get 'reports'
       get 'team'

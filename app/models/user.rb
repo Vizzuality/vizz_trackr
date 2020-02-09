@@ -39,7 +39,7 @@ class User < ApplicationRecord
   validates_uniqueness_of :email, :name
 
   def current_report
-    reporting_period = ReportingPeriod.where(aasm_state: 'active').first
+    reporting_period = ReportingPeriod.active_period
     return nil unless reporting_period
 
     reports.where(reporting_period_id: reporting_period.id).first || reports

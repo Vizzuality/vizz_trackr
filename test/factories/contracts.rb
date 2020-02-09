@@ -14,6 +14,8 @@
 #  aasm_state       :string
 #  percent_complete :float
 #  code             :string
+#  notes            :text
+#  summary          :text
 #
 
 FactoryBot.define do

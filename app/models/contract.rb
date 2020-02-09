@@ -14,6 +14,8 @@
 #  aasm_state       :string
 #  percent_complete :float
 #  code             :string
+#  notes            :text
+#  summary          :text
 #
 require 'csv'
 
@@ -52,6 +54,15 @@ class Contract < ApplicationRecord
 
   before_destroy :no_report_parts
 
+  def previous_progress_report progress_report=nil
+    p_reports = progress_reports.joins(:reporting_period)
+      .order('reporting_periods.date DESC')
+
+    p_reports = p_reports.where('reporting_periods.date < ?', progress_report.date) if progress_report
+
+    p_reports.first
+  end
+
   def build_budget_lines
     Role.order(:name).each do |role|
       budget_lines.build(role_id: role.id) unless budget_lines.where(role_id: role.id).any?
@@ -77,13 +88,13 @@ class Contract < ApplicationRecord
   end
 
   def completion_burn
-    return 0 unless budget && percent_complete
+    return 0 unless budget && previous_progress_report
 
-    (budget * percent_complete / 100).round(2)
+    (budget * previous_progress_report.percentage / 100).round(2)
   end
 
   def completion_burn_percentage
-    return nil unless budget && percent_complete
+    return nil unless budget && previous_progress_report
 
     ((completion_burn / budget) * 100).round(2)
   end
