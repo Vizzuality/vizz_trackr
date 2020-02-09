@@ -1,6 +1,6 @@
 class ProgressReportsController < ApplicationController
   before_action :set_contract
-  before_action :set_progress_report, only: [:edit, :update], only: [:edit, :update]
+  before_action :set_progress_report, only: [:edit, :update]
   before_action :set_vars, only: [:new, :edit]
 
   def new

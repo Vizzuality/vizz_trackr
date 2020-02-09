@@ -23,23 +23,22 @@ class ProgressReport < ApplicationRecord
   validates :reporting_period_id, :contract_id, :percentage, presence: true
   validate :bounded_progress
 
-
   private
 
   def calculate_delta
     prev = contract.previous_progress_report(self)
 
     self.delta = if prev
-                   self.percentage - prev.percentage
+                   percentage - prev.percentage
                  else
-                   self.percentage
+                   percentage
                  end
   end
 
   def bounded_progress
     prev = contract.previous_progress_report(self)
-    if prev && prev.percentage >= self.percentage
-      errors.add(:percentage, 'Progress can\'t be lower than previously reported progress')
-    end
+    return unless prev && prev.percentage >= percentage
+
+    errors.add(:percentage, 'Progress can\'t be lower than previously reported progress')
   end
 end

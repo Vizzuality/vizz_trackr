@@ -45,7 +45,7 @@ class Contract < ApplicationRecord
   has_many :monthly_incomes
   has_many :budget_lines
   accepts_nested_attributes_for :budget_lines, allow_destroy: true,
-                                reject_if: :reject_empty_lines
+                                               reject_if: :reject_empty_lines
 
   has_many :progress_reports
 
@@ -54,7 +54,7 @@ class Contract < ApplicationRecord
 
   before_destroy :no_report_parts
 
-  def previous_progress_report progress_report=nil
+  def previous_progress_report progress_report = nil
     p_reports = progress_reports.joins(:reporting_period)
       .order('reporting_periods.date DESC')
 
@@ -135,8 +135,8 @@ class Contract < ApplicationRecord
   def reject_empty_lines(attributes)
     exists = attributes['id'].present?
     empty = attributes['percentage'].blank? || attributes['percentage'].to_f <= 0.0
-    attributes.merge!({_destroy: 1}) if exists && empty
-    return (!exists && empty)
+    attributes.merge!(_destroy: 1) if exists && empty
+    !exists && empty
   end
 
   def no_report_parts
