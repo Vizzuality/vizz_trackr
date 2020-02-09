@@ -23,6 +23,12 @@
         <p>
           <strong>Code:</strong> <%= @contract.code %>
         </p>
+        <p>
+          <strong>Start Date:</strong> <%= @contract.start_date&.strftime('%d/%B/%Y') %>
+        </p>
+        <p>
+          <strong>End Date:</strong> <%= @contract.end_date&.strftime('%d/%B/%Y') %>
+        </p>
         <% if @contract.notes.present? %>
           <p>
             <strong>Notes:</strong> <%= @contract.notes %>
@@ -39,12 +45,6 @@
   <div class="col-md-6">
     <div class="main-card mb-3 card">
       <div class="card-body">
-        <p>
-          <strong>Start Date:</strong> <%= @contract.start_date&.strftime('%d/%B/%Y') %>
-        </p>
-        <p>
-          <strong>End Date:</strong> <%= @contract.end_date&.strftime('%d/%B/%Y') %>
-        </p>
         <p><strong>Budget:</strong> <%= @contract.budget ? number_to_currency(@contract.budget) : "Not defined" %></p>
         <h5 class="card-title">Burn</h5>
         <p>

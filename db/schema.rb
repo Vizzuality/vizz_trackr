@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_08_175311) do
+ActiveRecord::Schema.define(version: 2020_02_08_195756) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,17 @@ ActiveRecord::Schema.define(version: 2020_02_08_175311) do
     t.string "details"
     t.index ["contract_id"], name: "index_non_staff_costs_on_contract_id"
     t.index ["reporting_period_id"], name: "index_non_staff_costs_on_reporting_period_id"
+  end
+
+  create_table "progress_reports", force: :cascade do |t|
+    t.bigint "reporting_period_id", null: false
+    t.bigint "contract_id", null: false
+    t.float "percentage"
+    t.float "delta"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["contract_id"], name: "index_progress_reports_on_contract_id"
+    t.index ["reporting_period_id"], name: "index_progress_reports_on_reporting_period_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -145,6 +156,8 @@ ActiveRecord::Schema.define(version: 2020_02_08_175311) do
   add_foreign_key "contracts", "projects"
   add_foreign_key "non_staff_costs", "contracts"
   add_foreign_key "non_staff_costs", "reporting_periods"
+  add_foreign_key "progress_reports", "contracts"
+  add_foreign_key "progress_reports", "reporting_periods"
   add_foreign_key "projects", "teams"
   add_foreign_key "report_parts", "contracts"
   add_foreign_key "report_parts", "reports"

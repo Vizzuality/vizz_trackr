@@ -45,6 +45,8 @@ class Contract < ApplicationRecord
   accepts_nested_attributes_for :budget_lines, allow_destroy: true,
                                 reject_if: :reject_empty_lines
 
+  has_many :progress_reports
+
   validates_uniqueness_of :name # , :code
   delegate :is_billable?, to: :project
 
