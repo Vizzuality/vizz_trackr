@@ -14,6 +14,8 @@
 #  aasm_state       :string
 #  percent_complete :float
 #  code             :string
+#  notes            :text
+#  summary          :text
 #
 require 'csv'
 
@@ -43,12 +45,23 @@ class Contract < ApplicationRecord
   has_many :monthly_incomes
   has_many :budget_lines
   accepts_nested_attributes_for :budget_lines, allow_destroy: true,
-                                reject_if: :reject_empty_lines
+                                               reject_if: :reject_empty_lines
+
+  has_many :progress_reports
 
   validates_uniqueness_of :name # , :code
   delegate :is_billable?, to: :project
 
   before_destroy :no_report_parts
+
+  def previous_progress_report progress_report = nil
+    p_reports = progress_reports.joins(:reporting_period)
+      .order('reporting_periods.date DESC')
+
+    p_reports = p_reports.where('reporting_periods.date < ?', progress_report.date) if progress_report
+
+    p_reports.first
+  end
 
   def build_budget_lines
     Role.order(:name).each do |role|
@@ -75,13 +88,13 @@ class Contract < ApplicationRecord
   end
 
   def completion_burn
-    return 0 unless budget && percent_complete
+    return 0 unless budget && previous_progress_report
 
-    (budget * percent_complete / 100).round(2)
+    (budget * previous_progress_report.percentage / 100).round(2)
   end
 
   def completion_burn_percentage
-    return nil unless budget && percent_complete
+    return nil unless budget && previous_progress_report
 
     ((completion_burn / budget) * 100).round(2)
   end
@@ -122,8 +135,8 @@ class Contract < ApplicationRecord
   def reject_empty_lines(attributes)
     exists = attributes['id'].present?
     empty = attributes['percentage'].blank? || attributes['percentage'].to_f <= 0.0
-    attributes.merge!({_destroy: 1}) if exists && empty
-    return (!exists && empty)
+    attributes.merge!(_destroy: 1) if exists && empty
+    !exists && empty
   end
 
   def no_report_parts

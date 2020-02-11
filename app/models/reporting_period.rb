@@ -44,6 +44,10 @@ class ReportingPeriod < ApplicationRecord
 
   validates_uniqueness_of :date
 
+  def self.active_period
+    ReportingPeriod.where(aasm_state: 'active').first
+  end
+
   def display_name
     date.strftime('%B %Y')
   end

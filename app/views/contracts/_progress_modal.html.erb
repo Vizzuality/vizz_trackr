@@ -1,0 +1,34 @@
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="progressModal" aria-hidden="true" style="display: none;" id="progressModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="progressModalTitle">Logged Progress</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th>Period</th>
+              <th>Progress</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @contract.progress_reports
+              .joins(:reporting_period).order('reporting_periods.date DESC').each do |pr| %>
+              <tr>
+                <td><%= pr.reporting_period.display_name %></td>
+                <td><%= pr.percentage %>%</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

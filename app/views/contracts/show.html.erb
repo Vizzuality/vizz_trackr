@@ -1,5 +1,6 @@
 <% content_for :title, "Contract - #{@contract.name} - #{@contract.aasm_state.humanize}" %>
 <%= render 'actions', contract: @contract %>
+<% content_for :modals, render('progress_modal', contract: @contract) %>
 
 <% if @contract.start_date <= Date.parse('01/10/2018') || @contract.end_date <= Date.parse('01/10/2018') %>
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -23,6 +24,12 @@
         <p>
           <strong>Code:</strong> <%= @contract.code %>
         </p>
+        <p>
+          <strong>Start Date:</strong> <%= @contract.start_date&.strftime('%d/%B/%Y') %>
+        </p>
+        <p>
+          <strong>End Date:</strong> <%= @contract.end_date&.strftime('%d/%B/%Y') %>
+        </p>
         <% if @contract.notes.present? %>
           <p>
             <strong>Notes:</strong> <%= @contract.notes %>
@@ -39,14 +46,7 @@
   <div class="col-md-6">
     <div class="main-card mb-3 card">
       <div class="card-body">
-        <p>
-          <strong>Start Date:</strong> <%= @contract.start_date&.strftime('%d/%B/%Y') %>
-        </p>
-        <p>
-          <strong>End Date:</strong> <%= @contract.end_date&.strftime('%d/%B/%Y') %>
-        </p>
         <p><strong>Budget:</strong> <%= @contract.budget ? number_to_currency(@contract.budget) : "Not defined" %></p>
-        <h5 class="card-title">Burn</h5>
         <p>
           <strong>Reported burn:</strong>
           <%= number_to_currency(@contract.total_burn) %>
@@ -57,12 +57,25 @@
             <%= number_to_currency(@contract.total_burn(true)) %>
           </p>
         <% end %>
-        <% if @contract.percent_complete && @contract.budget %>
-          <p>
+        <p>
+          <strong>Estimated progress:</strong>
+          <%= result_with_color(@contract.previous_progress_report&.percentage || 0.0) %>%
+          <% if @contract.previous_progress_report %>
+            <%= link_to 'View all', '#', data: {toggle: 'modal', target: '#progressModal'} %>
+            |
+            <%= link_to 'Edit', edit_contract_progress_report_path(@contract, @contract.previous_progress_report) %>
+          <% end %>
+          <% if @contract.previous_progress_report&.reporting_period != ReportingPeriod.active_period %>
+            |
+            <%= link_to 'Add', new_contract_progress_report_path(@contract) %>
+          <% end %>
+        </p>
+        <p>
+          <% if @contract.previous_progress_report %>
             <strong>Burn based on estimated completion percentage</strong>
             <%= number_to_currency(@contract.completion_burn) %> (<%= result_with_color(@contract.completion_burn_percentage) %>%)
-          </p>
-        <% end %>
+          <% end %>
+        </p>
         <% if @contract.is_billable? %>
           <div class="mt-3 row">
             <div class="col-sm-12 col-md-6">
@@ -122,8 +135,6 @@
     </div>
   </div>
 </div>
-
-
 
 <div class="row">
   <div class="col-md-12">

@@ -1,0 +1,7 @@
+<% content_for :title, "Edit Project Progress" %>
+<% content_for :actions,
+  link_to('Back', @contract, class: 'btn btn-sm btn-outline-secondary') %>
+
+<%= render 'form', progress_report: @progress_report,
+  reporting_periods: @reporting_periods, active_period: @active_period,
+  contract: @contract %>

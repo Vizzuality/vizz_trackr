@@ -61,7 +61,7 @@ Style/ClassAndModuleChildren:
 Style/MethodDefParentheses:
     Enabled: false
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
   Exclude:
     - 'db/**/*'
