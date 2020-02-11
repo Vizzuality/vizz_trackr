@@ -55,7 +55,7 @@ class ContractsController < ApplicationController
   def show
     @roles = Role.order(:name)
     @days_per_role = @contract.full_reports
-      .select('role_id, sum(days) AS days').group(:role_id)
+      .select('role_id, sum(cost) AS cost, sum(days) AS days').group(:role_id)
     @total_days = @contract.full_reports.where.not(role_id: nil)
       .pluck('sum(days)').first
 

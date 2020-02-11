@@ -87,16 +87,16 @@ class Contract < ApplicationRecord
     ((total_burn(with_projections) / budget) * 100).round(2)
   end
 
-  def completion_burn
+  def income_to_date
     return 0 unless budget && previous_progress_report
 
     (budget * previous_progress_report.percentage / 100).round(2)
   end
 
-  def completion_burn_percentage
+  def income_percentage
     return nil unless budget && previous_progress_report
 
-    ((completion_burn / budget) * 100).round(2)
+    ((income_to_date / budget) * 100).round(2)
   end
 
   def full_name

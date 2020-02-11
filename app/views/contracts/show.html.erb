@@ -48,12 +48,12 @@
       <div class="card-body">
         <p><strong>Budget:</strong> <%= @contract.budget ? number_to_currency(@contract.budget) : "Not defined" %></p>
         <p>
-          <strong>Reported burn:</strong>
+          <strong>Cost to date:</strong>
           <%= number_to_currency(@contract.total_burn) %>
         </p>
         <% if @contract.full_reports.where(report_estimated: true).any? %>
           <p>
-            <strong>Burn with projections:</strong>
+            <strong>Costs with projection:</strong>
             <%= number_to_currency(@contract.total_burn(true)) %>
           </p>
         <% end %>
@@ -72,8 +72,8 @@
         </p>
         <p>
           <% if @contract.previous_progress_report %>
-            <strong>Burn based on estimated completion percentage</strong>
-            <%= number_to_currency(@contract.completion_burn) %> (<%= result_with_color(@contract.completion_burn_percentage) %>%)
+            <strong>Income to date</strong>
+            <%= number_to_currency(@contract.income_to_date) %> (<%= result_with_color(@contract.income_percentage) %>%)
           <% end %>
         </p>
         <% if @contract.is_billable? %>
@@ -91,7 +91,7 @@
                       <div class="progress-bar bg-info" role="progressbar" aria-valuenow="<%= @contract.burn_percentage %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= @contract.burn_percentage %>%;"></div>
                     </div>
                     <div class="progress-sub-label">
-                      <div class="sub-label-left font-size-md">Reported burn</div>
+                      <div class="sub-label-left font-size-md">Costs to date</div>
                     </div>
                   </div>
                 </div>
@@ -102,15 +102,15 @@
                 <div class="widget-content-outer">
                   <div class="widget-content-wrapper">
                     <div class="widget-content-left">
-                    <div class="widget-numbers text-dark"><%= @contract.burn_percentage(true) %>%</div>
+                    <div class="widget-numbers text-dark"><%= @contract.income_percentage %>%</div>
                     </div>
                   </div>
                   <div class="widget-progress-wrapper mt-1">
                     <div class="progress-bar-xs progress-bar-animated-alt progress">
-                      <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="<%= @contract.burn_percentage(true) %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= @contract.burn_percentage(true) %>%;"></div>
+                      <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="<%= @contract.income_percentage %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= @contract.income_percentage %>%;"></div>
                     </div>
                     <div class="progress-sub-label">
-                      <div class="sub-label-left font-size-md">Burn with projection</div>
+                      <div class="sub-label-left font-size-md">Income to date</div>
                     </div>
                   </div>
                 </div>
@@ -144,24 +144,41 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th>Functional Area</th>
-              <th>% in contract</th>
-              <th>% reported</th>
-              <th>Total days</th>
+              <th rowspan="2">Functional Area</th>
+              <th colspan="2">In contract</th>
+              <th colspan="3">Reported</th>
+            </tr>
+            <tr>
+              <th>%</th>
+              <th>€</th>
+              <th>%</th>
+              <th>€</th>
+              <th>Days</th>
             </tr>
           </thead>
           <tbody>
             <% @roles.each do |role| %>
-              <% role_days = @days_per_role.where(role_id: role.id).first&.days || 0 %>
+              <% info_per_role = @days_per_role.where(role_id: role.id).first %>
               <tr>
                 <td><%= link_to role.name, role %></td>
-                <td><%= @contract.budget_lines.where(role: role.id).first&.percentage %></td>
-                <td><%= @total_days && (role_days / @total_days.to_f * 100).round(2) %>%</td>
-                <td><%= role_days  %></td>
+                <% budget_per_role = @contract.budget_lines.where(role: role.id).first&.percentage %>
+                <td><%=  "#{budget_per_role}%" if budget_per_role %></td>
+                <td><%=  number_to_currency(budget_per_role / 100 * @contract.budget) if @contract.budget && budget_per_role %></td>
+                <td><%= "#{(info_per_role.days / @total_days.to_f * 100).round(2)}%" if @total_days && info_per_role %></td>
+                <td><%= number_to_currency(info_per_role.cost) if info_per_role %></td>
+                <td><%= info_per_role&.days  %></td>
+              </tr>
+            <% end %>
+            <% if extra = @contract.budget_lines.where(role: nil).first %>
+              <tr>
+                <td><%= extra.details %></td>
+                <td><%= extra.percentage %></td>
+                <td><%=  number_to_currency(extra.percentage / 100 * @contract.budget) if @contract.budget %></td>
+                <td colspan="3"></td>
               </tr>
             <% end %>
             <tr>
-              <td colspan="3"><strong>Total</strong></td>
+              <td colspan="5"><strong>Total</strong></td>
               <td><%= @total_days %></td>
             </tr>
           </tbody>
