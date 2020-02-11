@@ -172,7 +172,7 @@
             <% if extra = @contract.budget_lines.where(role: nil).first %>
               <tr>
                 <td><%= extra.details %></td>
-                <td><%= extra.percentage %></td>
+                <td><%= extra.percentage %>%</td>
                 <td><%=  number_to_currency(extra.percentage / 100 * @contract.budget) if @contract.budget %></td>
                 <td colspan="3"></td>
               </tr>
