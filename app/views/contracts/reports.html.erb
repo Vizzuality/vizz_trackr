@@ -4,11 +4,6 @@
 <p>
   <strong>Project:</strong> <%= link_to @contract.project.name, @contract.project  %>
 </p>
-<% unless @contract.alias.empty? %>
-  <p>
-    <strong>Alias:</strong> <%= @contract.alias_list %>
-  </p>
-<% end %>
 
 <%= form_with(url: reports_contract_path(@contract), method: :get, local: true) do |form| %>
   <div class="form-group">
@@ -45,7 +40,7 @@
               <th>Period</th>
               <th>User</th>
               <th>Team</th>
-              <th>Role</th>
+              <th>Functional Area</th>
               <th>Percentage</th>
               <th>Days</th>
               <th>Cost</th>

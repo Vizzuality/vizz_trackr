@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_05_174106) do
+ActiveRecord::Schema.define(version: 2020_02_08_175311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "budget_lines", force: :cascade do |t|
+    t.bigint "contract_id", null: false
+    t.bigint "role_id"
+    t.float "percentage"
+    t.string "details"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["contract_id"], name: "index_budget_lines_on_contract_id"
+    t.index ["role_id"], name: "index_budget_lines_on_role_id"
+  end
 
   create_table "contracts", force: :cascade do |t|
     t.string "name"
@@ -129,6 +140,8 @@ ActiveRecord::Schema.define(version: 2020_02_05_174106) do
     t.index ["team_id"], name: "index_users_on_team_id"
   end
 
+  add_foreign_key "budget_lines", "contracts"
+  add_foreign_key "budget_lines", "roles"
   add_foreign_key "contracts", "projects"
   add_foreign_key "non_staff_costs", "contracts"
   add_foreign_key "non_staff_costs", "reporting_periods"

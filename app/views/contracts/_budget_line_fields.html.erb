@@ -1,0 +1,23 @@
+<% is_new_record = form.object.new_record? %>
+
+<%= content_tag :tr do %>
+  <td>
+    <% if form.object.role %>
+      <%= form.object.role&.name %>
+      <%= form.hidden_field :role_id %>
+    <% else %>
+      <div class="form-group">
+        <%= form.text_field :details, value: 'Other costs', class: 'form-control' %>
+      </div>
+    <% end %>
+  </td>
+  <td>
+    <div class="input-group">
+      <%= form.text_field :percentage, class: 'form-control',
+          data: { action: 'change->report-percentages#recalc', target: 'report-percentages.source' }%>
+      <div class="input-group-append">
+        <div class="input-group-text">%</div>
+      </div>
+    </div>
+  </td>
+<% end %>

@@ -22,6 +22,7 @@ class ContractsController < ApplicationController
 
   def new
     @contract = Contract.new
+    @contract.build_budget_lines
     @states = Contract.aasm.states.map(&:name).prepend(:all)
     @projects = Project.order(:name)
   end
@@ -48,6 +49,7 @@ class ContractsController < ApplicationController
   def edit
     @projects = Project.order(:name)
     @states = Contract.aasm.states.map(&:name).prepend(:all)
+    @contract.build_budget_lines
   end
 
   def show
@@ -155,6 +157,8 @@ class ContractsController < ApplicationController
                                      :aasm_state, :state,
                                      :percent_complete, :project_id,
                                      :name, :budget, :summary,
-                                     :alias_list, :start_date, :end_date)
+                                     :start_date, :end_date,
+                                     budget_lines_attributes: [:id, :percentage,
+                                                               :role_id, :details])
   end
 end

@@ -41,18 +41,22 @@ class Contract < ApplicationRecord
   has_many :full_reports
   has_many :non_staff_costs, dependent: :destroy
   has_many :monthly_incomes
+  has_many :budget_lines
+  accepts_nested_attributes_for :budget_lines, allow_destroy: true,
+                                reject_if: :reject_empty_lines
 
   validates_uniqueness_of :name # , :code
   delegate :is_billable?, to: :project
 
   before_destroy :no_report_parts
 
-  def alias_list
-    self.alias.join(', ')
-  end
+  def build_budget_lines
+    Role.order(:name).each do |role|
+      budget_lines.build(role_id: role.id) unless budget_lines.where(role_id: role.id).any?
+    end
 
-  def alias_list= list
-    self.alias = list.split(',').map(&:strip).uniq.sort
+    # one for extra
+    budget_lines.build
   end
 
   def total_burn with_projections = false
@@ -114,6 +118,13 @@ class Contract < ApplicationRecord
   end
 
   private
+
+  def reject_empty_lines(attributes)
+    exists = attributes['id'].present?
+    empty = attributes['percentage'].blank? || attributes['percentage'].to_f <= 0.0
+    attributes.merge!({_destroy: 1}) if exists && empty
+    return (!exists && empty)
+  end
 
   def no_report_parts
     return unless report_parts.any?
