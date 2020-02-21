@@ -2,7 +2,7 @@
 <%= render 'actions', contract: @contract %>
 <% content_for :modals, render('progress_modal', contract: @contract) %>
 
-<% if @contract.start_date <= Date.parse('01/10/2018') || @contract.end_date <= Date.parse('01/10/2018') %>
+<% if @contract.start_date && @contract.end_date && (@contract.start_date <= Date.parse('01/10/2018') || @contract.end_date <= Date.parse('01/10/2018')) %>
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
     VizzTrackr only includes reporting data since October 2018, so the data for
     this contract is probably not complete, please take it with a pinch of salt.
