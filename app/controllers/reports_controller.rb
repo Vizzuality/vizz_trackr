@@ -96,7 +96,7 @@ class ReportsController < ApplicationController
     @reporting_periods = ReportingPeriod.order(:date)
     @users = User.order(:name)
     # if editing an old report, let's not constraint the available contracts to report on
-    @contracts = if @report.reporting_period.aasm_state != 'active'
+    @contracts = if !@report || @report.reporting_period.aasm_state != 'active'
                    Contract.order(:aasm_state, :name).includes(:project)
                  else
                    Contract.with_status([:proposal, :live])

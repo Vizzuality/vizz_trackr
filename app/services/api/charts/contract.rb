@@ -59,6 +59,7 @@ module Api
         start ||= [@contract.start_date, @contract.full_reports.minimum(:reporting_period_date)].compact.min
         end_date ||= [@contract.start_date, @contract.full_reports.maximum(:reporting_period_date)].compact.max
         return [] unless start && end_date
+
         @dates ||= (start..end_date)
           .map { |d| Date.new(d.year, d.month, 1) }
           .uniq
