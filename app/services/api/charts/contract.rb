@@ -12,16 +12,16 @@ module Api
         aggregate = {name: 'Aggregate', data: {}}
         projected = {name: 'Projected', data: {}}
         agg = 0.0
-        dates.each do |date, display_date|
+        dates.each do |date|
           next unless report_for date
 
           if @report.report_estimated
-            projected[:data][display_date] = @report.days&.round(2)
+            projected[:data][date] = @report.days&.round(2)
           else
-            staff[:data][display_date] = @report.days&.round(2)
+            staff[:data][date] = @report.days&.round(2)
           end
           agg += @report.days
-          aggregate[:data][display_date] = agg.round(2)
+          aggregate[:data][date] = agg.round(2)
         end
         [staff, aggregate, projected]
       end
@@ -32,21 +32,21 @@ module Api
         non_staff = {name: 'Non Staff Costs', data: {}}
         aggregate = {name: 'Aggregate', data: {}}
         projected = {name: 'Projected', data: {}}
-        budget = {name: 'Budget', data: dates.map { |d| [d[1], @contract.budget&.to_f] }.to_h, points: false}
-        income = {name: 'Calculated Income', data: dates.map { |d| [d[1], @contract.linear_income] }.to_h}
+        budget = {name: 'Budget', data: dates.map { |d| [d, @contract.budget&.to_f] }.to_h, points: false}
+        income = {name: 'Calculated Income', data: dates.map { |d| [d, @contract.linear_income] }.to_h}
         agg = 0.0
-        dates.each do |date, display_date|
+        dates.each do |date|
           next unless report_for date
 
-          non_staff[:data][display_date] = non_staff_costs_for_report
+          non_staff[:data][date] = non_staff_costs_for_report
           agg += non_staff_costs_for_report
           if @report.report_estimated?
-            projected[:data][display_date] = @report.cost&.round(2)
+            projected[:data][date] = @report.cost&.round(2)
           else
-            staff[:data][display_date] = @report.cost&.round(2)
+            staff[:data][date] = @report.cost&.round(2)
           end
           agg += @report.cost
-          aggregate[:data][display_date] = agg.round(2)
+          aggregate[:data][date] = agg.round(2)
         end
         data = [staff, projected, aggregate, budget]
         data << non_staff if non_staff[:data].present?
@@ -56,11 +56,11 @@ module Api
       # rubocop:enable Metrics/AbcSize
 
       def dates
-        @dates ||= (@contract.start_date..@contract.end_date)
+        start ||= [@contract.start_date, @contract.full_reports.minimum(:reporting_period_date)].min
+        end_date ||= [@contract.start_date, @contract.full_reports.maximum(:reporting_period_date)].max
+        @dates ||= (start..end_date)
           .map { |d| Date.new(d.year, d.month, 1) }
-          .uniq.map do |date|
-          [date, date.strftime('%B %Y')]
-        end
+          .uniq
       end
 
       def report_for(date)

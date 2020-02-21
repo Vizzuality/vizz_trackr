@@ -14,14 +14,14 @@ module Api
         billable_projection = {name: 'Billable Projection', data: {}}
         income = {name: 'Income (live contracs)', data: {}}
         @reporting_periods_scope.each do |rp|
-          billable_time[:data][rp.display_name] = rp.full_reports
+          billable_time[:data][rp.date] = rp.full_reports
             .where(project_is_billable: true, report_estimated: false).sum(:cost).round(2)
-          billable_projection[:data][rp.display_name] = rp.full_reports
+          billable_projection[:data][rp.date] = rp.full_reports
             .where(project_is_billable: true, report_estimated: true).sum(:cost).round(2)
-          income[:data][rp.display_name] = MonthlyIncome
+          income[:data][rp.date] = MonthlyIncome
             .joins(:contract)
             .where(month: rp.date, contracts: {aasm_state: 'live'}).sum(:income).round(2)
-          non_staff_costs[:data][rp.display_name] = rp
+          non_staff_costs[:data][rp.date] = rp
             .non_staff_costs.sum(:cost).round(2)
         end
         [billable_time, income, non_staff_costs, billable_projection]
