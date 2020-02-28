@@ -158,7 +158,7 @@ class ContractsController < ApplicationController
                                      :percent_complete, :project_id,
                                      :name, :budget, :summary,
                                      :start_date, :end_date,
-                                     budget_lines_attributes: [:id, :percentage,
+                                     budget_lines_attributes: [:id, :percentage, :days,
                                                                :role_id, :details])
   end
 end

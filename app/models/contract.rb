@@ -69,7 +69,7 @@ class Contract < ApplicationRecord
     end
 
     # one for extra
-    budget_lines.build
+    budget_lines.build unless budget_lines.where(role_id: nil).any?
   end
 
   def total_burn with_projections = false

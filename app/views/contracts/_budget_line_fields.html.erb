@@ -6,10 +6,15 @@
       <%= form.object.role&.name %>
       <%= form.hidden_field :role_id %>
     <% else %>
-      <div class="form-group">
+      <div class="input-group">
         <%= form.text_field :details, value: 'Other costs', class: 'form-control' %>
       </div>
     <% end %>
+  </td>
+  <td>
+    <div class="input-group">
+      <%= form.text_field :days, class: 'form-control' %>
+    </div>
   </td>
   <td>
     <div class="input-group">

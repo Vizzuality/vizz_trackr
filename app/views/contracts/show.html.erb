@@ -140,18 +140,19 @@
   <div class="col-md-12">
     <div class="main-card mb-3 card">
       <div class="card-body">
-        <h5 class="card-title">Time per role</h5>
+        <h5 class="card-title">Time per functional area</h5>
         <table class="table table-bordered">
           <thead>
             <tr>
               <th rowspan="2">Functional Area</th>
-              <th colspan="2">In contract</th>
-              <th colspan="3">Reported</th>
+              <th colspan="3">In contract</th>
+              <th colspan="3">Reported costs</th>
             </tr>
             <tr>
-              <th>%</th>
+              <th>% of total budget</th>
               <th>€</th>
-              <th>%</th>
+              <th>Estimated days</th>
+              <th>% of total budget</th>
               <th>€</th>
               <th>Days</th>
             </tr>
@@ -161,12 +162,14 @@
               <% info_per_role = @days_per_role.where(role_id: role.id).first %>
               <tr>
                 <td><%= link_to role.name, role %></td>
-                <% budget_per_role = @contract.budget_lines.where(role: role.id).first&.percentage %>
-                <td><%=  "#{budget_per_role}%" if budget_per_role %></td>
-                <td><%=  number_to_currency(budget_per_role / 100 * @contract.budget) if @contract.budget && budget_per_role %></td>
+                <% budget_per_role = @contract.budget_lines.where(role: role.id).first %>
+                <td><%=  "#{budget_per_role.percentage}%" if budget_per_role&.percentage %></td>
+                <% cost_per_role = (budget_per_role.percentage / 100 * @contract.budget) if @contract.budget && budget_per_role&.percentage %>
+                <td><%=  number_to_currency(cost_per_role) if cost_per_role %></td>
+                <td><%=  budget_per_role&.days %></td>
                 <td><%= "#{(info_per_role.days / @total_days.to_f * 100).round(2)}%" if @total_days && info_per_role %></td>
                 <td><%= number_to_currency(info_per_role.cost) if info_per_role %></td>
-                <td><%= info_per_role&.days  %></td>
+                <td><%= info_per_role&.days&.round(2)  %></td>
               </tr>
             <% end %>
             <% if extra = @contract.budget_lines.where(role: nil).first %>
@@ -174,11 +177,12 @@
                 <td><%= extra.details %></td>
                 <td><%= extra.percentage %>%</td>
                 <td><%=  number_to_currency(extra.percentage / 100 * @contract.budget) if @contract.budget %></td>
+                <td><%= extra.days %></td>
                 <td colspan="3"></td>
               </tr>
             <% end %>
             <tr>
-              <td colspan="5"><strong>Total</strong></td>
+              <td colspan="6"><strong>Total</strong></td>
               <td><%= @total_days %></td>
             </tr>
           </tbody>
