@@ -1,8 +1,43 @@
 <% content_for :title, "Editing Report - #{@report.reporting_period.display_name}" %>
 <% content_for :actions do
-  link_to 'Back', current_user,
-    class: 'btn btn-sm btn-outline-primary'
+  content_tag(:button, content_tag(:i, nil, class: 'fa fa-info'),
+              data: { toggle: 'modal', target: '#reportsInfoModal' },
+                class: 'btn btn-sm mr-3 btn-icon btn-icon-only btn-dark')
+      .concat(link_to('Back', current_user, class: 'btn btn-sm btn-outline-primary'))
   end
 %>
 
 <%= render 'form', report: @report %>
+
+<% content_for :modals do %>
+  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="reportsInfoModal" aria-hidden="true" style="display: none;" id="reportsInfoModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="progressModalTitle">Non Project Time Reporting</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>Internal projects</h5>
+          <p>All projects that are for Vizzuality internal use, without a client associated, but with defined timeline, outputs and outcomes (eg. Internal visualizations or development of VizzTracker).</p>
+          <h5>MKT & BD</h5>
+          <p>All marketing and business development efforts, like external communications (eg. blog posts), new project leads or proposal writing.</p>
+          <h5>Operations</h5>
+          <p>All activities that cannot be associated with a specific project, but are essential to make the company work. This is the case for functional area meetings, daily team meetings, all hands meetings, hiring related activities. Lightning talks that deal with efficiency or present new procedures/processes are also operations. Onboarding in general is considered operations (except for clear training activities).</p>
+          <h5>Training</h5>
+          <p>All activities that involve learning something new or explaining something to a person or group of people. A lightning talk can be seen as training under this lens, teaching junior members how to do certain things, etc. On the contrary, onboarding a new team member to a project is project related and should be reported as such.</p>
+          <h5>Vacation/Absence YEAR</h5>
+          <p>Vacation time from the year that it corresponds to.</p>
+          <p class="alert alert-info">
+            If you have any questions about reporting ask the team involved (eg. Doubts on operations reporting ask Laura/David; doubts on projects ask PMs; doubts on marketing ask BD; etc)
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
