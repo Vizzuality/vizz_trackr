@@ -45,13 +45,12 @@
                   <td><%= link_to contract.name, contract %></td>
                   <% @reporting_periods.each do |rp| %>
                     <td class="text-danger">
-                      <% val = rp.full_reports.select{|fr| fr[:contract_id] ==  contract.id}&.map(&:cost)&.compact&.reduce(&:+) %>
+                      <% val = @full_reports.select{|fr| fr[:contract_id] == contract.id && fr[:reporting_period_id] == rp.id }&.first&.cost %>
                       <%= number_to_currency(val) if val %>
                     </td>
                     <td class="text-success">
-                      <% if contract.start_date <= rp.date && contract.end_date >= rp.date %>
-                        <%= number_to_currency(contract.linear_income) %>
-                      <% end %>
+                      <% income = @monthly_incomes.select{|mi| mi[:contract_id] == contract.id && mi[:reporting_period_id] == rp.id}&.first&.income %>
+                      <%= number_to_currency(income) if income %>
                     </td>
                   <% end %>
                 </tr>

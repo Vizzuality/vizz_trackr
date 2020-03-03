@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_28_110636) do
+ActiveRecord::Schema.define(version: 2020_03_03_150834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -200,14 +200,17 @@ ActiveRecord::Schema.define(version: 2020_02_28_110636) do
        JOIN projects ON ((projects.id = contracts.project_id)));
   SQL
   create_view "monthly_incomes", sql_definition: <<-SQL
-      SELECT sum((contracts.budget / GREATEST(date_part('month'::text, age((contracts.end_date)::timestamp with time zone, (contracts.start_date)::timestamp with time zone)), (1)::double precision))) AS income,
-      (generate_series(date_trunc('month'::text, (contracts.start_date)::timestamp with time zone), (contracts.end_date)::timestamp with time zone, '1 mon'::interval))::date AS month,
+      SELECT ((contracts.budget * progress_reports.delta) / (100)::double precision) AS income,
+      reporting_periods.date AS month,
       contracts.aasm_state,
-      contracts.id AS contract_id
-     FROM (contracts
-       JOIN projects ON ((projects.id = contracts.project_id)))
-    WHERE ((projects.is_billable = true) AND (contracts.budget IS NOT NULL))
-    GROUP BY ((generate_series(date_trunc('month'::text, (contracts.start_date)::timestamp with time zone), (contracts.end_date)::timestamp with time zone, '1 mon'::interval))::date), contracts.id, contracts.aasm_state
-    ORDER BY ((generate_series(date_trunc('month'::text, (contracts.start_date)::timestamp with time zone), (contracts.end_date)::timestamp with time zone, '1 mon'::interval))::date) DESC;
+      contracts.id AS contract_id,
+      reporting_periods.id AS reporting_period_id
+     FROM ((((contracts
+       JOIN report_parts ON ((report_parts.contract_id = contracts.id)))
+       JOIN reports ON ((reports.id = report_parts.report_id)))
+       JOIN reporting_periods ON ((reporting_periods.id = reports.reporting_period_id)))
+       JOIN progress_reports ON (((progress_reports.reporting_period_id = reporting_periods.id) AND (progress_reports.contract_id = contracts.id))))
+    WHERE (contracts.budget IS NOT NULL)
+    ORDER BY reporting_periods.date DESC;
   SQL
 end

@@ -107,10 +107,9 @@ class ReportingPeriodsController < ApplicationController
     @monthly_incomes = MonthlyIncome
       .joins(:contract)
       .where(contracts: {aasm_state: %w(proposal live)},
-             month: Time.now.beginning_of_month..5.months.from_now)
+             month: 3.months.ago..5.months.from_now)
       .order(month: :desc)
-    @timeframe = (@monthly_incomes.minimum(:month)..@monthly_incomes.maximum(:month))
-      .map { |d| Date.new(d.year, d.month, 1) }.uniq
+    @timeframe = set_timeframe
     @contracts = Contract.where(aasm_state: %w(proposal live))
       .joins(:project).where(projects: {is_billable: true})
       .order('projects.name ASC')
@@ -148,5 +147,12 @@ class ReportingPeriodsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def reporting_period_params
     params.require(:reporting_period).permit(:date, :aasm_state)
+  end
+
+  def set_timeframe
+    return [] unless @monthly_incomes.any?
+
+    (@monthly_incomes.minimum(:month)..@monthly_incomes.maximum(:month))
+      .map { |d| Date.new(d.year, d.month, 1) }.uniq
   end
 end
