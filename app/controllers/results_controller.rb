@@ -1,6 +1,7 @@
 class ResultsController < ApplicationController
   before_action :set_year
 
+  # rubocop:disable Metrics/AbcSize
   def index
     @years = ReportingPeriod
       .select("date_part('year', date)::INTEGER AS year")
@@ -12,7 +13,7 @@ class ResultsController < ApplicationController
       .order(:date)
 
     @contracts = Contract.joins(:full_reports)
-      .where(full_reports: { reporting_period_id: @reporting_periods.uniq.pluck(:id) })
+      .where(full_reports: {reporting_period_id: @reporting_periods.uniq.pluck(:id)})
       .order(:name)
       .distinct
 
@@ -26,6 +27,7 @@ class ResultsController < ApplicationController
       .where(reporting_period_id: @reporting_periods.uniq.pluck(:id),
              contract_id: @contracts.uniq.pluck(:id))
   end
+  # rubocop:enable Metrics/AbcSize
 
   private
 
