@@ -71,10 +71,12 @@
           <%= result_with_color(@contract.previous_progress_report&.percentage || 0.0) %>%
           <% if @contract.previous_progress_report %>
             <%= link_to 'View all', '#', data: {toggle: 'modal', target: '#progressModal'} %>
-            |
-            <%= link_to 'Edit', edit_contract_progress_report_path(@contract, @contract.previous_progress_report) %>
+            <% if can? :manage, @contract %>
+              |
+              <%= link_to 'Edit', edit_contract_progress_report_path(@contract, @contract.previous_progress_report) %>
+            <% end %>
           <% end %>
-          <% if @contract.previous_progress_report&.reporting_period != ReportingPeriod.active_period %>
+          <% if @contract.previous_progress_report&.reporting_period != ReportingPeriod.active_period && can?(:manage, @contract) %>
             |
             <%= link_to 'Add', new_contract_progress_report_path(@contract) %>
           <% end %>
