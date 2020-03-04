@@ -1,0 +1,46 @@
+<% content_for :title, "#{@project.name} - Project Links" %>
+<% content_for :actions,
+  link_to('Back', @project, class: 'btn btn-sm btn-outline-secondary') %>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <%= form_with(model: @project, url: project_links_project_path(@project), method: :patch, local: true) do |form| %>
+          <% if @project.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
+
+              <ul>
+                <% @project.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <div data-controller="nested-list">
+            <template>
+              <%= form.fields_for :project_links, ProjectLink.new, child_index: 'NEW_RECORD' do |builder| %>
+                <%= render "project_link_fields", form: builder %>
+              <% end %>
+            </template>
+            <%= form.fields_for :project_links do |builder| %>
+              <%= render 'project_link_fields', form: builder %>
+            <% end %>
+            <div class="form-group nested-list__actions" data-target="nested-list.links">
+              <%= button_tag "Add Link", type: 'button',
+                class: 'btn btn-secondary',
+                data: { action: "click->nested-list#addRecord" } %>
+          </div>
+          </div>
+
+          <div class="position-relative row form-group">
+            <div class="col-sm-10 offset-sm-2">
+              <%= form.submit "Submit", class: "btn btn-primary" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

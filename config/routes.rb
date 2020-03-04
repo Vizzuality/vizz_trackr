@@ -18,7 +18,12 @@ Rails.application.routes.draw do
   resources :users do
     get 'reports', on: :member
   end
-  resources :projects
+  resources :projects do
+    member do
+      get 'project_links', to: 'project_links#edit'
+      patch 'project_links', to: 'project_links#update'
+    end
+  end
   resources :contracts do
     resources :progress_reports, only: [:new, :create, :edit, :update]
     member do

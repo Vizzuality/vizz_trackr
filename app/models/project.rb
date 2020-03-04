@@ -21,7 +21,8 @@ class Project < ApplicationRecord
   has_many :users, through: :reports
   has_many :reporting_periods, through: :reports
 
-  has_many :project_finances
+  has_many :project_links
+  accepts_nested_attributes_for :project_links, allow_destroy: true
 
   validates_uniqueness_of :name
   validates_presence_of :name
