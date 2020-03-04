@@ -47,6 +47,13 @@ class User < ApplicationRecord
               role_id: role_id, team_id: team_id)
   end
 
+  def quick_contracts
+    return [] unless reports.any?
+
+    reports.order(created_at: :desc)
+      .first.contracts.order(:name)
+  end
+
   def gravatar_url(size = 50)
     gravatar_id = Digest::MD5.hexdigest(email.downcase)
     "https://secure.gravatar.com/avatar/#{gravatar_id}.png?s=#{size}"
