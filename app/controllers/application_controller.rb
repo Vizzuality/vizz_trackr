@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
+  before_action :set_quick_contracts
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
@@ -11,5 +12,14 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(_resource)
     '/my-report'
+  end
+
+  private
+
+  def set_quick_contracts
+    return [] unless current_user
+
+    @quick_contracts = current_user.reports
+      .order(created_at: :desc).first&.contracts&.order(:name) || []
   end
 end

@@ -1,4 +1,22 @@
 <div class="app-header__content">
+  <div class="app-header-left">
+    <ul class="header-megamenu nav">
+      <li class="dropdown nav-item">
+        <a aria-haspopup="true" data-toggle="dropdown" class="nav-link" aria-expanded="false">
+          <i class="nav-link-icon pe-7s-note2"></i>
+          Quick Access
+          <i class="fa fa-angle-down ml-2 opacity-5"></i>
+        </a>
+        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-rounded dropdown-menu-lg rm-pointers dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+          <% @quick_contracts.each do |contract| %>
+            <%= link_to contract, class: 'dropdown-item', tabindex: '0' do %>
+              <i class="dropdown-icon lnr-file-empty"> </i><%= contract.name %>
+            <% end %>
+          <% end %>
+        </div>
+      </li>
+    </ul>
+  </div>
   <div class="app-header-right">
     <% if current_user && current_user.current_report %>
       <div class="header-dots">

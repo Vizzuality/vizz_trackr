@@ -19,6 +19,8 @@ class Report < ApplicationRecord
   belongs_to :reporting_period
   has_many :report_parts, dependent: :destroy
   accepts_nested_attributes_for :report_parts, allow_destroy: true
+
+  has_many :contracts, through: :report_parts
   validates_associated :report_parts,
                        message: 'You can\'t report on the same contract more than'\
                        ' once per month. Please remove duplicate lines and submit your report again.'
