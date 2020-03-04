@@ -42,7 +42,7 @@
         <% end %>
         <p><strong>Links</strong> (<%= link_to 'Edit', project_links_project_path(@contract.project) %>)</p>
         <ul>
-          <% @contract.project_links.order(:title).each do |pl| %>
+          <% @contract.project_links.order(:link_type, :title).each do |pl| %>
             <li><%= link_to pl.title, pl.url %></li>
           <% end %>
         </ul>

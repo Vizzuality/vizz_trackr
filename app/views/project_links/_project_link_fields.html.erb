@@ -4,6 +4,14 @@
   class: 'project-links-fields nested-fields inline-fields border border-secondary shadow p-3 mb-5 bg-white rounded',
   data: { controller: 'project_links', new_record: is_new_record } do %>
 
+
+  <div class="position-relative row form-group">
+    <%= form.label :link_type, class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-10">
+      <%= form.select :link_type, ProjectLink::LINK_TYPES.map{|t| [t.humanize, t]}, {}, class: 'form-control' %>
+    </div>
+  </div>
+
   <div class="position-relative row form-group">
     <%= form.label :title, class: "col-sm-2 col-form-label" %>
     <div class="col-sm-10">

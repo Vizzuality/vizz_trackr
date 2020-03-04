@@ -2,10 +2,11 @@
 #
 # Table name: monthly_incomes
 #
-#  income      :float
-#  month       :date
-#  aasm_state  :string
-#  contract_id :bigint
+#  income              :float
+#  month               :date
+#  aasm_state          :string
+#  contract_id         :bigint
+#  reporting_period_id :bigint
 #
 
 class MonthlyIncome < ActiveRecord::Base
