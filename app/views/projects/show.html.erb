@@ -9,7 +9,19 @@
 end %>
 
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-3">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Project Links</h5>
+        <ul>
+          <% @project.project_links.each do |pl| %>
+            <li><%= link_to pl.title, pl.url %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
     <div class="main-card mb-3 card">
       <div class="card-body">
         <h5 class="card-title">Contracts</h5>

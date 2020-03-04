@@ -48,6 +48,7 @@ class Contract < ApplicationRecord
                                                reject_if: :reject_empty_lines
 
   has_many :progress_reports
+  has_many :project_links, through: :project
 
   validates_uniqueness_of :name # , :code
   delegate :is_billable?, to: :project

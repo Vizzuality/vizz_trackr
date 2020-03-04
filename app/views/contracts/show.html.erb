@@ -40,6 +40,14 @@
             <strong>Summary:</strong> <%= @contract.summary %>
           </p>
         <% end %>
+        <% if @contract.project_links.any? %>
+          <p><strong>Links</strong> (<%= link_to 'Edit', project_links_project_path(@contract.project) %>)</p>
+          <ul>
+            <% @contract.project_links.each do |pl| %>
+              <li><%= link_to pl.title, pl.url %></li>
+            <% end %>
+          </ul>
+        <% end %>
       </div>
     </div>
   </div>
