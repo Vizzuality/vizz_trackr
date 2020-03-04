@@ -17,9 +17,12 @@ class ApplicationController < ActionController::Base
   private
 
   def set_quick_contracts
-    return [] unless current_user
-
-    @quick_contracts = current_user.reports
-      .order(created_at: :desc).first&.contracts&.order(:name) || []
+    @quick_contracts = if current_user
+                         Current_user.reports
+                           .order(created_at: :desc)
+                           .first&.contracts&.order(:name) || []
+                       else
+                         []
+                       end
   end
 end
