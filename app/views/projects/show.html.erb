@@ -3,9 +3,12 @@
   <%= billable_tag(@project) %>
 <% end %>
 <% content_for :actions do
-  link_to('Manage Links', project_links_project_path(@project), class: 'btn btn-sm btn-outline-secondary').concat(
-    link_to('Edit', edit_project_path(@project), class: 'btn btn-sm btn-outline-primary').concat(
-    link_to('Back', projects_path, class: 'btn btn-sm btn-outline-secondary')))
+  actions = link_to('Manage Links', project_links_project_path(@project), class: 'btn btn-sm btn-outline-secondary')
+    .concat(link_to('Back', projects_path, class: 'btn btn-sm btn-outline-secondary'))
+  if can? :edit, @project
+    actions = actions.concat(link_to('Edit', edit_project_path(@project), class: 'btn btn-sm btn-outline-primary'))
+  end
+  actions
 end %>
 
 <div class="row">
