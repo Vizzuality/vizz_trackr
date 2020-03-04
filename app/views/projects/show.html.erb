@@ -14,7 +14,7 @@ end %>
       <div class="card-body">
         <h5 class="card-title">Project Links</h5>
         <ul>
-          <% @project.project_links.each do |pl| %>
+          <% @project.project_links.order(:title).each do |pl| %>
             <li><%= link_to pl.title, pl.url %></li>
           <% end %>
         </ul>
