@@ -14,7 +14,10 @@ end %>
       <div class="card-body">
         <h5 class="card-title">Project Links</h5>
         <ul>
+          <% link_type = nil %>
           <% @project.project_links.order(:link_type, :title).each do |pl| %>
+            <%= content_tag(:strong, pl.link_type.humanize) if !link_type || link_type != pl.link_type %>
+            <% link_type = pl.link_type %>
             <li><%= link_to pl.title, pl.url %></li>
           <% end %>
         </ul>

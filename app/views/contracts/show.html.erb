@@ -42,7 +42,10 @@
         <% end %>
         <p><strong>Links</strong> (<%= link_to 'Edit', project_links_project_path(@contract.project) %>)</p>
         <ul>
+          <% link_type = nil %>
           <% @contract.project_links.order(:link_type, :title).each do |pl| %>
+            <%= content_tag(:strong, pl.link_type.humanize) if !link_type || link_type != pl.link_type %>
+            <% link_type = pl.link_type %>
             <li><%= link_to pl.title, pl.url %></li>
           <% end %>
         </ul>
