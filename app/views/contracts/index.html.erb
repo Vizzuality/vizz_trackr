@@ -16,52 +16,54 @@
   <div class="col-md-12">
     <div class="main-card mb-3 card">
       <div class="card-body">
-        <table class="table table-sm table-hovered">
-          <thead>
-            <tr>
-              <th>Code</th>
-              <th>Name</th>
-              <th>Project</th>
-              <th>Budget</th>
-              <th>Costs/Time</th>
-              <th>Estimated Progress</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <% @contracts.each do |contract| %>
+        <div class="table-responsive">
+          <table class="table table-sm table-hovered">
+            <thead>
               <tr>
-                <td><%= contract.code %></td>
-                <td><%= link_to contract.name, contract %></td>
-                <td>
-                  <%= billable_tag(contract.project) %>
-                  <%= link_to contract.project.name, contract.project %>
-                </td>
-                <td>
-                  <%= number_to_currency(contract.budget)  %>
-                </td>
-                <td>
-                  <%= contract.project.is_billable? ? number_to_currency(contract.full_reports.sum(:cost)) : "#{contract.full_reports.sum(:days)} days" %>
-                </td>
-                <td>
-                  <%= contract.previous_progress_report && "#{contract.previous_progress_report&.percentage}%" %>
-                </td>
-                <td>
-                  <% if can? :manage, contract %>
-                    <%= form_with(model: contract, method: :patch, local: true) do |form| %>
-                      <%= hidden_field_tag :current_state, @state %>
-                      <%= form.hidden_field(:aasm_state, value: contract.next_state) %>
-                      <%= form.submit contract.next_event, class: "btn btn-sm #{event_color(contract.next_event)}" %>
-                    <% end %>
-                    <%= link_to "Edit", edit_contract_path(contract) %>
-                    <%= link_to "Destroy", contract, method: :delete, data: {confirm:'Are you sure?'}%>
-                  <% end %>
-                </td>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Project</th>
+                <th>Budget</th>
+                <th>Costs/Time</th>
+                <th>Estimated Progress</th>
+                <th>Action</th>
               </tr>
-            <% end %>
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              <% @contracts.each do |contract| %>
+                <tr>
+                  <td><%= contract.code %></td>
+                  <td><%= link_to contract.name, contract %></td>
+                  <td>
+                    <%= billable_tag(contract.project) %>
+                    <%= link_to contract.project.name, contract.project %>
+                  </td>
+                  <td>
+                    <%= number_to_currency(contract.budget)  %>
+                  </td>
+                  <td>
+                    <%= contract.project.is_billable? ? number_to_currency(contract.full_reports.sum(:cost)) : "#{contract.full_reports.sum(:days)} days" %>
+                  </td>
+                  <td>
+                    <%= contract.previous_progress_report && "#{contract.previous_progress_report&.percentage}%" %>
+                  </td>
+                  <td>
+                    <% if can? :manage, contract %>
+                      <%= form_with(model: contract, method: :patch, local: true) do |form| %>
+                        <%= hidden_field_tag :current_state, @state %>
+                        <%= form.hidden_field(:aasm_state, value: contract.next_state) %>
+                        <%= form.submit contract.next_event, class: "btn btn-sm #{event_color(contract.next_event)}" %>
+                      <% end %>
+                      <%= link_to "Edit", edit_contract_path(contract) %>
+                      <%= link_to "Destroy", contract, method: :delete, data: {confirm:'Are you sure?'}%>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

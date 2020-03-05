@@ -45,44 +45,46 @@
     <div class="main-card mb-3 card">
       <div class="card-body">
         <h5 class="card-title">Allocations and Schedule</h5>
-        <table class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <th>Contract</th>
-              <% @reporting_periods.each do |rp| %>
-                <th>
-                  <%= rp.reporting_period_name %>
-                  <% if @current_report && @user == current_user && rp.reporting_period_id == @current_report.reporting_period_id %>
-                    <%= link_to 'Edit', '/my-report' %>
-                  <% end %>
-                </th>
-              <% end %>
-            </tr>
-          </thead>
-          <tbody>
-            <% @reports.select(:contract_id, :contract_name).distinct.order(:contract_name).each do |report| %>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
               <tr>
-                <td><%= link_to report.contract_name, contract_path(report.contract_id) %></td>
+                <th>Contract</th>
                 <% @reporting_periods.each do |rp| %>
-                  <% selected_report = @reports
-                    .where(contract_name: report.contract_name, reporting_period_id: rp.reporting_period_id)
-                    .first %>
-                  <td class="<%= "table-warning" if selected_report && selected_report.report_estimated? %>">
-                    <%= selected_report.try(&:percentage) || 0 %> %
-                  </td>
+                  <th>
+                    <%= rp.reporting_period_name %>
+                    <% if @current_report && @user == current_user && rp.reporting_period_id == @current_report.reporting_period_id %>
+                      <%= link_to 'Edit', '/my-report' %>
+                    <% end %>
+                  </th>
                 <% end %>
               </tr>
-            <% end %>
-            <tr>
-              <th>Total</th>
-              <% @reporting_periods.each do |rp| %>
-                <th>
-                  <%= @reports.where(reporting_period_id: rp.reporting_period_id).sum(:percentage) %>%
-                </th>
+            </thead>
+            <tbody>
+              <% @reports.select(:contract_id, :contract_name).distinct.order(:contract_name).each do |report| %>
+                <tr>
+                  <td><%= link_to report.contract_name, contract_path(report.contract_id) %></td>
+                  <% @reporting_periods.each do |rp| %>
+                    <% selected_report = @reports
+                      .where(contract_name: report.contract_name, reporting_period_id: rp.reporting_period_id)
+                      .first %>
+                    <td class="<%= "table-warning" if selected_report && selected_report.report_estimated? %>">
+                      <%= selected_report.try(&:percentage) || 0 %> %
+                    </td>
+                  <% end %>
+                </tr>
               <% end %>
-            </tr>
-          </tbody>
-        </table>
+              <tr>
+                <th>Total</th>
+                <% @reporting_periods.each do |rp| %>
+                  <th>
+                    <%= @reports.where(reporting_period_id: rp.reporting_period_id).sum(:percentage) %>%
+                  </th>
+                <% end %>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

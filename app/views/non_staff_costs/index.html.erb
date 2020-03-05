@@ -6,33 +6,35 @@
   <div class="col-md-12">
     <div class="main-card mb-3 card">
       <div class="card-body">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Reporting Period</th>
-              <th>Contract</th>
-              <th>Cost</th>
-              <th>Cost type</th>
-              <th>Details</th>
-              <th colspan="3"></th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <% @non_staff_costs.each do |non_staff_cost| %>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
               <tr>
-                <td><%= non_staff_cost.reporting_period&.display_name %></td>
-                <td><%= link_to non_staff_cost.contract.full_name, non_staff_cost.contract %></td>
-                <td><%= number_to_currency(non_staff_cost.cost) %></td>
-                <td><%= non_staff_cost.cost_type %></td>
-                <td><%= non_staff_cost.details %></td>
-                <td><%= link_to 'Show', non_staff_cost %></td>
-                <td><%= link_to 'Edit', edit_non_staff_cost_path(non_staff_cost) %></td>
-                <td><%= link_to 'Destroy', non_staff_cost, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                <th>Reporting Period</th>
+                <th>Contract</th>
+                <th>Cost</th>
+                <th>Cost type</th>
+                <th>Details</th>
+                <th colspan="3"></th>
               </tr>
-            <% end %>
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              <% @non_staff_costs.each do |non_staff_cost| %>
+                <tr>
+                  <td><%= non_staff_cost.reporting_period&.display_name %></td>
+                  <td><%= link_to non_staff_cost.contract.full_name, non_staff_cost.contract %></td>
+                  <td><%= number_to_currency(non_staff_cost.cost) %></td>
+                  <td><%= non_staff_cost.cost_type %></td>
+                  <td><%= non_staff_cost.details %></td>
+                  <td><%= link_to 'Show', non_staff_cost %></td>
+                  <td><%= link_to 'Edit', edit_non_staff_cost_path(non_staff_cost) %></td>
+                  <td><%= link_to 'Destroy', non_staff_cost, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
