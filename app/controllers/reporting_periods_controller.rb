@@ -24,8 +24,8 @@ class ReportingPeriodsController < ApplicationController
       .joins(contract: :project)
       .select(:contract_id,
               :contract_name,
-              'sum(cost) AS cost, sum(days) AS days, contracts.percent_complete, projects.is_billable')
-      .group(:contract_id, :contract_name, 'contracts.percent_complete, projects.is_billable')
+              'sum(cost) AS cost, sum(days) AS days, projects.is_billable')
+      .group(:contract_id, :contract_name, 'projects.is_billable')
       .order(:contract_name)
   end
 
@@ -107,12 +107,12 @@ class ReportingPeriodsController < ApplicationController
     @contracts = Contract.where(aasm_state: %w(proposal live))
       .joins(:project).where(projects: {is_billable: true})
       .order('projects.name ASC')
+    @timeframe = set_timeframe
     @monthly_incomes = MonthlyIncome
       .joins(:contract)
       .where(contracts: {id: @contracts.pluck(:id)},
-             month: 3.months.ago..5.months.from_now)
+             month: @timeframe)
       .order(month: :desc).distinct
-    @timeframe = set_timeframe
   end
 
   def update_state
@@ -150,9 +150,7 @@ class ReportingPeriodsController < ApplicationController
   end
 
   def set_timeframe
-    return [] unless @monthly_incomes.any?
-
-    (@monthly_incomes.minimum(:month)..@monthly_incomes.maximum(:month))
+    (3.months.ago.to_date..6.months.from_now.to_date)
       .map { |d| Date.new(d.year, d.month, 1) }.uniq
   end
 end

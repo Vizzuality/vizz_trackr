@@ -67,7 +67,7 @@
               <% @contract_reports.each do |report| %>
                 <tr>
                   <td><%= link_to report.contract_name, contract_path(report.contract_id) %></td>
-                  <td><%= report.is_billable? ? number_to_currency(report.cost) : pluralize(report.days, 'day') %></td>
+                  <td><%= report.is_billable? ? number_to_currency(report.cost) : pluralize(report.days.round(2), 'day') %></td>
                   <td><%= number_to_currency(report.contract.linear_income) %></td>
                 </tr>
               <% end %>

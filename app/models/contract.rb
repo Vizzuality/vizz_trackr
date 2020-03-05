@@ -2,20 +2,19 @@
 #
 # Table name: contracts
 #
-#  id               :bigint           not null, primary key
-#  name             :string
-#  project_id       :bigint           not null
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  budget           :float
-#  alias            :string           default([]), is an Array
-#  start_date       :date
-#  end_date         :date
-#  aasm_state       :string
-#  percent_complete :float
-#  code             :string
-#  notes            :text
-#  summary          :text
+#  id         :bigint           not null, primary key
+#  name       :string
+#  project_id :bigint           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  budget     :float
+#  alias      :string           default([]), is an Array
+#  start_date :date
+#  end_date   :date
+#  aasm_state :string
+#  code       :string
+#  notes      :text
+#  summary    :text
 #
 require 'csv'
 
