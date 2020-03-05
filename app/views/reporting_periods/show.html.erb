@@ -68,7 +68,14 @@
                 <tr>
                   <td><%= link_to report.contract_name, contract_path(report.contract_id) %></td>
                   <td><%= report.is_billable? ? number_to_currency(report.cost) : pluralize(report.days.round(2), 'day') %></td>
-                  <td><%= number_to_currency(report.contract.linear_income) %></td>
+                  <td>
+                    <% if report.is_billable? %>
+                      <% val = reporting_period_income(@reporting_period, report.contract) %>
+                      <%= number_to_currency(val) if val %></td>
+                    <% else %>
+                      -
+                    <% end %>
+                  </td>
                 </tr>
               <% end %>
             </tbody>

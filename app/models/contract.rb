@@ -125,6 +125,8 @@ class Contract < ApplicationRecord
 
     months = (end_date.year * 12 + end_date.month) - (start.year * 12 + start.month) + 1
 
+    return budget_left if months <= 0
+
     (budget_left / months).to_f.round(2)
   end
 

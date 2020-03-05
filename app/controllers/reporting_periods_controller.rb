@@ -19,8 +19,10 @@ class ReportingPeriodsController < ApplicationController
       .select(:user_id).distinct.count
     @total_project_reports = @reporting_period.total_contracts_reported
     @user_reports = @reporting_period.reports
+      .includes(:user)
       .joins(:user).order('users.name ASC')
     @contract_reports = @reporting_period.full_reports
+      .includes(:contract)
       .joins(contract: :project)
       .select(:contract_id,
               :contract_name,

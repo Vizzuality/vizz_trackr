@@ -23,4 +23,17 @@ module ReportingPeriodsHelper
 
     nil
   end
+
+  def reporting_period_income rp, contract
+    return nil unless contract.budget
+
+    income = contract.monthly_incomes.where(reporting_period_id: rp.id).first
+    return income.income if income
+
+    if rp.date < contract.end_date && (!contract.latest_progress_report || contract.latest_progress_report.date > rp.date)
+      return contract.linear_income
+    end
+
+    nil
+  end
 end

@@ -34,4 +34,20 @@ class ContractTest < ActiveSupport::TestCase
     contract = create(:contract, start_date: '05/01/2019', end_date: '25/05/2019')
     assert_equal (contract.budget / 5), contract.linear_income
   end
+
+  test '#linear_income returns budget - accrued / difference in months between start and end dates' do
+    reporting_period1 = create(:reporting_period, date: 1.months.ago)
+    contract = create(:contract, budget: 100, start_date: 2.months.ago, end_date: 1.months.from_now)
+    create(:progress_report, percentage: 50, contract: contract,
+                             reporting_period: reporting_period1)
+    assert_equal 25, contract.linear_income
+  end
+
+  test '#linear_income returns returns remaining budget if last report is on the end_date' do
+    reporting_period1 = create(:reporting_period, date: Date.today)
+    contract = create(:contract, budget: 100, start_date: 2.months.ago, end_date: Date.today)
+    create(:progress_report, percentage: 50, contract: contract,
+                             reporting_period: reporting_period1)
+    assert_equal 50, contract.linear_income
+  end
 end
