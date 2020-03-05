@@ -39,7 +39,7 @@ class ProgressReportTest < ActiveSupport::TestCase
     reporting_period2 = create(:reporting_period, date: 2.months.ago)
     reporting_period3 = create(:reporting_period, date: 1.months.ago)
     should_update_this = create(:progress_report, percentage: 50, contract: contract,
-                             reporting_period: reporting_period2)
+                                                  reporting_period: reporting_period2)
     create(:progress_report, percentage: 60, contract: contract,
                              reporting_period: reporting_period3)
     progress_report = create(:progress_report, percentage: 30, contract: contract,

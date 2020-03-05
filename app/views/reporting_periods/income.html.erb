@@ -11,18 +11,21 @@
     <div class="main-card mb-3 card">
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-bordered table-hover table-sm">
+          <table class="table table-sm">
             <thead>
               <tr>
                 <th>Project</th>
                 <th>Contract</th>
                 <th>State</th>
                 <% @timeframe.each do |month| %>
-                  <th scope="col" style="width: 11%"><%= month.strftime('%B %y') %></th>
+                  <th class='<%= "border border-success" if month == Time.now.beginning_of_month %>' scope="col" style="width: 11%">
+                    <%= month.strftime('%B %y') %>
+                  </th>
                 <% end %>
               </tr>
             </thead>
             <tbody>
+              <% total = Hash.new(0) %>
               <% @contracts.each do |contract| %>
                 <% next unless @monthly_incomes.find{|m| m.contract_id == contract.id} %>
                 <tr>
@@ -30,15 +33,20 @@
                   <td><%= link_to contract.name, contract %></td>
                   <td><%= contract.aasm_state.humanize %></td>
                   <% @timeframe.each do |month| %>
-                    <% val = @monthly_incomes.find { |m| m.contract_id ==  contract.id && m.month ==  month }&.income %>
-                    <td style="width: 11%"><%= number_to_currency(val) if val %></td>
+                    <% val, projected = income_val contract, month, @monthly_incomes %>
+                    <td class="<%= projected ? 'text-info' : 'text-success' %>" style="width: 11%">
+                      <% if val %>
+                        <% total[month] += val %>
+                        <%= number_to_currency(val) %>
+                      <% end %>
+                    </td>
                   <% end %>
                 </tr>
               <% end %>
               <tr>
                 <th colspan=3>Total</th>
                 <% @timeframe.each do |month| %>
-                  <td><%= number_to_currency(@monthly_incomes.where(month: month).sum(:income)) %></td>
+                  <td><%= number_to_currency(total[month]) %></td>
                 <% end %>
               </tr>
             </tbody>

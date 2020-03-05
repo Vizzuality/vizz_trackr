@@ -54,13 +54,19 @@ class Contract < ApplicationRecord
 
   before_destroy :no_report_parts
 
-  def previous_progress_report progress_report = nil
-    p_reports = progress_reports.joins(:reporting_period)
-      .order('reporting_periods.date DESC')
+  def full_name
+    "#{name} [#{project.name}#{(' - internal' unless project.is_billable?)}]"
+  end
 
-    p_reports = p_reports.where('reporting_periods.date < ?', progress_report.date) if progress_report
+  def latest_progress_report
+    @latest_progress_report ||= progress_reports.joins(:reporting_period)
+      .order('reporting_periods.date DESC').first
+  end
 
-    p_reports.first
+  def previous_progress_report progress_report
+    progress_reports.joins(:reporting_period)
+      .where('reporting_periods.date < ?', progress_report.date)
+      .order('reporting_periods.date DESC')&.first
   end
 
   def next_progress_report progress_report
@@ -96,27 +102,30 @@ class Contract < ApplicationRecord
   end
 
   def income_to_date
-    return 0 unless budget && previous_progress_report
-
-    (budget * previous_progress_report.percentage / 100).round(2)
+    ((budget || 0) * (latest_progress_report&.percentage || 0) / 100).round(2)
   end
 
   def income_percentage
-    return nil unless budget && previous_progress_report
+    return nil unless budget && latest_progress_report
 
     ((income_to_date / budget) * 100).round(2)
   end
 
-  def full_name
-    "#{name} [#{project.name}#{(' - internal' unless project.is_billable?)}]"
+  def budget_left
+    return 0 unless budget
+
+    budget - budget * ((latest_progress_report&.percentage || 0) / 100)
   end
 
   def linear_income
     return nil unless budget && start_date && end_date
 
-    months = (end_date.year * 12 + end_date.month) - (start_date.year * 12 + start_date.month) + 1
+    progress = latest_progress_report
+    start = progress ? (progress.date + 1.month) : start_date
 
-    (budget / months).to_f.round(2)
+    months = (end_date.year * 12 + end_date.month) - (start.year * 12 + start.month) + 1
+
+    (budget_left / months).to_f.round(2)
   end
 
   def self.to_csv

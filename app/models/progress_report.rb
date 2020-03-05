@@ -35,7 +35,7 @@ class ProgressReport < ApplicationRecord
                  end
     # if editing an older progress, update the next one too
     next_one = contract.next_progress_report(self)
-    next_one.update_column(:delta, next_one.percentage - percentage) if next_one
+    next_one&.update_column(:delta, next_one.percentage - percentage)
   end
 
   def bounded_progress

@@ -46,7 +46,7 @@
                     <%= contract.project.is_billable? ? number_to_currency(contract.full_reports.sum(:cost)) : "#{contract.full_reports.sum(:days)} days" %>
                   </td>
                   <td>
-                    <%= contract.previous_progress_report && "#{contract.previous_progress_report&.percentage}%" %>
+                    <%= contract.latest_progress_report && "#{contract.latest_progress_report&.percentage}%" %>
                   </td>
                   <td>
                     <% if can? :manage, contract %>

@@ -68,19 +68,19 @@
         <% end %>
         <p>
           <strong>Estimated progress:</strong>
-          <%= result_with_color(@contract.previous_progress_report&.percentage || 0.0) %>%
-          <% if @contract.previous_progress_report %>
+          <%= result_with_color(@contract.latest_progress_report&.percentage || 0.0) %>%
+          <% if @contract.latest_progress_report %>
             <%= link_to 'View all', '#', data: {toggle: 'modal', target: '#progressModal'} %>
             <% if can? :manage, @contract %>
               |
-              <%= link_to 'Edit Latest', edit_contract_progress_report_path(@contract, @contract.previous_progress_report) %>
+              <%= link_to 'Edit Latest', edit_contract_progress_report_path(@contract, @contract.latest_progress_report) %>
             <% end %>
           <% end %>
           |
           <%= link_to 'Add', new_contract_progress_report_path(@contract) %>
         </p>
         <p>
-          <% if @contract.previous_progress_report %>
+          <% if @contract.latest_progress_report %>
             <strong>Income to date</strong>
             <%= number_to_currency(@contract.income_to_date) %> (<%= result_with_color(@contract.income_percentage) %>%)
           <% end %>
@@ -172,7 +172,7 @@
                 <% info_per_role = @days_per_role.where(role_id: role.id).first %>
                 <tr>
                   <td><%= link_to role.name, role %></td>
-                  <% budget_per_role = @contract.budget_lines.where(role: role.id).first %>
+                  <% budget_per_role = @contract.budget_lines.where(role_id: role.id).first %>
                   <td><%=  "#{budget_per_role.percentage}%" if budget_per_role&.percentage %></td>
                   <% cost_per_role = (budget_per_role.percentage / 100 * @contract.budget) if @contract.budget && budget_per_role&.percentage %>
                   <td><%=  number_to_currency(cost_per_role) if cost_per_role %></td>
@@ -182,7 +182,7 @@
                   <td><%= info_per_role&.days&.round(2)  %></td>
                 </tr>
               <% end %>
-              <% if extra = @contract.budget_lines.where(role: nil).first %>
+              <% if extra = @contract.budget_lines.where(role_id: nil).first %>
                 <tr>
                   <td><%= extra.details %></td>
                   <td><%= extra.percentage %>%</td>
@@ -223,8 +223,9 @@
               </tr>
             </thead>
             <tbody>
-              <% @contract.full_reports.joins(:reporting_period).
-                 order("reporting_periods.date DESC").each do |report| %>
+              <% @contract.full_reports.joins(:reporting_period)
+                   .includes(:report)
+                   .order("reporting_periods.date DESC").each do |report| %>
                 <tr>
                   <td><%= report.reporting_period_name %></td>
                   <td><%= report.user_name %></td>

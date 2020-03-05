@@ -53,7 +53,7 @@ class ContractsController < ApplicationController
   end
 
   def show
-    @roles = Role.order(:name)
+    @roles = Role.order(:name).includes(:budget_lines)
     @days_per_role = @contract.full_reports
       .select('role_id, sum(cost) AS cost, sum(days) AS days').group(:role_id)
     @total_days = @contract.full_reports.where.not(role_id: nil)
