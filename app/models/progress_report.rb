@@ -33,11 +33,14 @@ class ProgressReport < ApplicationRecord
                  else
                    percentage
                  end
+    # if editing an older progress, update the next one too
+    next_one = contract.next_progress_report(self)
+    next_one.update_column(:delta, next_one.percentage - percentage) if next_one
   end
 
   def bounded_progress
     prev = contract.previous_progress_report(self)
-    return unless prev && prev.percentage >= percentage
+    return unless prev && prev.percentage > percentage
 
     errors.add(:percentage, 'Progress can\'t be lower than previously reported progress')
   end

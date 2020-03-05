@@ -73,13 +73,11 @@
             <%= link_to 'View all', '#', data: {toggle: 'modal', target: '#progressModal'} %>
             <% if can? :manage, @contract %>
               |
-              <%= link_to 'Edit', edit_contract_progress_report_path(@contract, @contract.previous_progress_report) %>
+              <%= link_to 'Edit Latest', edit_contract_progress_report_path(@contract, @contract.previous_progress_report) %>
             <% end %>
           <% end %>
-          <% if @contract.previous_progress_report&.reporting_period != ReportingPeriod.active_period && can?(:manage, @contract) %>
-            |
-            <%= link_to 'Add', new_contract_progress_report_path(@contract) %>
-          <% end %>
+          |
+          <%= link_to 'Add', new_contract_progress_report_path(@contract) %>
         </p>
         <p>
           <% if @contract.previous_progress_report %>

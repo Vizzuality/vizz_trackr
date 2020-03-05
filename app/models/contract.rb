@@ -64,6 +64,14 @@ class Contract < ApplicationRecord
     p_reports.first
   end
 
+  def next_progress_report progress_report
+    progress_reports
+      .joins(:reporting_period)
+      .where('reporting_periods.date > ?', progress_report.date)
+      .order('reporting_periods.date ASC')
+      .first
+  end
+
   def build_budget_lines
     Role.order(:name).each do |role|
       budget_lines.build(role_id: role.id) unless budget_lines.where(role_id: role.id).any?

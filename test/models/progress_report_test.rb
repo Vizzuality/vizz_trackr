@@ -32,4 +32,30 @@ class ProgressReportTest < ActiveSupport::TestCase
                                                reporting_period: reporting_period3)
     assert_equal 20, progress_report.delta
   end
+
+  test '#calculate_delta updates existing progress report when adding a new report in the past' do
+    contract = create(:contract)
+    reporting_period1 = create(:reporting_period, date: 3.months.ago)
+    reporting_period2 = create(:reporting_period, date: 2.months.ago)
+    reporting_period3 = create(:reporting_period, date: 1.months.ago)
+    should_update_this = create(:progress_report, percentage: 50, contract: contract,
+                             reporting_period: reporting_period2)
+    create(:progress_report, percentage: 60, contract: contract,
+                             reporting_period: reporting_period3)
+    progress_report = create(:progress_report, percentage: 30, contract: contract,
+                                               reporting_period: reporting_period1)
+    assert_equal 30, progress_report.delta
+    assert_equal 20, should_update_this.reload.delta
+  end
+
+  test '#calculate_delta should be zero if no progress' do
+    contract = create(:contract)
+    reporting_period1 = create(:reporting_period, date: 3.months.ago)
+    reporting_period2 = create(:reporting_period, date: 2.months.ago)
+    create(:progress_report, percentage: 50, contract: contract,
+                             reporting_period: reporting_period1)
+    progress_report = create(:progress_report, percentage: 50, contract: contract,
+                                               reporting_period: reporting_period2)
+    assert_equal 0, progress_report.delta
+  end
 end

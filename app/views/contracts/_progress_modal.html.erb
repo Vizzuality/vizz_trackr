@@ -13,14 +13,16 @@
             <tr>
               <th>Period</th>
               <th>Progress</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <% @contract.progress_reports
+            <% contract.progress_reports
               .joins(:reporting_period).order('reporting_periods.date DESC').each do |pr| %>
               <tr>
                 <td><%= pr.reporting_period.display_name %></td>
                 <td><%= pr.percentage %>%</td>
+                <td><%= link_to 'Edit', edit_contract_progress_report_path(@contract, pr) %></td>
               </tr>
             <% end %>
           </tbody>
