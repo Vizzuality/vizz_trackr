@@ -152,7 +152,7 @@ class ReportingPeriodsController < ApplicationController
   end
 
   def set_timeframe
-    (2.months.ago.to_date..5.months.from_now.to_date)
+    (3.months.ago.to_date..5.months.from_now.to_date)
       .map { |d| Date.new(d.year, d.month, 1) }.uniq
   end
 end
