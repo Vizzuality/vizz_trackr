@@ -106,7 +106,7 @@ class ReportingPeriodsController < ApplicationController
   end
 
   def income
-    @contracts = Contract.where(aasm_state: %w(proposal live))
+    @contracts = Contract.where(aasm_state: 'live')
       .joins(:project).where(projects: {is_billable: true})
       .order('projects.name ASC')
     @timeframe = set_timeframe
