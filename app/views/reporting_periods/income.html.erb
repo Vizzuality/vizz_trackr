@@ -1,4 +1,4 @@
-<% content_for :title, "Reporting Periods - Income" %>
+<% content_for :title, "Income for period #{@timeframe.first.strftime("%B %Y")} - #{@timeframe.last.strftime("%B %Y")}" %>
 <% if can? :create, ReportingPeriod %>
   <% content_for :actions do
       link_to('Back', reporting_periods_path, class: 'btn btn-sm btn-outline-info')
@@ -14,12 +14,15 @@
           <table class="table table-sm">
             <thead>
               <tr>
-                <th>Project</th>
                 <th>Contract</th>
                 <th>State</th>
+                <th class="currency-col">Budget</th>
+                <th class="currency-col">Costs to date</th>
+                <th class="currency-col">Income to date</th>
+                <th>Progress</th>
                 <% @timeframe.each do |month| %>
-                  <th class='<%= "border border-success" if month == Time.now.beginning_of_month %>' scope="col" style="width: 11%">
-                    <%= month.strftime('%B %y') %>
+                  <th class='currency-col <%= "border border-primary" if month == Time.now.beginning_of_month %>' scope="col">
+                    <%= month.strftime('%B \'%y') %>
                   </th>
                 <% end %>
               </tr>
@@ -29,12 +32,15 @@
               <% @contracts.each do |contract| %>
                 <% next unless @monthly_incomes.find{|m| m.contract_id == contract.id} %>
                 <tr>
-                  <td><%= contract.project&.name %></td>
-                  <td><%= link_to contract.name, contract %></td>
+                  <td class="text-col"><%= link_to contract.full_name, contract %></td>
                   <td><%= contract.aasm_state.humanize %></td>
+                  <td><%= number_to_currency(contract.budget) %></td>
+                  <td><%= number_to_currency(contract.full_reports.sum(:cost)) %></td>
+                  <td><%= number_to_currency(contract.income_to_date) %></td>
+                  <td><%= "#{contract.latest_progress_report.percentage}%" if contract.latest_progress_report %></td>
                   <% @timeframe.each do |month| %>
                     <% val, projected = income_val contract, month, @monthly_incomes %>
-                    <td class="<%= projected ? 'text-info' : 'text-success' %>" style="width: 11%">
+                    <td class="<%= projected ? 'text-info' : 'text-success' %>">
                       <% if val %>
                         <% total[month] += val %>
                         <%= number_to_currency(val) %>
@@ -44,13 +50,17 @@
                 </tr>
               <% end %>
               <tr>
-                <th colspan=3>Total</th>
+                <th colspan=6>Total</th>
                 <% @timeframe.each do |month| %>
                   <td><%= number_to_currency(total[month]) %></td>
                 <% end %>
               </tr>
             </tbody>
           </table>
+          <p>
+            <span class="text-success">Income based on progress report.</span><br />
+            <span class="text-info">Income calculated linearly from remaining project timeframe and budget.</span><br />
+          </p>
         </div>
       </div>
     </div>
