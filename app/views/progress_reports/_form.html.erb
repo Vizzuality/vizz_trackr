@@ -43,7 +43,7 @@
             <div class="col-sm-10">
               <div class="input-group">
                 <%= form.text_field :percentage, class: 'form-control', step: 'any',
-                  type: 'number', min: previous_report&.percentage.to_f || 0.0, max: 100.0 %>
+                  type: 'number', min: 0.0, max: 100.0 %>
                 <div class="input-group-append">
                   <div class="input-group-text">%</div>
                 </div>
