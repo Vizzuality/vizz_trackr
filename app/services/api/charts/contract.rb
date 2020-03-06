@@ -33,9 +33,11 @@ module Api
         aggregate = {name: 'Aggregate', data: {}}
         projected = {name: 'Projected', data: {}}
         budget = {name: 'Budget', data: dates.map { |d| [d, @contract.budget&.to_f] }.to_h, points: false}
-        income = {name: 'Calculated Income', data: dates.map { |d| [d, @contract.linear_income] }.to_h}
+        income = {name: 'Income', data: {}}
         agg = 0.0
         dates.each do |date|
+          income[:data][date] = income_for(date)
+
           next unless report_for date
 
           non_staff[:data][date] = non_staff_costs_for_report
@@ -54,6 +56,8 @@ module Api
         data
       end
       # rubocop:enable Metrics/AbcSize
+
+      private
 
       def dates
         start ||= [@contract.start_date, @contract.full_reports.minimum(:reporting_period_date)].compact.min
@@ -77,6 +81,18 @@ module Api
         @contract.non_staff_costs
           .where(reporting_period_id: @report.reporting_period_id)
           .pluck('sum(cost)').first || 0.0
+      end
+
+      def income_for date
+        delta = @contract.progress_reports
+          .joins(:reporting_period)
+          .where(reporting_periods: {date: date}).first&.delta
+
+        return @contract.budget * delta / 100 if delta
+
+        return nil if @contract.latest_progress_report.date >= date
+
+        @contract.linear_income
       end
     end
   end
