@@ -35,7 +35,7 @@
                   <td class="text-col"><%= link_to contract.full_name, contract %></td>
                   <td><%= contract.aasm_state.humanize %></td>
                   <td><%= number_to_currency(contract.budget) %></td>
-                  <td><%= number_to_currency(contract.full_reports.sum(:cost)) %></td>
+                  <td><%= number_to_currency(contract.total_burn) %></td>
                   <td><%= number_to_currency(contract.income_to_date) %></td>
                   <td><%= "#{contract.latest_progress_report.percentage}%" if contract.latest_progress_report %></td>
                   <% @timeframe.each do |month| %>
