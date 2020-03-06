@@ -24,8 +24,10 @@
                 <th>Name</th>
                 <th>Project</th>
                 <th>Budget</th>
-                <th>Costs/Time</th>
-                <th>Estimated Progress</th>
+                <th>Costs to date</th>
+                <th>Burn %</th>
+                <th>Progress to date</th>
+                <th>Income to date</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -43,11 +45,15 @@
                     <%= number_to_currency(contract.budget)  %>
                   </td>
                   <td>
-                    <%= contract.project.is_billable? ? number_to_currency(contract.full_reports.sum(:cost)) : "#{contract.full_reports.sum(:days)} days" %>
+                    <%= contract.is_billable? ? number_to_currency(contract.total_burn) : "#{contract.full_reports.sum(:days).round(2)} days" %>
                   </td>
-                  <td>
-                    <%= contract.latest_progress_report && "#{contract.latest_progress_report&.percentage}%" %>
-                  </td>
+                  <% if contract.is_billable? %>
+                    <%= td_for_burn contract.budget, contract.total_burn %>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                  <td><%= "#{contract.latest_progress_report&.percentage}%" if contract.latest_progress_report %></td>
+                  <td><%= number_to_currency(contract.income_to_date) if contract.latest_progress_report %></td>
                   <td>
                     <% if can? :manage, contract %>
                       <%= form_with(model: contract, method: :patch, local: true) do |form| %>

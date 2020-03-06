@@ -15,10 +15,9 @@
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Team</th>
                 <th>Contracts #</th>
-                <th>Budget</th>
-                <th>Costs</th>
+                <th>Total Budget</th>
+                <th>Total Costs</th>
                 <th>Burn %</th>
                 <th>Actions</th>
               </tr>
@@ -31,11 +30,10 @@
                     <%= billable_tag(project) %>
                     <%= link_to project.name, project %>
                   </td>
-                  <td><%= project.team.try(:name) %></td>
                   <td><%= project.contracts.size %></td>
                   <td><%= number_to_currency(project.budget) %></td>
-                  <td><%= number_to_currency(project.spend) %></td>
-                  <%= td_for_burn(project.budget, project.spend) %>
+                  <td><%= number_to_currency(project.costs) %></td>
+                  <%= td_for_burn(project.budget, project.costs) %>
                   <td>
                     <%= link_to 'Show', project %>
                     <% if can? :manage, project %>

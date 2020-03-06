@@ -33,7 +33,7 @@ class Project < ApplicationRecord
     contracts.try(:sum, :budget)
   end
 
-  def spend
-    full_reports.try(:sum, :cost).presence || 0.0
+  def costs
+    contracts.map(&:total_burn).compact.reduce(:+)
   end
 end
