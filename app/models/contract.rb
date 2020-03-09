@@ -19,6 +19,8 @@
 require 'csv'
 
 class Contract < ApplicationRecord
+  paginates_per 40
+
   include AASM
   include HasStateMachine
 
