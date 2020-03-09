@@ -7,7 +7,7 @@ class ReportingPeriodsController < ApplicationController
   # GET /reporting_periods.json
   def index
     @reporting_periods = ReportingPeriod.order(date: :desc)
-      .includes(:full_reports)
+      .includes(:full_reports).page params[:page]
     @data = ::Api::Charts::ReportingPeriod.new(@reporting_periods)
       .reporting_periods_cost_data
   end

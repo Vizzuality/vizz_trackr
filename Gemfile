@@ -79,3 +79,6 @@ gem 'nokogiri', '>= 1.10.4'
 # Connecting to Slack API
 gem 'dotenv-rails'
 gem 'faraday'
+
+# pagination
+gem 'kaminari'

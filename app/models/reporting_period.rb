@@ -11,6 +11,8 @@
 require 'csv'
 
 class ReportingPeriod < ApplicationRecord
+  paginates_per 10
+
   include AASM
   include HasStateMachine
 
