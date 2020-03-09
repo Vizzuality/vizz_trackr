@@ -24,9 +24,11 @@ module ContractsHelper
   end
 
   def td_for_burn burn, progress = 0
-    klass = if burn && burn <= progress
+    return content_tag(:td) unless burn
+
+    klass = if burn <= progress
               'success'
-            elsif burn && burn > progress
+            elsif burn > progress
               'danger'
             else
               ''
