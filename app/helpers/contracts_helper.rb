@@ -24,6 +24,8 @@ module ContractsHelper
   end
 
   def td_for_burn burn, progress = 0
+    return '' unless burn
+
     klass = if burn <= progress
               'success'
             elsif burn > progress
