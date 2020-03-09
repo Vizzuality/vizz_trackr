@@ -35,23 +35,6 @@
               <%= form.collection_select :team_id, @teams, :id, :name, { include_blank: true }, class: 'form-control' %>
             </div>
           </div>
-          <br>
-
-          <div data-controller="nested-list">
-            <template>
-              <%= form.fields_for :contracts, Contract.new, child_index: 'NEW_RECORD' do |builder| %>
-                <%= render "contract_fields", form: builder %>
-              <% end %>
-            </template>
-            <%= form.fields_for :contracts do |builder| %>
-              <%= render 'contract_fields', form: builder %>
-            <% end %>
-            <div class="form-group nested-list__actions" data-target="nested-list.links">
-              <%= button_tag "Add Contract", type: 'button',
-                class: 'btn btn-secondary',
-                data: { action: "click->nested-list#addRecord" } %>
-            </div>
-          </div>
 
           <div class="position-relative row form-group">
             <div class="col-sm-10 offset-sm-2">

@@ -24,7 +24,6 @@ class ProjectsController < ApplicationController
   # GET /projects/1/edit
   def edit
     @teams = Team.order(:name)
-    @contract_states = Contract.aasm.states.map(&:name).prepend(:all)
   end
 
   # POST /projects
@@ -39,7 +38,6 @@ class ProjectsController < ApplicationController
       else
         format.html do
           @teams = Team.order(:name)
-          @contract_states = Contract.aasm.states.map(&:name).prepend(:all)
           render :new
         end
         format.json { render json: @project.errors, status: :unprocessable_entity }
@@ -57,7 +55,6 @@ class ProjectsController < ApplicationController
       else
         format.html do
           @teams = Team.order(:name)
-          @contract_states = Contract.aasm.states.map(&:name).prepend(:all)
           render :edit
         end
         format.json { render json: @project.errors, status: :unprocessable_entity }
@@ -84,10 +81,6 @@ class ProjectsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def project_params
-    params.require(:project).permit(:name, :team_id, :is_billable,
-                                    contracts_attributes: [:id, :name, :_destroy,
-                                                           :budget, :code, :notes,
-                                                           :summary, :aasm_state,
-                                                           :start_date, :end_date])
+    params.require(:project).permit(:name, :team_id, :is_billable)
   end
 end

@@ -12,8 +12,7 @@
 
 class Project < ApplicationRecord
   belongs_to :team, optional: true
-  has_many :contracts, dependent: :destroy
-  accepts_nested_attributes_for :contracts, allow_destroy: true
+  has_many :contracts
 
   has_many :full_reports, through: :contracts
   has_many :report_parts, through: :contracts
