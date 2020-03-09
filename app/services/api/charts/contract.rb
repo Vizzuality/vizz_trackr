@@ -90,7 +90,7 @@ module Api
 
         return @contract.budget * delta / 100 if delta
 
-        return nil if @contract.latest_progress_report.date >= date
+        return nil if @contract.latest_progress_report && @contract.latest_progress_report.date >= date
 
         @contract.linear_income
       end
