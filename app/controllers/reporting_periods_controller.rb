@@ -114,7 +114,7 @@ class ReportingPeriodsController < ApplicationController
       .joins(:contract)
       .where(contracts: {id: @contracts.pluck(:id)},
              month: @timeframe)
-      .order(month: :desc).distinct
+      .order(month: :desc)
   end
 
   def update_state

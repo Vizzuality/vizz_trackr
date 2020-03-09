@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_05_165433) do
+ActiveRecord::Schema.define(version: 2020_03_09_183451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -210,7 +210,7 @@ ActiveRecord::Schema.define(version: 2020_03_05_165433) do
        JOIN projects ON ((projects.id = contracts.project_id)));
   SQL
   create_view "monthly_incomes", sql_definition: <<-SQL
-      SELECT ((contracts.budget * progress_reports.delta) / (100)::double precision) AS income,
+      SELECT DISTINCT ((contracts.budget * progress_reports.delta) / (100)::double precision) AS income,
       reporting_periods.date AS month,
       contracts.aasm_state,
       contracts.id AS contract_id,
