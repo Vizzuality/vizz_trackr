@@ -7,10 +7,13 @@ module ApplicationHelper
     end
   end
 
-  def td_for_burn budget, costs
-    burn = budget && budget > 0.0 ? (costs / budget * 100).round(2) : nil
-    klass = if burn
-              (burn <= 100 ? 'success' : 'danger')
+  def td_for_burn burn, progress=0
+    klass = if burn <= progress
+              'success'
+            elsif burn > progress && burn <= 100
+              'warning'
+            elsif burn > 100
+              'danger'
             else
               ''
             end

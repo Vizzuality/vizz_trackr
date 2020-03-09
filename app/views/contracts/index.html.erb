@@ -48,7 +48,7 @@
                     <%= contract.is_billable? ? number_to_currency(contract.total_burn) : "#{contract.full_reports.sum(:days).round(2)} days" %>
                   </td>
                   <% if contract.is_billable? %>
-                    <%= td_for_burn contract.budget, contract.total_burn %>
+                    <%= td_for_burn contract.burn_percentage, contract.income_percentage %>
                   <% else %>
                     <td></td>
                   <% end %>
@@ -56,10 +56,10 @@
                   <td><%= number_to_currency(contract.income_to_date) if contract.latest_progress_report %></td>
                   <td>
                     <% if can? :manage, contract %>
-                      <%= form_with(model: contract, method: :patch, local: true) do |form| %>
+                      <%= form_with(model: contract, method: :patch, local: true, class: 'd-inline') do |form| %>
                         <%= hidden_field_tag :current_state, @state %>
                         <%= form.hidden_field(:aasm_state, value: contract.next_state) %>
-                        <%= form.submit contract.next_event, class: "btn btn-sm #{event_color(contract.next_event)}" %>
+                        <%= form.submit contract.next_event, class: "btn btn-sm #{contract_event_color(contract.next_event)}" %>
                       <% end %>
                       <%= link_to "Edit", edit_contract_path(contract) %>
                       <%= link_to "Destroy", contract, method: :delete, data: {confirm:'Are you sure?'}%>
@@ -69,6 +69,14 @@
               <% end %>
             </tbody>
           </table>
+          <hr>
+          <p>
+            <span class="h7">Burn % Legend:</span><br />
+            <span class="text-success">Total costs are lower than total budget.</span><br />
+            <span class="text-warning">Total costs are higher than income reported but lower than 100% of available budget.</span><br />
+            <span class="text-danger">Total costs are higher than available budget.</span><br />
+            <span>NaN: missing budget information.</span>
+          </p>
         </div>
       </div>
     </div>

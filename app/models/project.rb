@@ -36,4 +36,8 @@ class Project < ApplicationRecord
   def costs
     contracts.map(&:total_burn).compact.reduce(:+)
   end
+
+  def burn_percentage
+    (costs / budget * 100).round(2)
+  end
 end

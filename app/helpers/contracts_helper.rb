@@ -1,5 +1,5 @@
 module ContractsHelper
-  def event_color(state)
+  def contract_event_color(state)
     case state
     when 'restart'
       'btn-primary'

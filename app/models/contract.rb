@@ -106,9 +106,7 @@ class Contract < ApplicationRecord
   end
 
   def income_percentage
-    return nil unless budget && latest_progress_report
-
-    ((income_to_date / budget) * 100).round(2)
+    latest_progress_report&.percentage || 0
   end
 
   def budget_left

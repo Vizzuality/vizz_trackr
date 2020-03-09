@@ -33,7 +33,11 @@
                   <td><%= project.contracts.size %></td>
                   <td><%= number_to_currency(project.budget) %></td>
                   <td><%= number_to_currency(project.costs) %></td>
-                  <%= td_for_burn(project.budget, project.costs) %>
+                  <% if project.is_billable? %>
+                    <%= td_for_burn(project.burn_percentage) %>
+                  <% else %>
+                    <td></td>
+                  <% end %>
                   <td>
                     <%= link_to 'Show', project %>
                     <% if can? :manage, project %>
@@ -45,6 +49,14 @@
               <% end %>
             </tbody>
           </table>
+          <hr>
+          <p>
+            <span class="h7">Burn % Legend:</span><br />
+            <span class="text-success">Total costs are lower than total budget.</span><br />
+            <span class="text-warning">Total costs are higher than income reported but lower than 100% of available budget.</span><br />
+            <span class="text-danger">Total costs are higher than available budget.</span><br />
+            <span>NaN: missing budget information.</span>
+          </p>
         </div>
       </div>
     </div>
