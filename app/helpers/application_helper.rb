@@ -6,19 +6,4 @@ module ApplicationHelper
       text
     end
   end
-
-  def td_for_burn burn, progress = 0
-    klass = if burn <= progress
-              'success'
-            elsif burn > progress && burn <= 100
-              'warning'
-            elsif burn > 100
-              'danger'
-            else
-              ''
-            end
-    content_tag :td, class: "text-#{klass}" do
-      burn ? "#{burn}%" : '-'
-    end
-  end
 end
