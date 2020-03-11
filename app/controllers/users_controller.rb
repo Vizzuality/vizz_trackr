@@ -27,6 +27,8 @@ class UsersController < ApplicationController
       .order(date: :desc)
     @data = ::Api::Charts::User.new(@user)
       .reports_breakdown(params[:reporting_period_id].presence)
+    @full_reports = @user.full_reports.joins(:reporting_period)
+      .order("reporting_periods.date DESC").page(params[:page])
 
     respond_to do |format|
       format.html

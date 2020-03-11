@@ -43,8 +43,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @user.full_reports.joins(:reporting_period).
-                  order("reporting_periods.date DESC").each do |report| %>
+              <% @full_reports.each do |report| %>
                   <tr class="<%= "table-warning" if report.report_estimated? %>">
                   <td><%= report.reporting_period_name %></td>
                   <td><%= report.contract_name %></td>
@@ -60,6 +59,7 @@
               <% end %>
             </tbody>
           </table>
+          <%= paginate @full_reports %>
         </div>
       </div>
     </div>
