@@ -38,16 +38,17 @@ module Api
         dates.each do |date|
           income[:data][date] = income_for(date)
 
-          next unless report_for date
-
-          non_staff[:data][date] = non_staff_costs_for_report
-          agg += non_staff_costs_for_report
-          if @report.report_estimated?
-            projected[:data][date] = @report.cost&.round(2)
-          else
-            staff[:data][date] = @report.cost&.round(2)
+          if report_for date
+            if @report.report_estimated?
+              projected[:data][date] = @report.cost&.round(2)
+            else
+              staff[:data][date] = @report.cost&.round(2)
+            end
+            agg += @report.cost
           end
-          agg += @report.cost
+
+          non_staff[:data][date] = non_staff_costs_for(date)
+          agg += non_staff_costs_for(date)
           aggregate[:data][date] = agg.round(2)
         end
         data = [staff, projected, aggregate, budget]
@@ -77,9 +78,10 @@ module Api
           .where.not(cost: nil).first
       end
 
-      def non_staff_costs_for_report
+      def non_staff_costs_for(date)
         @contract.non_staff_costs
-          .where(reporting_period_id: @report.reporting_period_id)
+          .joins(:reporting_period)
+          .where(reporting_periods: {date: date})
           .pluck('sum(cost)').first || 0.0
       end
 
