@@ -7,9 +7,11 @@ class ContractsController < ApplicationController
   def index
     @contracts = Contract.joins(:project).includes(:full_reports, :project)
       .order('projects.is_billable DESC, projects.name ASC, contracts.name ASC')
-      .page(params[:page])
-    @states = Contract.aasm.states.map(&:name).prepend(:all)
+      .search(params[:search])
     @contracts = @contracts.with_status(@state) unless @state == 'all'
+    @contracts = @contracts.page(params[:page])
+
+    @states = Contract.aasm.states.map(&:name).prepend(:all)
 
     respond_to do |format|
       format.html

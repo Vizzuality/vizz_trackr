@@ -5,12 +5,19 @@
       .concat(link_to('New Contract', new_contract_path, class: 'btn btn-sm btn-outline-primary'))%>
 <% end %>
 
-<%= form_with(url: 'contracts#index', method: :get, local: true) do |form| %>
-  <div class="form-group">
-    <%= form.label :status %>
-    <%= form.select :state, options_for_select(@states, selected: @state), {}, class: "form-control", onchange: 'this.form.submit();' %>
+<div class="row mt-2">
+  <div class="col-md-12">
+    <%= form_with(url: 'contracts#index', method: :get, local: true, class: 'form-inline') do |form| %>
+      <%= form.label :search, 'Search', class: 'sr-only' %>
+      <%= text_field_tag :search, params[:search], class: 'form-control col-md-7 mb-2 mr-sm-2',
+        placeholder: 'Search through contracts', onblur: 'this.form.submit();', onenter: 'this.form.submit();' %>
+      <%= form.label :status, 'Status', class: 'sr-only' %>
+      <%= form.select :state, options_for_select(@states, selected: @state),
+        {}, class: "form-control col-md-4 mb-2 mr-sm-2", onchange: 'this.form.submit();' %>
+    <% end %>
   </div>
-<% end %>
+</div>
+
 
 <div class="row">
   <div class="col-md-12">

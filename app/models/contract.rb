@@ -132,6 +132,14 @@ class Contract < ApplicationRecord
   end
   # rubocop:enable Metrics/AbcSize
 
+  def self.search query
+    return all unless query
+
+    joins(:project)
+      .where('contracts.name ilike ? OR code ilike ? OR projects.name ilike ?',
+             "%#{query}%", "%#{query}%", "%#{query}%")
+  end
+
   def self.to_csv
     CSV.generate(headers: true) do |csv|
       csv << ['Project', 'Code', 'Contract', 'Start date', 'End Date',
