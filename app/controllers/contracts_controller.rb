@@ -71,10 +71,9 @@ class ContractsController < ApplicationController
     respond_to do |format|
       if @contract.update(contract_params)
         format.html do
-          if request.referrer == contracts_path
-            redirect_to controller: 'contracts',
-                        action: 'index',
-                        state: params[:current_state].presence
+          if request.referrer == contracts_url(state: params[:current_state])
+            redirect_to contracts_path(state: params[:current_state]),
+                        notice: 'Contract state successfully changed!'
           else
             redirect_to @contract, notice: 'Contract successfully updated!'
           end

@@ -2,12 +2,15 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit,
                                   :update, :destroy, :reports]
   before_action :set_entities, only: [:edit, :new]
+  before_action :set_default_state, only: [:index]
   authorize_resource
 
   # GET /users
   # GET /users.json
   def index
     @users = User.order(:name).includes(:team, :role)
+      .page(params[:page])
+    @users = @users.send(@state)
   end
 
   # GET /users/1
@@ -98,6 +101,10 @@ class UsersController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = User.find(params[:id])
+  end
+
+  def set_default_state
+    @state = params[:state].present? ? params[:state] : 'active'
   end
 
   def set_entities

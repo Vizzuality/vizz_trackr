@@ -20,6 +20,7 @@
 #
 
 class User < ApplicationRecord
+  paginates_per 60
   attr_accessor :skip_password_validation
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -34,6 +35,9 @@ class User < ApplicationRecord
   has_many :contracts, through: :report_parts
   has_many :projects, through: :contracts
   has_many :full_reports
+
+  scope :active, -> { where(active: true) }
+  scope :inactive, -> { where(active: false) }
 
   validates_uniqueness_of :email, :name
 
