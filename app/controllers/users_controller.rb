@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.order(:name).includes(:team, :role)
-      .page(params[:page])
+      .search(params[:search]).page(params[:page])
     @users = @users.send(@state)
   end
 

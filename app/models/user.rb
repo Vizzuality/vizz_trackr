@@ -70,6 +70,12 @@ class User < ApplicationRecord
     super && active
   end
 
+  def self.search query
+    return all unless query
+
+    where('name ilike ? OR email ilike ?', "%#{query}%", "%#{query}%")
+  end
+
   private
 
   def password_required?
