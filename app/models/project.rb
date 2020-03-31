@@ -39,4 +39,10 @@ class Project < ApplicationRecord
   def burn_percentage
     (costs / budget * 100).round(2)
   end
+
+  def self.search query
+    return all unless query
+
+    where('name ilike ?', "%#{query}%")
+  end
 end

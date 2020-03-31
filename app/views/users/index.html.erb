@@ -13,7 +13,7 @@
     <%= form_with(url: 'users#index', method: :get, local: true, class: 'form-inline') do |form| %>
       <%= form.label :search, 'Search', class: 'sr-only' %>
       <%= text_field_tag :search, params[:search], class: 'form-control col-md-7 mb-2 mr-sm-2',
-        placeholder: 'Search through contracts', onblur: 'this.form.submit();', onenter: 'this.form.submit();' %>
+        placeholder: 'Search users', onblur: 'this.form.submit();', onenter: 'this.form.submit();' %>
       <%= form.label :status, 'Status', class: 'sr-only' %>
       <%= form.select :state, options_for_select([['Active', 'active'], ['Inactive', 'inactive']], selected: @state),
         {}, class: "form-control col-md-4 mb-2 mr-sm-2", onchange: 'this.form.submit();' %>
