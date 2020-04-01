@@ -1,20 +1,13 @@
 <% content_for :title, "Results - Overview" %>
 
 <div class="row">
-  <div class="col col-lg-8">
-    <div class="main-card mb-3 card">
-      <div class="card-body">
-        <%= form_with(url: results_path, method: :get, local: true) do |form| %>
-          <div class="form-group">
-            <%= label_tag :year, 'Select year' %>
-            <%= select_tag :year, options_for_select(@years, @year), class: "form-control" %>
-          </div>
-          <div class="actions">
-            <%= form.submit "Filter" %>
-          </div>
-        <% end %>
-      </div>
-    </div>
+  <div class="col-md-12">
+    <%= form_with(url: results_path, method: :get, local: true, class: 'form-inline') do |form| %>
+      <%= form.label :year, 'Year', class: 'sr-only' %>
+      <%= form.select :year, options_for_select(@years, @year), {},
+        class: "form-control col-md-11 mb-2 mr-sm-2", onchange: 'this.form.submit();' %>
+      <%= form.submit "Filter", class: 'btn btn-primary mb-2' %>
+    <% end %>
   </div>
 </div>
 
