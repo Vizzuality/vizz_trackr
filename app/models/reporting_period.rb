@@ -69,6 +69,8 @@ class ReportingPeriod < ApplicationRecord
       dupped = report.dup
       dupped.estimated = true
       report.report_parts.each do |part|
+        next if part.contract.finished?
+
         dupped.report_parts << part.dup
       end
       reports << dupped
