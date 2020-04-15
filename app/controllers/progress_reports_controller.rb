@@ -4,8 +4,10 @@ class ProgressReportsController < ApplicationController
   before_action :set_vars, only: [:new, :edit]
 
   def new
-    redirect_to(@contract,
-                notice: 'No reporting periods available, please create one before continuing') and return unless @latest_period
+    unless @latest_period
+      redirect_to(@contract,
+                  notice: 'No reporting periods available, please create one before continuing') and return
+    end
     @progress_report = @contract.progress_reports
       .find_or_initialize_by(reporting_period_id: @latest_period.id)
   end
