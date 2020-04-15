@@ -35,7 +35,11 @@
             <%= form.label :reporting_period_id, class: "col-sm-2 col-form-label" %>
             <div class="col-sm-10">
               <%= form.collection_select :reporting_period_id, @reporting_periods, :id, :display_name,
-                {selected: progress_report.new_record? ? @active_period.id : progress_report.reporting_period_id}, class: 'form-control' %>
+                {selected: progress_report.new_record? ? @latest_period.id : progress_report.reporting_period_id,
+                 include_blank: true}, class: 'form-control' %>
+              <small class="form-text text-muted">
+                Only existing reporting periods are available, if you want to report for a new reporting period make sure it is created beforehand.
+              </small>
             </div>
           </div>
           <div class="position-relative row form-group">

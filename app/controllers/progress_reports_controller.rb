@@ -4,7 +4,10 @@ class ProgressReportsController < ApplicationController
   before_action :set_vars, only: [:new, :edit]
 
   def new
-    @progress_report = @contract.progress_reports.new(reporting_period: @active_period)
+    redirect_to(@contract,
+                notice: 'No reporting periods available, please create one before continuing') and return unless @latest_period
+    @progress_report = @contract.progress_reports
+      .find_or_initialize_by(reporting_period_id: @latest_period.id)
   end
 
   def create
@@ -40,7 +43,7 @@ class ProgressReportsController < ApplicationController
 
   def set_vars
     @reporting_periods = ReportingPeriod.order(date: :desc)
-    @active_period = ReportingPeriod.where(aasm_state: 'active').first
+    @latest_period = ReportingPeriod.order(date: :desc).first
   end
 
   def progress_report_params
