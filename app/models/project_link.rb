@@ -13,7 +13,7 @@
 
 class ProjectLink < ApplicationRecord
   belongs_to :project
-  LINK_TYPES = %w[code project-management app-environments].freeze
+  LINK_TYPES = %w[code project-management app-environments design].freeze
 
   enum link_type: array_to_enum_hash(LINK_TYPES)
 end
