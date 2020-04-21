@@ -40,7 +40,7 @@ class Contract < ApplicationRecord
   end
 
   belongs_to :project
-  has_many :report_parts # , dependent: :destroy
+  has_many :report_parts
   has_many :full_reports
   has_many :non_staff_costs, dependent: :destroy
   has_many :monthly_incomes
@@ -48,7 +48,7 @@ class Contract < ApplicationRecord
   accepts_nested_attributes_for :budget_lines, allow_destroy: true,
                                                reject_if: :reject_empty_lines
 
-  has_many :progress_reports
+  has_many :progress_reports, dependent: :destroy
   has_many :project_links, through: :project
 
   validates_uniqueness_of :name # , :code
