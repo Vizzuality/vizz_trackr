@@ -23,7 +23,7 @@ FactoryBot.define do
     sequence(:code) { |n| 'Code-' + ('AA'..'ZZ').to_a[n] }
     association :project
     budget { 100_000.00 }
-    start_date { 2.month.ago }
+    start_date { 2.months.ago }
     end_date { 1.month.ago }
   end
 end

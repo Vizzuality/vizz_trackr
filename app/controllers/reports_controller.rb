@@ -32,6 +32,7 @@ class ReportsController < ApplicationController
   # GET /reports/1/edit
   def edit
     redirect_to user_url(current_user), notice: 'No Report available to edit' and return unless @report
+
     authorize! :edit, @report
   end
 

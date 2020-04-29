@@ -10,9 +10,10 @@
 #
 
 class Rate < ApplicationRecord
-  has_many :users
+  has_many :users, dependent: :nullify
 
-  validates_uniqueness_of :code
+  validates :code, uniqueness: true
+
   def display
     "#{code} [€#{value}]"
   end

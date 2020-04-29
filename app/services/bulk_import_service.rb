@@ -8,6 +8,10 @@ class BulkImportService
     @file = file
   end
 
+  def log(msg)
+    Rails.logger.info msg
+  end
+
   def call
     import_data
   end
@@ -27,7 +31,7 @@ class BulkImportService
       name = row.first[1].split(',').map(&:strip)
       user = User.where(name: [name[1], name[0]].join(' ')).first
       unless user
-        puts "No user found for #{row.first[1]}. Skipping..."
+        log "No user found for #{row.first[1]}. Skipping..."
         next
       end
       report = @reporting_period.reports.new(user_id: user.id,
@@ -45,7 +49,7 @@ class BulkImportService
           failures << "Couldn't find a contract with name #{pair[0]}. Skipping..."
           next
         end
-        val = pair[1].include?('%') ? pair[1].gsub('%', '').to_f : pair[1].to_f * 100
+        val = pair[1].include?('%') ? pair[1].delete('%').to_f : pair[1].to_f * 100
         report.report_parts.new(contract_id: contract.id,
                                 percentage: val)
       end
@@ -59,18 +63,18 @@ class BulkImportService
   # rubocop:enable Metrics/PerceivedComplexity
 
   def print_results successes, failures
-    puts '#####################################################'
-    puts ' SUCCESSES IMPORTS !!!!!! '
+    log '#####################################################'
+    log ' SUCCESSES IMPORTS !!!!!! '
     successes.uniq.each do |s|
-      puts s
+      log s
     end
-    puts '*****************************************************'
-    puts ' !!!!!! FAILURES IMPORTS !!!!!! '
+    log '*****************************************************'
+    log ' !!!!!! FAILURES IMPORTS !!!!!! '
     if failures.empty?
-      puts 'NONE'
+      log 'NONE'
     else
       failures.uniq.each do |s|
-        puts s
+        log s
       end
     end
   end

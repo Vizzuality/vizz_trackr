@@ -32,6 +32,6 @@ class ResultsController < ApplicationController
   private
 
   def set_year
-    @year = params[:year] || Time.now.year - 1
+    @year = params[:year] || Time.current.year - 1
   end
 end

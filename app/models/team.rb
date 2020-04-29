@@ -9,10 +9,9 @@
 #
 
 class Team < ApplicationRecord
-  has_many :users
-  has_many :full_reports
-  has_many :reports, dependent: :nullify
   has_many :users, dependent: :nullify
+  has_many :full_reports # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :reports, dependent: :nullify
 
-  validates_uniqueness_of :name
+  validates :name, uniqueness: true
 end

@@ -19,7 +19,7 @@ class ProgressReport < ApplicationRecord
 
   before_save :calculate_delta
 
-  validates_uniqueness_of :reporting_period_id, scope: :contract_id
+  validates :reporting_period_id, uniqueness: {scope: :contract_id}
   validates :reporting_period_id, :contract_id, :percentage, presence: true
   validate :bounded_progress
 
@@ -35,7 +35,8 @@ class ProgressReport < ApplicationRecord
                  end
     # if editing an older progress, update the next one too
     next_one = contract.next_progress_report(self)
-    next_one&.update_column(:delta, next_one.percentage - percentage)
+
+    next_one&.update_column(:delta, next_one.percentage - percentage) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def bounded_progress

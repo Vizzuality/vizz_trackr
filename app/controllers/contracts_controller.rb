@@ -75,7 +75,7 @@ class ContractsController < ApplicationController
     respond_to do |format|
       if @contract.update(contract_params)
         format.html do
-          if request.referrer == contracts_url(state: params[:current_state])
+          if request.referer == contracts_url(state: params[:current_state])
             redirect_to contracts_path(state: params[:current_state]),
                         notice: 'Contract state successfully changed!'
           else
@@ -101,7 +101,7 @@ class ContractsController < ApplicationController
         rp.id != params[:reporting_period_id].to_i
 
       rp.full_reports.for_contract(@contract.id).each do |report|
-        entry = @data.select { |t| t[:name] == report.user_name }.first
+        entry = @data.find { |t| t[:name] == report.user_name }
         unless entry
           entry = {name: report.user_name}
           new_entry = true
@@ -134,15 +134,15 @@ class ContractsController < ApplicationController
       .group(:user_name, :user_id, :role_name)
       .order('SUM(days) DESC, user_name')
     @reporting_periods = ReportingPeriod
-      .where('date > ?', (Date.today - 5.months).at_beginning_of_month)
+      .where('date > ?', (Time.zone.today - 5.months).at_beginning_of_month)
       .order(:date).includes(:full_reports)
   end
 
   def destroy
     if @contract.destroy
-      redirect_to request.referrer
+      redirect_to request.referer
     else
-      redirect_to request.referrer, notice: @contract.errors.full_messages.join(',')
+      redirect_to request.referer, notice: @contract.errors.full_messages.join(',')
     end
   end
 
@@ -153,7 +153,7 @@ class ContractsController < ApplicationController
   end
 
   def set_default_state
-    @state = params[:state].present? ? params[:state] : 'live'
+    @state = params[:state].presence || 'live'
   end
 
   def contract_params

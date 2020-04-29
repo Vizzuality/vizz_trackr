@@ -34,20 +34,20 @@ class ReportingPeriod < ApplicationRecord
   end
 
   def self.deactivate_active_reporting!
-    ReportingPeriod.where(aasm_state: 'active').each(&:terminate!)
+    ReportingPeriod.where(aasm_state: 'active').find_each(&:terminate!)
   end
 
   has_many :reports, dependent: :destroy
   has_many :report_parts, through: :reports
   has_many :contracts, through: :report_parts
   has_many :users, through: :reports
-  has_many :full_reports
+  has_many :full_reports, dependent: :restrict_with_error
   has_many :non_staff_costs, dependent: :destroy
 
-  validates_uniqueness_of :date
+  validates :date, uniqueness: true
 
   def self.active_period
-    ReportingPeriod.where(aasm_state: 'active').first
+    ReportingPeriod.find_by(aasm_state: 'active')
   end
 
   def display_name
@@ -107,7 +107,7 @@ class ReportingPeriod < ApplicationRecord
     users.order(:name).each do |user|
       data = {}
       data['staff'] = user.name
-      report = reports.where(user_id: user.id).first
+      report = reports.find_by(user_id: user.id)
       contracts.includes(:project).order(:name).each do |contract|
         percentage = report.report_parts
           .where(contract_id: contract.id).pluck(:percentage).first

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_20_001601) do
+ActiveRecord::Schema.define(version: 2020_04_29_232234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 2020_03_20_001601) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["contract_id"], name: "index_progress_reports_on_contract_id"
-    t.index ["reporting_period_id"], name: "index_progress_reports_on_reporting_period_id"
+    t.index ["reporting_period_id", "contract_id"], name: "index_progress_reports_on_reporting_period_id_and_contract_id", unique: true
   end
 
   create_table "project_links", force: :cascade do |t|
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 2020_03_20_001601) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "team_id"
     t.boolean "is_billable", default: true
+    t.index ["name"], name: "index_projects_on_name", unique: true
     t.index ["team_id"], name: "index_projects_on_team_id"
   end
 
@@ -91,6 +92,7 @@ ActiveRecord::Schema.define(version: 2020_03_20_001601) do
     t.float "value"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["code"], name: "index_rates_on_code", unique: true
   end
 
   create_table "report_parts", force: :cascade do |t|
@@ -101,6 +103,7 @@ ActiveRecord::Schema.define(version: 2020_03_20_001601) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "contract_id", null: false
+    t.index ["contract_id", "report_id"], name: "index_report_parts_on_contract_id_and_report_id", unique: true
     t.index ["contract_id"], name: "index_report_parts_on_contract_id"
     t.index ["report_id"], name: "index_report_parts_on_report_id"
   end
@@ -110,6 +113,7 @@ ActiveRecord::Schema.define(version: 2020_03_20_001601) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "aasm_state"
+    t.index ["date"], name: "index_reporting_periods_on_date", unique: true
   end
 
   create_table "reports", force: :cascade do |t|
@@ -130,12 +134,14 @@ ActiveRecord::Schema.define(version: 2020_03_20_001601) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_roles_on_name", unique: true
   end
 
   create_table "teams", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_teams_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.5.1
   Exclude:
     - 'bin/*'
     - 'db/schema.rb'
@@ -9,6 +9,10 @@ AllCops:
     - 'config/*'
     - 'node_modules/**/*'
     - 'vendor/**/*'
+
+require:
+  - rubocop-performance
+  - rubocop-rails
 
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
@@ -21,6 +25,9 @@ Layout/MultilineOperationIndentation:
 
 Layout/DotPosition:
   EnforcedStyle: leading
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
 
 Naming/HeredocDelimiterNaming:
   Enabled: false
@@ -61,7 +68,7 @@ Style/ClassAndModuleChildren:
 Style/MethodDefParentheses:
     Enabled: false
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
   Exclude:
     - 'db/**/*'
@@ -94,3 +101,21 @@ Bundler/OrderedGems:
 
 Style/Lambda:
   EnforcedStyle: literal
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true

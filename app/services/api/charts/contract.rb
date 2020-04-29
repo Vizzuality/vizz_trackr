@@ -32,7 +32,7 @@ module Api
         non_staff = {name: 'Non Staff Costs', data: {}}
         aggregate = {name: 'Aggregate', data: {}}
         projected = {name: 'Projected', data: {}}
-        budget = {name: 'Budget', data: dates.map { |d| [d, @contract.budget&.to_f] }.to_h, points: false}
+        budget = {name: 'Budget', data: dates.index_with { @contract.budget&.to_f }, points: false}
         income = {name: 'Income', data: {}}
         agg = 0.0
         dates.each do |date|

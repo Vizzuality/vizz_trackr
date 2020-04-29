@@ -34,18 +34,19 @@ class User < ApplicationRecord
   has_many :reporting_periods, through: :reports
   has_many :contracts, through: :report_parts
   has_many :projects, through: :contracts
-  has_many :full_reports
+  has_many :full_reports, dependent: :destroy
 
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
 
-  validates_uniqueness_of :email, :name
+  validates :email, uniqueness: true
+  validates :name, presence: true
 
   def current_report
     reporting_period = ReportingPeriod.active_period
     return nil unless reporting_period
 
-    reports.where(reporting_period_id: reporting_period.id).first || reports
+    reports.find_by(reporting_period_id: reporting_period.id) || reports
       .create(reporting_period_id: reporting_period.id, estimated: true,
               role_id: role_id, team_id: team_id)
   end

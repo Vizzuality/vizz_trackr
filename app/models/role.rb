@@ -10,9 +10,9 @@
 
 class Role < ApplicationRecord
   has_many :users, dependent: :nullify
-  has_many :full_reports
+  has_many :full_reports # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :reports, dependent: :nullify
-  has_many :budget_lines
+  has_many :budget_lines, dependent: :nullify
 
-  validates_uniqueness_of :name
+  validates :name, uniqueness: true
 end

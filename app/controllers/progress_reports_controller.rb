@@ -8,6 +8,7 @@ class ProgressReportsController < ApplicationController
       redirect_to(@contract,
                   notice: 'No reporting periods available, please create one before continuing') and return
     end
+
     @progress_report = @contract.progress_reports
       .find_or_initialize_by(reporting_period_id: @latest_period.id)
   end

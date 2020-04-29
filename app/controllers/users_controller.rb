@@ -104,7 +104,7 @@ class UsersController < ApplicationController
   end
 
   def set_default_state
-    @state = params[:state].present? ? params[:state] : 'active'
+    @state = params[:state].presence || 'active'
   end
 
   def set_entities

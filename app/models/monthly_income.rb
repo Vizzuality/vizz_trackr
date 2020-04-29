@@ -9,7 +9,7 @@
 #  reporting_period_id :bigint
 #
 
-class MonthlyIncome < ActiveRecord::Base
+class MonthlyIncome < ApplicationRecord
   belongs_to :contract
   # this isn't strictly necessary, but it will prevent
   # rails from calling save, which would fail anyway.

@@ -23,7 +23,7 @@
 #  days                  :float
 #
 
-class FullReport < ActiveRecord::Base
+class FullReport < ApplicationRecord
   belongs_to :reporting_period
   belongs_to :contract
   belongs_to :project

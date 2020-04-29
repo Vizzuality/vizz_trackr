@@ -40,18 +40,17 @@ class Contract < ApplicationRecord
   end
 
   belongs_to :project
-  has_many :report_parts
-  has_many :full_reports
+  has_many :report_parts, dependent: :restrict_with_error
+  has_many :full_reports, dependent: :restrict_with_error
   has_many :non_staff_costs, dependent: :destroy
-  has_many :monthly_incomes
-  has_many :budget_lines
+  has_many :monthly_incomes, dependent: :restrict_with_error
+  has_many :budget_lines, dependent: :destroy
   accepts_nested_attributes_for :budget_lines, allow_destroy: true,
                                                reject_if: :reject_empty_lines
 
   has_many :progress_reports, dependent: :destroy
   has_many :project_links, through: :project
 
-  validates_uniqueness_of :name # , :code
   delegate :is_billable?, to: :project
 
   before_destroy :no_report_parts
@@ -144,7 +143,7 @@ class Contract < ApplicationRecord
     CSV.generate(headers: true) do |csv|
       csv << ['Project', 'Code', 'Contract', 'Start date', 'End Date',
               'Budget (EUR)', 'Internal?', 'Status']
-      all.each do |contract|
+      all.find_each do |contract|
         csv << [
           contract.project&.name,
           contract.code,
@@ -164,7 +163,7 @@ class Contract < ApplicationRecord
   def reject_empty_lines(attributes)
     exists = attributes['id'].present?
     empty = attributes['percentage'].blank? || attributes['percentage'].to_f <= 0.0
-    attributes.merge!(_destroy: 1) if exists && empty
+    attributes[:_destroy] = 1 if exists && empty
     !exists && empty
   end
 

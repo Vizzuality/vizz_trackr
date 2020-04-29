@@ -12,7 +12,7 @@
 
 class Project < ApplicationRecord
   belongs_to :team, optional: true
-  has_many :contracts
+  has_many :contracts, dependent: :restrict_with_error
 
   has_many :full_reports, through: :contracts
   has_many :report_parts, through: :contracts
@@ -20,13 +20,12 @@ class Project < ApplicationRecord
   has_many :users, through: :reports
   has_many :reporting_periods, through: :reports
 
-  has_many :project_links
+  has_many :project_links, dependent: :restrict_with_error
   accepts_nested_attributes_for :project_links,
                                 allow_destroy: true,
                                 reject_if: proc { |attributes| attributes['title'].blank? || attributes['url'].blank? }
 
-  validates_uniqueness_of :name
-  validates_presence_of :name
+  validates :name, uniqueness: true, presence: true
 
   def budget
     contracts.try(:sum, :budget)
