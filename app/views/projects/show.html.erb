@@ -49,7 +49,7 @@ end %>
               <% @project.contracts.order("contracts.end_date desc").each do |contract| %>
                 <tr>
                   <td><%= contract.code %></td>
-                  <td><%= contract.name %> (<%= contract.aasm_state.humanize %>)</td>
+                  <td><%= link_to contract.name, contract %> (<%= contract.aasm_state.humanize %>)</td>
                   <td>
                     <%= number_to_currency(contract.budget) %>
                   </td>
@@ -60,7 +60,6 @@ end %>
                   <td><%= contract.start_date %></td>
                   <td><%= contract.end_date %></td>
                   <td>
-                    <%= link_to 'Show', contract  %>
                     <% if can? :edit, contract %>
                       |
                       <%= link_to 'Edit', edit_contract_path(contract) %>

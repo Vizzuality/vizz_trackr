@@ -186,7 +186,7 @@
                 <tr>
                   <td><%= extra.details %></td>
                   <td><%= extra.percentage %>%</td>
-                  <td><%=  number_to_currency(extra.percentage / 100 * @contract.budget) if @contract.budget %></td>
+                  <td><%= number_to_currency(extra.percentage / 100 * @contract.budget) if @contract.budget %></td>
                   <td><%= extra.days %></td>
                   <td colspan="3"></td>
                 </tr>
@@ -228,7 +228,7 @@
                    .order("reporting_periods.date DESC").each do |report| %>
                 <tr>
                   <td><%= report.reporting_period_name %></td>
-                  <td><%= report.user_name %></td>
+                  <td><%= link_to report.user_name, reports_user_path(report.user_id) %></td>
                   <td><%= report.team_name %></td>
                   <td><%= report.role_name %></td>
                   <td><%= report.percentage %>%</td>
