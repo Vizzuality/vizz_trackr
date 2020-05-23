@@ -15,6 +15,7 @@
 class ReportPart < ApplicationRecord
   belongs_to :report
   belongs_to :contract
+  belongs_to :role, optional: true
 
   before_save :calculate_cost_and_days
 
