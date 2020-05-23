@@ -16,7 +16,7 @@ FactoryBot.define do
   factory :report do
     association :user
     association :team
-    association :role
     association :reporting_period
+    association :report_part
   end
 end
