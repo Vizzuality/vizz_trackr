@@ -6,6 +6,11 @@
   <td>
     <%= form.collection_select :contract_id, @contracts, :id,
       :full_name, {}, class: 'form-control' %>
+</td>
+
+  <td>
+    <%= form.collection_select :role_id, @roles, :id,
+      :name, {selected: form.object.role_id || @report.user.role_id}, class: 'form-control' %>
   </td>
 
   <td>
