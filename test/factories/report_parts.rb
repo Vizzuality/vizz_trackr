@@ -16,6 +16,7 @@ FactoryBot.define do
   factory :report_part do
     association :report
     association :contract
+    association :role
     percentage { 1.5 }
     days { 1 }
     cost { 100 }
