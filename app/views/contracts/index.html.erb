@@ -9,12 +9,11 @@
   <div class="col-md-12">
     <%= form_with(url: 'contracts#index', method: :get, local: true, class: 'form-inline') do |form| %>
       <%= form.label :search, 'Search', class: 'sr-only' %>
-      <%= text_field_tag :search, params[:search], class: 'form-control col-md-7 mb-2 mr-sm-2',
+      <%= text_field_tag :search, params[:search], class: 'form-control col-sm-7 mb-2',
         placeholder: 'Search contracts', onblur: 'this.form.submit();', onenter: 'this.form.submit();' %>
       <%= form.label :status, 'Status', class: 'sr-only' %>
       <%= form.select :state, options_for_select(@states, selected: @state),
-        {}, class: "form-control col-md-4 mb-2 mr-sm-2", onchange: 'this.form.submit();' %>
-      <%= submit_tag 'Filter', class: 'btn btn-primary mb-2' %>
+        {}, class: "form-control col-sm-5 mb-2", onchange: 'this.form.submit();' %>
     <% end %>
   </div>
 </div>

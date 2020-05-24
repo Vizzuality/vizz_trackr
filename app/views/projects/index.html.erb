@@ -9,9 +9,8 @@
   <div class="col-md-12">
     <%= form_with(url: 'projects#index', method: :get, local: true, class: 'form-inline') do |form| %>
       <%= form.label :search, 'Search', class: 'sr-only' %>
-      <%= text_field_tag :search, params[:search], class: 'form-control col-md-11 mb-2 mr-sm-2',
+      <%= text_field_tag :search, params[:search], class: 'form-control col-sm-12 mb-2',
         placeholder: 'Search projects', onblur: 'this.form.submit();', onenter: 'this.form.submit();' %>
-      <%= submit_tag 'Filter', class: 'btn btn-primary mb-2' %>
     <% end %>
   </div>
 </div>
