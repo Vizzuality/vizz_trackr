@@ -1,4 +1,4 @@
-<% content_for :title, "#{@user.name}" %>
+<% content_for :title, @user.name_with_state %>
 <%= render 'actions', user: @user %>
 
 <div class="row">

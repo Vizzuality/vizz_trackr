@@ -42,6 +42,12 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   validates :name, presence: true
 
+  def name_with_state
+    str = [name]
+    str << '[acc: disabled]' unless active?
+    str.join(' ')
+  end
+
   def current_report
     reporting_period = ReportingPeriod.active_period
     return nil unless reporting_period
