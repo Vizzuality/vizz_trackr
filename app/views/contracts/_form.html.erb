@@ -105,8 +105,9 @@
             <thead>
               <tr>
                 <th>Functional Area</th>
-                <th>Estimated Days</th>
-                <th>Percentage of Budget</th>
+                <th>Days (in contract)</th>
+                <th>% of Budget (in contract)</th>
+                <th>Days adjusted</th>
                 <th></th>
               </tr>
             </thead>
@@ -115,7 +116,7 @@
                 <%= render 'budget_line_fields', form: builder %>
               <% end %>
               <tr class="nested-list__actions" data-target="nested-list.links">
-                <th>
+                <th colspan="2">
                   Total
                 </th>
                 <th>
@@ -126,6 +127,7 @@
                     </div>
                   </div>
                 </th>
+                <th></th>
               </tr>
             </tbody>
           </table>

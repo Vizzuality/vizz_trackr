@@ -10,6 +10,7 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  contract_id :bigint           not null
+#  role_id     :bigint
 #
 
 FactoryBot.define do

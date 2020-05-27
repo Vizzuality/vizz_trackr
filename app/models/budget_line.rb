@@ -2,14 +2,15 @@
 #
 # Table name: budget_lines
 #
-#  id          :bigint           not null, primary key
-#  contract_id :bigint           not null
-#  role_id     :bigint
-#  percentage  :float
-#  details     :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  days        :integer
+#  id            :bigint           not null, primary key
+#  contract_id   :bigint           not null
+#  role_id       :bigint
+#  percentage    :float
+#  details       :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  days          :integer
+#  adjusted_days :float
 #
 
 class BudgetLine < ApplicationRecord
