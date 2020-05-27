@@ -3,7 +3,7 @@
 ## Dependencies
 
 - Ruby 2.6.3
-- Rails 6.0.0.rc2
+- Rails 6.0.x
 - PostgreSQL 10.x
 
 ## Setting up your local environment
