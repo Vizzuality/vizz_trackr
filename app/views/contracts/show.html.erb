@@ -173,7 +173,7 @@
                   <td><%=  budget_per_role&.days %></td>
                   <td><%=  budget_per_role&.adjusted_days %></td>
                   <td><%= info_per_role&.days&.round(2) %></td>
-                  <td><%= ((budget_per_role.adjusted_days.presence || budget_per_role.days.presence || 0.0) - info_per_role.days)&.round(2) if info_per_role.days  %></td>
+                  <td><%= ((budget_per_role.adjusted_days.presence || budget_per_role.days.presence || 0.0) - info_per_role.days)&.round(2) if info_per_role&.days  %></td>
                 </tr>
               <% end %>
               <% if extra = @contract.budget_lines.where(role_id: nil).first %>
