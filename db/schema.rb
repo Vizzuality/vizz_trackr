@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_29_232234) do
+ActiveRecord::Schema.define(version: 2020_05_27_191725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2020_04_29_232234) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "days"
+    t.float "adjusted_days"
     t.index ["contract_id"], name: "index_budget_lines_on_contract_id"
     t.index ["role_id"], name: "index_budget_lines_on_role_id"
   end
@@ -103,9 +104,11 @@ ActiveRecord::Schema.define(version: 2020_04_29_232234) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "contract_id", null: false
-    t.index ["contract_id", "report_id"], name: "index_report_parts_on_contract_id_and_report_id", unique: true
+    t.bigint "role_id"
+    t.index ["contract_id", "report_id", "role_id"], name: "index_report_parts_on_contract_id_and_report_id_and_role_id", unique: true
     t.index ["contract_id"], name: "index_report_parts_on_contract_id"
     t.index ["report_id"], name: "index_report_parts_on_report_id"
+    t.index ["role_id"], name: "index_report_parts_on_role_id"
   end
 
   create_table "reporting_periods", force: :cascade do |t|
@@ -119,13 +122,11 @@ ActiveRecord::Schema.define(version: 2020_04_29_232234) do
   create_table "reports", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.integer "team_id"
-    t.integer "role_id"
     t.bigint "reporting_period_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "estimated", default: false
     t.index ["reporting_period_id"], name: "index_reports_on_reporting_period_id"
-    t.index ["role_id"], name: "index_reports_on_role_id"
     t.index ["team_id"], name: "index_reports_on_team_id"
     t.index ["user_id"], name: "index_reports_on_user_id"
   end
@@ -177,14 +178,28 @@ ActiveRecord::Schema.define(version: 2020_04_29_232234) do
   add_foreign_key "projects", "teams"
   add_foreign_key "report_parts", "contracts"
   add_foreign_key "report_parts", "reports"
+  add_foreign_key "report_parts", "roles"
   add_foreign_key "reports", "reporting_periods"
-  add_foreign_key "reports", "roles"
   add_foreign_key "reports", "teams"
   add_foreign_key "reports", "users"
   add_foreign_key "users", "rates"
   add_foreign_key "users", "roles"
   add_foreign_key "users", "teams"
 
+  create_view "monthly_incomes", sql_definition: <<-SQL
+      SELECT DISTINCT ((contracts.budget * progress_reports.delta) / (100)::double precision) AS income,
+      reporting_periods.date AS month,
+      contracts.aasm_state,
+      contracts.id AS contract_id,
+      reporting_periods.id AS reporting_period_id
+     FROM ((((contracts
+       JOIN report_parts ON ((report_parts.contract_id = contracts.id)))
+       JOIN reports ON ((reports.id = report_parts.report_id)))
+       JOIN reporting_periods ON ((reporting_periods.id = reports.reporting_period_id)))
+       JOIN progress_reports ON (((progress_reports.reporting_period_id = reporting_periods.id) AND (progress_reports.contract_id = contracts.id))))
+    WHERE (contracts.budget IS NOT NULL)
+    ORDER BY reporting_periods.date DESC;
+  SQL
   create_view "full_reports", sql_definition: <<-SQL
       SELECT projects.id AS project_id,
       projects.name AS project_name,
@@ -211,21 +226,7 @@ ActiveRecord::Schema.define(version: 2020_04_29_232234) do
        JOIN reporting_periods ON ((reporting_periods.id = reports.reporting_period_id)))
        LEFT JOIN teams ON ((teams.id = reports.team_id)))
        LEFT JOIN users ON ((users.id = reports.user_id)))
-       LEFT JOIN roles ON ((roles.id = reports.role_id)))
+       LEFT JOIN roles ON ((roles.id = report_parts.role_id)))
        JOIN projects ON ((projects.id = contracts.project_id)));
-  SQL
-  create_view "monthly_incomes", sql_definition: <<-SQL
-      SELECT DISTINCT ((contracts.budget * progress_reports.delta) / (100)::double precision) AS income,
-      reporting_periods.date AS month,
-      contracts.aasm_state,
-      contracts.id AS contract_id,
-      reporting_periods.id AS reporting_period_id
-     FROM ((((contracts
-       JOIN report_parts ON ((report_parts.contract_id = contracts.id)))
-       JOIN reports ON ((reports.id = report_parts.report_id)))
-       JOIN reporting_periods ON ((reporting_periods.id = reports.reporting_period_id)))
-       JOIN progress_reports ON (((progress_reports.reporting_period_id = reporting_periods.id) AND (progress_reports.contract_id = contracts.id))))
-    WHERE (contracts.budget IS NOT NULL)
-    ORDER BY reporting_periods.date DESC;
   SQL
 end

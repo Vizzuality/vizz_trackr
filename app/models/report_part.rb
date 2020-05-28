@@ -10,19 +10,21 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  contract_id :bigint           not null
+#  role_id     :bigint
 #
 
 class ReportPart < ApplicationRecord
   belongs_to :report
   belongs_to :contract
+  belongs_to :role, optional: true
 
   before_save :calculate_cost_and_days
 
   validates :contract_id, uniqueness: {
-    scope: :report_id,
+    scope: [:report_id, :role_id],
     message: ->(object, _) do
       "Contract #{object.contract.name} added more than once."\
-        'Please remove the duplicate entries before submitting your report again.'
+        ' Please remove the duplicate entries before submitting your report again.'
     end
   }
 

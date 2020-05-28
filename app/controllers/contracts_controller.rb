@@ -61,8 +61,6 @@ class ContractsController < ApplicationController
     @roles = Role.order(:name).includes(:budget_lines)
     @days_per_role = @contract.full_reports
       .select('role_id, sum(cost) AS cost, sum(days) AS days').group(:role_id)
-    @total_days = @contract.full_reports.where.not(role_id: nil)
-      .pluck('sum(days)').first
 
     @data = if @contract.is_billable?
               ::Api::Charts::Contract.new(@contract).contract_burn_data
@@ -162,6 +160,7 @@ class ContractsController < ApplicationController
                                      :project_id, :name, :budget, :summary,
                                      :start_date, :end_date,
                                      budget_lines_attributes: [:id, :percentage, :days,
+                                                               :adjusted_days,
                                                                :role_id, :details])
   end
 end

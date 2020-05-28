@@ -50,6 +50,7 @@
             <thead>
               <tr>
                 <th>Contract</th>
+                <th>Functional Area</th>
                 <% @reporting_periods.each do |rp| %>
                   <th>
                     <%= rp.reporting_period_name %>
@@ -61,9 +62,10 @@
               </tr>
             </thead>
             <tbody>
-              <% @reports.select(:contract_id, :contract_name).distinct.order(:contract_name).each do |report| %>
+              <% @reports.select(:contract_id, :contract_name, :role_id, :role_name).distinct.order(:contract_name).each do |report| %>
                 <tr>
                   <td><%= link_to report.contract_name, contract_path(report.contract_id) %></td>
+                  <td><%= link_to report.role_name, role_path(report.role_id) %></td>
                   <% @reporting_periods.each do |rp| %>
                     <% selected_report = @reports
                       .where(contract_name: report.contract_name, reporting_period_id: rp.reporting_period_id)
@@ -75,7 +77,7 @@
                 </tr>
               <% end %>
               <tr>
-                <th>Total</th>
+                <th colspan="2">Total</th>
                 <% @reporting_periods.each do |rp| %>
                   <th>
                     <%= @reports.where(reporting_period_id: rp.reporting_period_id).sum(:percentage) %>%

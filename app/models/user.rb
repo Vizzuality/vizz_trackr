@@ -53,8 +53,7 @@ class User < ApplicationRecord
     return nil unless reporting_period
 
     reports.find_by(reporting_period_id: reporting_period.id) || reports
-      .create(reporting_period_id: reporting_period.id, estimated: true,
-              role_id: role_id, team_id: team_id)
+      .create(reporting_period_id: reporting_period.id, estimated: true, team_id: team_id)
   end
 
   def quick_contracts
