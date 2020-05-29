@@ -68,7 +68,7 @@
                   <td><%= link_to(report.role_name, role_path(report.role_id)) if report.role_id%></td>
                   <% @reporting_periods.each do |rp| %>
                     <% selected_report = @reports
-                      .where(contract_name: report.contract_name, reporting_period_id: rp.reporting_period_id)
+                      .where(contract_name: report.contract_name, reporting_period_id: rp.reporting_period_id, role_id: report.role_id)
                       .first %>
                     <td class="<%= "table-warning" if selected_report && selected_report.report_estimated? %>">
                       <%= selected_report.try(&:percentage) || 0 %> %
