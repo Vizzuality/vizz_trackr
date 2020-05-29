@@ -65,7 +65,7 @@
               <% @reports.select(:contract_id, :contract_name, :role_id, :role_name).distinct.order(:contract_name).each do |report| %>
                 <tr>
                   <td><%= link_to report.contract_name, contract_path(report.contract_id) %></td>
-                  <td><%= link_to report.role_name, role_path(report.role_id) %></td>
+                  <td><%= link_to(report.role_name, role_path(report.role_id)) if report.role_id%></td>
                   <% @reporting_periods.each do |rp| %>
                     <% selected_report = @reports
                       .where(contract_name: report.contract_name, reporting_period_id: rp.reporting_period_id)

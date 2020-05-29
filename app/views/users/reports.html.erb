@@ -48,7 +48,7 @@
                   <tr class="<%= "table-warning" if report.report_estimated? %>">
                   <td><%= link_to report.reporting_period_name, reporting_period_path(report.reporting_period_id) %></td>
                   <td><%= link_to report.contract_name, report_path(report.report_id) %></td>
-                  <td><%= link_to report.role_name, role_path(report.role_id) %></td>
+                  <td><%= link_to(report.role_name, role_path(report.role_id)) if report.role_id %></td>
                   <td><%= report.percentage %>%</td>
                   <td><%= report.days %></td>
                   <td><%= number_to_currency(report.cost) %></td>
