@@ -60,7 +60,7 @@ class User < ApplicationRecord
     return [] unless reports.any?
 
     reports.order(created_at: :desc)
-      .first.contracts.order(:name)
+      .first.contracts.order(:name).distinct
   end
 
   def gravatar_url(size = 50)
