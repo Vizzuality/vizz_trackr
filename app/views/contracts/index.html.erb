@@ -25,17 +25,14 @@
       <div class="card-body">
         <div class="table-responsive">
           <%= page_entries_info @contracts %>
-          <table class="table table-sm table-hovered">
+          <table class="table table-lg table-hover table-striped">
             <thead>
               <tr>
                 <th>Code</th>
-                <th>Name</th>
-                <th>Project</th>
-                <th>Budget</th>
-                <th>Costs to date</th>
-                <th>Burn %</th>
-                <th>Progress to date</th>
-                <th>Income to date</th>
+                <th>Name / Project</th>
+                <th class="text-right">Budget</th>
+                <th class="text-right">Income / Costs</th>
+                <th>Progress / Burn</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -44,24 +41,27 @@
               <% @contracts.each do |contract| %>
                 <tr>
                   <td><%= contract.code %></td>
-                  <td><%= link_to contract.name, contract %></td>
                   <td>
-                    <%= billable_tag(contract.project) %>
-                    <%= link_to contract.project.name, contract.project %>
+                    <%= link_to contract.name, contract %><br />
+                    <span>
+                      <small><%= link_to contract.project.name, contract.project, class: 'text-muted' %></small>
+                    </span>
                   </td>
-                  <td>
+                  <td class="text-right">
                     <%= number_to_currency(contract.budget)  %>
                   </td>
-                  <td>
-                    <%= contract.is_billable? ? number_to_currency(contract.total_burn) : "#{contract.full_reports.sum(:days).round(2)} days" %>
+                  <td class="text-right">
+                    <%= contract.latest_progress_report ? content_tag(:span, number_to_currency(contract.income_to_date), class: 'text-right') : '-' %><br />
+                    <% if contract.is_billable? %>
+                      <%= colored_burn(contract.total_burn, contract.income_to_date) %>
+                    <% else %>
+                      <%= "#{contract.full_reports.sum(:days).round(2)} days" %>
+                    <% end %>
                   </td>
-                  <% if contract.is_billable? %>
-                    <%= td_for_burn contract.burn_percentage, contract.income_percentage %>
-                  <% else %>
-                    <td></td>
-                  <% end %>
-                  <td><%= "#{contract.latest_progress_report&.percentage}%" if contract.latest_progress_report %></td>
-                  <td><%= number_to_currency(contract.income_to_date) if contract.latest_progress_report %></td>
+                  <td>
+                    <%= progress_bar contract.income_percentage %>
+                    <%= progress_bar contract.income_percentage, contract.burn_percentage %>
+                  </td>
                   <td>
                     <% if can? :manage, contract %>
                       <%= form_with(model: contract, method: :patch, local: true, class: 'd-inline') do |form| %>
