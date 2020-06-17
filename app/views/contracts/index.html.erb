@@ -30,9 +30,9 @@
               <tr>
                 <th>Code</th>
                 <th>Name / Project</th>
+                <th>Progress / Burn</th>
                 <th class="text-right">Budget</th>
                 <th class="text-right">Income / Costs</th>
-                <th>Progress / Burn</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -40,12 +40,16 @@
             <tbody>
               <% @contracts.each do |contract| %>
                 <tr>
-                  <td><%= contract.code %></td>
+                  <td>
+                    <small><%= contract.code %></small>
+                  </td>
                   <td>
                     <%= link_to contract.name, contract %><br />
-                    <span>
-                      <small><%= link_to contract.project.name, contract.project, class: 'text-muted' %></small>
-                    </span>
+                    <small><%= link_to contract.project.name, contract.project, class: 'text-muted' %></small>
+                  </td>
+                  <td>
+                    <%= progress_bar contract.income_percentage %>
+                    <%= progress_bar contract.income_percentage, contract.burn_percentage %>
                   </td>
                   <td class="text-right">
                     <%= number_to_currency(contract.budget)  %>
@@ -57,10 +61,6 @@
                     <% else %>
                       <%= "#{contract.full_reports.sum(:days).round(2)} days" %>
                     <% end %>
-                  </td>
-                  <td>
-                    <%= progress_bar contract.income_percentage %>
-                    <%= progress_bar contract.income_percentage, contract.burn_percentage %>
                   </td>
                   <td>
                     <% if can? :manage, contract %>
