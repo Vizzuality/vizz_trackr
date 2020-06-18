@@ -16,10 +16,10 @@ module ContractsHelper
     return '?' unless result
 
     klass = if result <= 100.0
-                   'text-primary'
-                 else
-                   'text-danger'
-                 end
+              'text-primary'
+            else
+              'text-danger'
+            end
     content_tag(:span, result, class: klass)
   end
 
@@ -41,7 +41,7 @@ module ContractsHelper
             else
               'success'
             end
-    val = burn ? burn : progress
+    val = burn || progress
     progress_bar_for_table val, klass
   end
 end
