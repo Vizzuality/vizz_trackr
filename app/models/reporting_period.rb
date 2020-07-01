@@ -108,9 +108,11 @@ class ReportingPeriod < ApplicationRecord
       data = {}
       data['staff'] = user.name
       report = reports.find_by(user_id: user.id)
-      contracts.includes(:project).order(:name).each do |contract|
+      Contract.where(id: report_parts.map(&:contract_id).uniq)
+        .includes(:project).order(:name).each do |contract|
         percentage = report.report_parts
-          .where(contract_id: contract.id).pluck(:percentage).first
+          .where(contract_id: contract.id)
+          .sum(:percentage) || 0
         data[contract.full_name] = percentage && (percentage / 100).round(2)
       end
       data['estimated'] = report.estimated?
