@@ -62,6 +62,7 @@ class ReportingPeriod < ApplicationRecord
     full_reports.sum(:days)
   end
 
+  # copy just the projects, without assigned percentages
   def copy_reports_from source
     source.reports.each do |report|
       next unless report.user.active?
@@ -71,7 +72,8 @@ class ReportingPeriod < ApplicationRecord
       report.report_parts.each do |part|
         next if part.contract.finished?
 
-        dupped.report_parts << part.dup
+        dupped.report_parts << ReportPart.new(contract_id: part.contract_id,
+                                              role_id: part.role_id)
       end
       reports << dupped
     end
