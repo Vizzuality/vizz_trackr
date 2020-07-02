@@ -24,11 +24,16 @@
 
           <% if reporting_period.new_record? %>
             <div class="position-relative row form-group">
-              <%= label_tag :copy_reporting_period_id, 'Copy Reports as Plan From', class: 'col-sm-2 col-form-label' %>
+              <%= label_tag :copy_reporting_period_id, 'Copy Reports From', class: 'col-sm-2 col-form-label' %>
               <div class="col-sm-10">
                 <%= select_tag :copy_reporting_period_id,
                   options_from_collection_for_select(@reporting_periods, :id, :display_name),
                   include_blank: true, class: "form-control" %>
+                <small class="form-text text-muted">
+                  This will only copy the contracts allocations without percentages or costs. The goal
+                  is to make it easier for people to fill in their new reports, as part of their projects will
+                  be there already.
+                </small>
               </div>
             </div>
           <% end %>
