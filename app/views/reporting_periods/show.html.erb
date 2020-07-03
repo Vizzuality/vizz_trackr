@@ -67,7 +67,7 @@
               <% @contract_reports.each do |report| %>
                 <tr>
                   <td><%= link_to report.contract_name, contract_path(report.contract_id) %></td>
-                  <td><%= report.is_billable? ? number_to_currency(report.cost) : pluralize(report.days.round(2), 'day') %></td>
+                  <td><%= report.is_billable? ? number_to_currency(report.cost) : pluralize(report.days&.round(2), 'day') %></td>
                   <td>
                     <% if report.is_billable? %>
                       <% val = reporting_period_income(@reporting_period, report.contract) %>
@@ -109,7 +109,10 @@
                     <% if can? :edit, report %>
                       <%= link_to 'Edit', edit_report_path(report) %>
                     <% end %>
-
+                    <% if can? :destroy, report %>
+                      <%= link_to 'Destroy', report, method: :delete,
+                        data: { confirm: 'Are you sure you want to remove this report?' } %>
+                    <% end %>
                     <% if report.estimated? and can? :manage, report %>
                       <%= link_to 'Send Slack notification', slack_send_notification_path(report.reporting_period_id, report.user_id) %>
                     <% end %>
