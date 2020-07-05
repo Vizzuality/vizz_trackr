@@ -57,7 +57,14 @@ class ReportsController < ApplicationController
   def update
     respond_to do |format|
       was_estimate = @report.estimated
-      if @report.update(report_params)
+      begin
+        @report.update(report_params)
+      rescue ActiveRecord::RecordNotUnique
+        set_resources
+        @report.errors.add(:base, 'Validation failed, please ensure you are not reporting duplicate contracts.')
+      end
+
+      if @report.errors.empty?
         format.html do
           if @report.user == current_user
             redirect_to @report.user, notice: notice_after_update(was_estimate)

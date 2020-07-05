@@ -20,14 +20,6 @@ class ReportPart < ApplicationRecord
 
   before_save :calculate_cost_and_days
 
-  validates :contract_id, uniqueness: {
-    scope: [:report_id, :role_id],
-    message: ->(object, _) do
-      "Contract #{object.contract.name} added more than once."\
-        ' Please remove the duplicate entries before submitting your report again.'
-    end
-  }
-
   private
 
   # rubocop:disable Metrics/AbcSize
