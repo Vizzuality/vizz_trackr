@@ -46,7 +46,7 @@
           <% @contract.project_links.order(:link_type, :title).each do |pl| %>
             <%= content_tag(:strong, pl.link_type.humanize) if !link_type || link_type != pl.link_type %>
             <% link_type = pl.link_type %>
-            <li><%= link_to pl.title, pl.url, target: "_blank", rel: "nofollow" %></li>
+            <li><%= link_to pl.title, pl.url, target: '_blank', rel: 'noopener nofollow' %></li>
           <% end %>
         </ul>
       </div>
