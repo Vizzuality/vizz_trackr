@@ -35,6 +35,7 @@ group :development, :test do
   gem 'rubocop-performance'
   gem 'rubocop-rails', '~> 2.5.1', require: false
   gem 'factory_bot_rails'
+  gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
 end
 
 group :development do
