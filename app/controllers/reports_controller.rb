@@ -60,18 +60,11 @@ class ReportsController < ApplicationController
       begin
         @report.update(report_params)
       rescue ActiveRecord::RecordNotUnique
-        set_resources
         @report.errors.add(:base, 'Validation failed, please ensure you are not reporting duplicate contracts.')
       end
 
       if @report.errors.empty?
-        format.html do
-          if @report.user == current_user
-            redirect_to @report.user, notice: notice_after_update(was_estimate)
-          else
-            redirect_to @report.reporting_period, notice: notice_after_update(was_estimate)
-          end
-        end
+        format.html { redirect_to update_redirect_path, notice: notice_after_update(was_estimate) }
         format.json { render :show, status: :ok, location: @report }
       else
         format.html do
@@ -121,6 +114,14 @@ class ReportsController < ApplicationController
       'Thank you for submitting this month\'s report!'
     else
       'Report successfully updated, thank you.'
+    end
+  end
+
+  def update_redirect_path
+    if @report.user == current_user
+      @report.user
+    else
+      @report.reporting_period
     end
   end
 
