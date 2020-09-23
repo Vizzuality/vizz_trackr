@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_23_094830) do
+ActiveRecord::Schema.define(version: 2020_09_23_135030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,9 @@ ActiveRecord::Schema.define(version: 2020_09_23_094830) do
     t.date "invoiced_on"
     t.bigint "contract_id"
     t.text "observations"
+    t.string "aasm_state"
+    t.string "code"
+    t.float "amount"
     t.index ["contract_id"], name: "index_invoices_on_contract_id"
   end
 

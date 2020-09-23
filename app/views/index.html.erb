@@ -1,0 +1,92 @@
+<% content_for :title, "Contracts" %>
+<% if can? :create, Contract %>
+  <% content_for :actions,
+    link_to('Download', contracts_path(state: @state, format: 'csv'), class: 'btn btn-sm btn-outline-info')
+      .concat(link_to('New Contract', new_contract_path, class: 'btn btn-sm btn-outline-primary'))%>
+<% end %>
+
+<div class="row mt-2">
+  <div class="col-md-12">
+    <%= form_with(url: 'contracts#index', method: :get, local: true, class: 'form-inline') do |form| %>
+      <%= form.label :search, 'Search', class: 'sr-only' %>
+      <%= text_field_tag :search, params[:search], class: 'form-control col-sm-7 mb-2',
+        placeholder: 'Search contracts', onblur: 'this.form.submit();', onenter: 'this.form.submit();' %>
+      <%= form.label :status, 'Status', class: 'sr-only' %>
+      <%= form.select :state, options_for_select(@states, selected: @state),
+        {}, class: "form-control col-sm-5 mb-2", onchange: 'this.form.submit();' %>
+    <% end %>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <div class="table-responsive">
+          <%= page_entries_info @contracts %>
+          <table class="table table-lg table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Name / Project</th>
+                <th>Progress / Burn</th>
+                <th class="text-right">Budget</th>
+                <th class="text-right">Income / Costs</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @contracts.each do |contract| %>
+                <tr>
+                  <td>
+                    <small><%= contract.code %></small>
+                  </td>
+                  <td>
+                    <%= link_to contract.name, contract %><br />
+                    <small><%= link_to contract.project.name, contract.project, class: 'text-muted' %></small>
+                  </td>
+                  <td>
+                    <%= progress_bar contract.income_percentage %>
+                    <%= progress_bar contract.income_percentage, contract.burn_percentage %>
+                  </td>
+                  <td class="text-right">
+                    <%= number_to_currency(contract.budget)  %>
+                  </td>
+                  <td class="text-right">
+                    <%= contract.latest_progress_report ? content_tag(:span, number_to_currency(contract.income_to_date), class: 'text-right') : '-' %><br />
+                    <% if contract.is_billable? %>
+                      <%= colored_burn(contract.total_burn, contract.income_to_date) %>
+                    <% else %>
+                      <%= "#{contract.full_reports.sum(:days).round(2)} days" %>
+                    <% end %>
+                  </td>
+                  <td>
+                    <% if can? :manage, contract %>
+                      <%= form_with(model: contract, method: :patch, local: true, class: 'd-inline') do |form| %>
+                        <%= hidden_field_tag :current_state, @state %>
+                        <%= form.hidden_field(:aasm_state, value: contract.next_state) %>
+                        <%= form.submit contract.next_event, class: "btn btn-sm #{contract_event_color(contract.next_event)}" %>
+                      <% end %>
+                      <%= link_to "Edit", edit_contract_path(contract) %>
+                      <%= link_to "Destroy", contract, method: :delete, data: {confirm:'Are you sure?'}%>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <%= paginate @contracts %>
+          <hr>
+          <p>
+            <span class="h7">Burn % Legend:</span><br />
+            <span class="text-success">Total costs are lower than income.</span><br />
+            <span class="text-danger">Total costs are higher than income.</span><br />
+            <span>NaN: missing budget information.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

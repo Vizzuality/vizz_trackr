@@ -3,6 +3,9 @@
 # Table name: invoices
 #
 #  id            :bigint           not null, primary key
+#  aasm_state    :string
+#  amount        :float
+#  code          :string
 #  due_date      :date
 #  extended_date :date
 #  invoiced_on   :date
