@@ -3,10 +3,14 @@
 # Table name: reporting_periods
 #
 #  id         :bigint           not null, primary key
+#  aasm_state :string
 #  date       :date
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  aasm_state :string
+#
+# Indexes
+#
+#  index_reporting_periods_on_date  (date) UNIQUE
 #
 
 FactoryBot.define do

@@ -3,20 +3,34 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
-#  name                   :string
-#  team_id                :integer
-#  role_id                :integer
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
+#  active                 :boolean          default(TRUE)
+#  admin                  :boolean          default(FALSE)
+#  dedication             :float            default(0.74), not null
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
-#  reset_password_token   :string
-#  reset_password_sent_at :datetime
+#  name                   :string
 #  remember_created_at    :datetime
-#  admin                  :boolean          default(FALSE)
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
 #  rate_id                :bigint
-#  dedication             :float            default(0.74), not null
-#  active                 :boolean          default(TRUE)
+#  role_id                :integer
+#  team_id                :integer
+#
+# Indexes
+#
+#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_rate_id               (rate_id)
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_role_id               (role_id)
+#  index_users_on_team_id               (team_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (rate_id => rates.id)
+#  fk_rails_...  (role_id => roles.id)
+#  fk_rails_...  (team_id => teams.id)
 #
 
 class User < ApplicationRecord
