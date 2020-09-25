@@ -1,6 +1,9 @@
 class InvoicesController < ApplicationController
   before_action :set_contract, only: [:index, :show, :edit, :update, :destroy]
-  before_action :set_default_state, only: [:index]
+  before_action :set_default_state, only: [:index, :edit]
+  before_action :set_invoice, only: [:edit]
+  before_action :set_contracts, only: [:new, :edit]
+  before_action :set_states, only: [:new, :edit]
   authorize_resource
 
   def index
@@ -22,7 +25,12 @@ class InvoicesController < ApplicationController
     end
   end
 
+  def new
+    @invoice = Invoice.new
+  end
 
+  def edit
+  end
 
 
   private
@@ -31,8 +39,16 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.find(params[:id])
   end
 
+  def set_contracts
+    @contracts = Contract.where(aasm_state: 'live').order(:name)
+  end
+
   def set_contract
     @contract = params[:contract].presence || 'all'
+  end
+
+  def set_states
+    @states = Invoice.aasm.states.map(&:name).prepend(:all)
   end
 
   def set_default_state
