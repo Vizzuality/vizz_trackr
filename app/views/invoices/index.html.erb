@@ -39,6 +39,7 @@
                 <th>Extended date</th>
                 <th>Milestone</th>
                 <th class="text-right">Amount</th>
+                <th>State</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -59,21 +60,20 @@
                     <%= invoice.extended_date.present?  ? invoice.extended_date : "NA" %>
                   </td>
                   <td>
-                    <small><%= invoice.milestone %></small>
+                    <small><%= simple_format(invoice.milestone) %></small>
                   </td>
                   <td class="text-right">
                     <%= number_to_currency(invoice.amount)  %>
                   </td>
                   <td>
-                    <% if can? :manage, invoice %>
-                      <%= form_with(model: invoice, method: :patch, local: true, class: 'd-inline') do |form| %>
-                        <%= hidden_field_tag :current_state, @state %>
-                        <%= form.hidden_field(:aasm_state, value: invoice.next_state) %>
-                        <%= form.submit invoice.next_event.humanize, class: "btn btn-sm #{invoice_event_color(invoice.next_event)}" if ["issue", "confirm_payment"].include? invoice.next_event %>
-                      <% end %>
-                      <%= link_to "Edit", edit_invoice_path(invoice) %>
-                      <%= link_to "Destroy", invoice, method: :delete, data: {confirm:'Are you sure?'}%>
-                    <% end %>
+                    <div class= "alert <%="alert-#{invoice_event_color(invoice.aasm.current_state)}" %>" >
+                      <%= invoice.aasm.current_state.to_s.humanize %>
+                    </div>
+                  </td>
+                  <td>
+                    <%= link_to "View", invoice_path(invoice) %>
+                    <%= link_to "Edit", edit_invoice_path(invoice) %>
+                    <%= link_to "Destroy", invoice, method: :delete, data: {confirm:'Are you sure?'}%>
                   </td>
                 </tr>
               <% end %>

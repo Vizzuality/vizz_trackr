@@ -1,7 +1,7 @@
 class InvoicesController < ApplicationController
-  before_action :set_contract, only: [:index, :show, :edit, :update, :destroy]
+  before_action :set_contract, only: [:index, :show, :edit, :destroy]
   before_action :set_default_state, only: [:index, :edit]
-  before_action :set_invoice, only: [:edit]
+  before_action :set_invoice, only: [:edit, :show, :update]
   before_action :set_contracts, only: [:new, :edit]
   before_action :set_states, only: [:new, :edit]
   authorize_resource
@@ -32,6 +32,42 @@ class InvoicesController < ApplicationController
   def edit
   end
 
+  def update
+    respond_to do |format|
+      if @invoice.update(invoice_params)
+        format.html { redirect_to @invoice, notice: 'Invoice successfully updated!' }
+        format.json { render json: @invoice, status: :ok }
+      else
+        format.html { render :edit }
+        format.json { render json: @invoice.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def show
+  end
+
+  def create
+    @invoice = Invoice.new(invoice_params)
+    respond_to do |format|
+      if @invoice.save
+        format.html { redirect_to @invoice, notice: 'Invoice successfully updated!'}
+        format.json { render json: @invoice, status: :ok }
+      else
+        format.html { render :new }
+        format.json { render json: @invoice.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    if @invoice.destroy
+      redirect_to request.referer
+    else
+      redirect_to request.referer, notice: @invoice.errors.full_messages.join(',')
+    end
+  end
+
 
   private
 
@@ -48,7 +84,7 @@ class InvoicesController < ApplicationController
   end
 
   def set_states
-    @states = Invoice.aasm.states.map(&:name).prepend(:all)
+    @states = Invoice.aasm.states.map{|e| [e.human_name, e]}
   end
 
   def set_default_state
@@ -59,6 +95,7 @@ class InvoicesController < ApplicationController
     params.require(:invoice).permit(:id, :code, :name,
                                      :aasm_state, :state,
                                      :contract, :amount, :milestone,
-                                     :due_date, :extended_date)
+                                     :due_date, :extended_date, 
+                                     :contract_id, :observations, :invoiced_on)
   end
 end

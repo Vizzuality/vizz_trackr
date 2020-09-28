@@ -1,0 +1,7 @@
+<% content_for :actions do %>
+  <% if can? :edit, invoice
+    actions = 
+      link_to('Edit', edit_invoice_path(invoice), class: 'btn btn-sm btn-outline-primary')
+  end
+  actions.concat(link_to('Back', invoices_path, class: 'btn btn-sm btn-outline-secondary'))
+end %>

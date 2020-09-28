@@ -46,6 +46,8 @@ class Invoice < ApplicationRecord
   end
 
   validates :due_date, presence: true
+  validates :milestone, presence: true
+  validates :amount, presence: true, numericality: {only_float: true}
 
   belongs_to :contract
 
