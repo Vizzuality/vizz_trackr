@@ -34,7 +34,7 @@ class Invoice < ApplicationRecord
     state :pending_to_issue, display: 'Pending to issue'
     state :waiting_for_payment, display: 'Waiting for payment'
     state :paid, display: 'Paid'
-    event :raise do
+    event :raise_alert do
       transitions from: :scheduled, to: :pending_to_issue
     end
     event :issue do

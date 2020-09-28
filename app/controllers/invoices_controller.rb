@@ -2,8 +2,8 @@ class InvoicesController < ApplicationController
   before_action :set_contract, only: [:index, :show, :edit, :destroy]
   before_action :set_default_state, only: [:index, :edit]
   before_action :set_invoice, only: [:edit, :show, :update]
-  before_action :set_contracts, only: [:new, :edit]
-  before_action :set_states, only: [:new, :edit]
+  before_action :set_contracts, only: [:new, :edit, :create, :update]
+  before_action :set_states, only: [:new, :edit, :create, :update]
   authorize_resource
 
   def index
@@ -84,7 +84,7 @@ class InvoicesController < ApplicationController
   end
 
   def set_states
-    @states = Invoice.aasm.states.map{|e| [e.human_name, e]}
+    @states = [Invoice.aasm.states.map(&:name)]
   end
 
   def set_default_state
