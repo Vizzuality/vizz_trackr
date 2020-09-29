@@ -38,6 +38,9 @@ class Invoice < ApplicationRecord
     state :paid, display: 'Paid'
     event :raise_alert do
       transitions from: :scheduled, to: :pending_to_issue
+      after do
+        send_announcement
+      end
     end
     event :issue do
       transitions from: :pending_to_issue, to: :waiting_for_payment
@@ -61,10 +64,14 @@ class Invoice < ApplicationRecord
     end
   end
 
+  def send_announcement
+    post_response = Slack::SlackApiHelper.post('chat.postMessage', self.announcement)
+  end
+
   def announcement
     msg = <<-EOS
       Hello!
-      There is an invoice from #{contract} pending to issue. Please go to https://vizz-trackr.herokuapp.com/invoices/#{id} to do it.
+      There is an invoice from #{contract.name} pending to issue. Please go to https://vizz-trackr.herokuapp.com/invoices/#{id} to do it.
       Thank you!
     EOS
     {
