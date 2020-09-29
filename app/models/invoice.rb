@@ -24,6 +24,8 @@
 
 class Invoice < ApplicationRecord
 
+  belongs_to :contract
+
   paginates_per 40
 
   include AASM
@@ -59,7 +61,20 @@ class Invoice < ApplicationRecord
     end
   end
 
-  belongs_to :contract
+  def announcement
+    msg = <<-EOS
+      Hello!
+      There is an invoice from #{contract} pending to issue. Please go to https://vizz-trackr.herokuapp.com/invoices/#{id} to do it.
+      Thank you!
+    EOS
+    {
+      channel: Rails.env.production? ? '#invoices' : '#vizz-tracker',
+      text: msg,
+      icon_emoji: ':vizzuality:',
+      parse: 'full'
+    }.to_json
+  end
+
 
   def must_issue?
     due_date <= Date.today && aasm.current_state == :pending_to_issue

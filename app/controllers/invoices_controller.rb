@@ -1,16 +1,17 @@
 class InvoicesController < ApplicationController
   before_action :set_contract, only: [:index, :show, :edit, :destroy]
   before_action :set_default_state, only: [:index, :edit]
-  before_action :set_invoice, only: [:edit, :show, :update]
+  before_action :set_invoice, only: [:edit, :show, :update, :destroy]
   before_action :set_contracts, only: [:new, :edit, :create, :update]
   before_action :set_states, only: [:new, :edit, :create, :update]
   authorize_resource
 
   def index
-    @invoices = Invoice.all.page(params[:page])
+    invoices = Invoice.all.page(params[:page])
       .order('due_date ASC')
-      .search(params[:contract]).page(params[:page])
-    @invoices = @invoices.with_status(@state) unless @state == 'all'
+    invoices = invoices.search(params[:contract]) unless params[:contract] == 'all' 
+    invoices = invoices.with_status(@state) unless @state == 'all'
+    @invoices = invoices.page(params[:page])
 
     @states = Invoice.aasm.states.map{|s| s.to_s.humanize}.prepend(:all)
     @contracts = Contract.where(aasm_state: "live").order(:name).pluck(:name, :id).prepend(["all", :all])
