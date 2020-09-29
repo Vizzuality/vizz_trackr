@@ -84,7 +84,7 @@ class InvoicesController < ApplicationController
   end
 
   def set_states
-    @states = [Invoice.aasm.states.map(&:name)]
+    @states = Invoice.aasm.states.map(&:name)
   end
 
   def set_default_state

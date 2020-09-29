@@ -48,6 +48,16 @@ class Invoice < ApplicationRecord
   validates :due_date, presence: true
   validates :milestone, presence: true
   validates :amount, presence: true, numericality: {only_float: true}
+  validates :code, presence: true, if: Proc.new { |invoice| invoice.aasm.current_state == :waiting_for_payment || invoice.aasm.current_state == :paid }
+  validates :invoiced_on, presence: true, if: Proc.new { |invoice| invoice.aasm.current_state == :waiting_for_payment || invoice.aasm.current_state == :paid }
+  validate :extended_date_is_possible?
+
+  def extended_date_is_possible?
+    return if extended_date.blank?
+    if due_date > extended_date
+      errors.add(:extended_date, 'must be after due date')
+    end
+  end
 
   belongs_to :contract
 
