@@ -7,8 +7,7 @@ class InvoicesController < ApplicationController
   authorize_resource
 
   def index
-    invoices = Invoice.all.page(params[:page])
-      .order('due_date ASC')
+    invoices = Invoice.order('due_date ASC')
     invoices = invoices.search(params[:contract]) unless params[:contract] == 'all' 
     invoices = invoices.with_status(@state) unless @state == 'all'
     @invoices = invoices.page(params[:page])
