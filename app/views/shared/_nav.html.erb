@@ -18,6 +18,12 @@
             Reporting Periods
           <% end %>
         </li>
+        <li>
+          <%= link_to :invoices, class: (controller_name == 'invoices' && action_name == 'index' && 'mm-active') do %>
+            <i class="metismenu-icon"></i>
+            Invoices
+          <% end %>
+        </li>
         <% if current_user.admin? %>
           <li>
             <%= link_to income_reporting_periods_path, class: (controller_name == 'reporting_periods' && action_name == 'income' && 'mm-active') do %>

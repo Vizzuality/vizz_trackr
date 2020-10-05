@@ -1,3 +1,4 @@
+
 Rails.application.routes.draw do
   devise_for :users
   root to: "home#index"
@@ -11,6 +12,7 @@ Rails.application.routes.draw do
     get 'reports', on: :member
     get 'announce', on: :member
   end
+  resources :invoices
   patch 'reporting_periods/:id/update_state', to: 'reporting_periods#update_state', as: :reporting_period_update_state
   get 'slack/:reporting_id/:id', to: 'slack#send_notification', as: :slack_send_notification
 

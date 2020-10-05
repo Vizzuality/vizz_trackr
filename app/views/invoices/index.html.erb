@@ -1,0 +1,88 @@
+<% content_for :title, "Invoices" %>
+<% if can? :create, Invoice %>
+  <% content_for :actions,
+    link_to('Download', invoices_path(state: @state, format: 'csv'), class: 'btn btn-sm btn-outline-info')
+      .concat(link_to('New Invoice', new_invoice_path, class: 'btn btn-sm btn-outline-primary'))%>
+<% end %>
+
+<div class="row mt-2">
+  <div class="col-md-12">
+    
+    <%= form_with(url: 'invoices#index', method: :get, local: true, class: 'form-inline') do |form| %> 
+      <div class="form-group">
+        <%= form.label :search, 'Contract', class: 'col-sm-5 mb-2' %>
+        <%= form.select :contract, options_for_select(@contracts, selected: @contract),
+          {}, class: "form-control col-sm-5 mb-2", onchange: 'this.form.submit();' %>
+      </div>
+      <div class="form-group">
+        <%= form.label :status, 'Status', class: 'col-sm-5 mb-2' %>
+        <%= form.select :state, options_for_select(@states, selected: @state),
+          {}, class: "form-control col-sm-5 mb-2", onchange: 'this.form.submit();' %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <div class="table-responsive">
+          <%= page_entries_info @invoices %>
+          <table class="table table-lg table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Contract</th>
+                <th>Due date</th>
+                <th>Extended date</th>
+                <th>Milestone</th>
+                <th class="text-right">Amount</th>
+                <th>State</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @invoices.each do |invoice| %>
+                <tr>
+                  <td>
+                    <small><%= invoice.code %></small>
+                  </td>
+                  <td>
+                    <small><%= link_to invoice.contract.name, invoice.contract %></small>
+                  </td>
+                  <td>
+                    <%= invoice.due_date %>
+                  </td>
+                  <td>
+                    <%= invoice.extended_date.present?  ? invoice.extended_date : "NA" %>
+                  </td>
+                  <td>
+                    <small><%= simple_format(invoice.milestone) %></small>
+                  </td>
+                  <td class="text-right">
+                    <%= number_to_currency(invoice.amount)  %>
+                  </td>
+                  <td>
+                    <div class= "alert <%="alert-#{invoice_event_color(invoice.aasm.current_state)}" %>" >
+                      <%= invoice.aasm.current_state.to_s.humanize %>
+                    </div>
+                  </td>
+                  <td>
+                    <%= link_to "View", invoice_path(invoice) %>
+                    <%= link_to "Edit", edit_invoice_path(invoice) %>
+                    <%= link_to "Destroy", invoice, method: :delete, data: {confirm:'Are you sure?'}%>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <%= paginate @invoices %>
+          <hr>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,18 +3,27 @@
 # Table name: contracts
 #
 #  id         :bigint           not null, primary key
+#  aasm_state :string
+#  alias      :string           default([]), is an Array
+#  budget     :float
+#  code       :string
+#  end_date   :date
 #  name       :string
-#  project_id :bigint           not null
+#  notes      :text
+#  start_date :date
+#  summary    :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  budget     :float
-#  alias      :string           default([]), is an Array
-#  start_date :date
-#  end_date   :date
-#  aasm_state :string
-#  code       :string
-#  notes      :text
-#  summary    :text
+#  project_id :bigint           not null
+#
+# Indexes
+#
+#  index_contracts_on_alias       (alias) USING gin
+#  index_contracts_on_project_id  (project_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (project_id => projects.id)
 #
 require 'csv'
 
@@ -45,6 +54,7 @@ class Contract < ApplicationRecord
   has_many :non_staff_costs, dependent: :destroy
   has_many :monthly_incomes, dependent: :restrict_with_error
   has_many :budget_lines, dependent: :destroy
+  has_many :invoices, dependent: :destroy
   accepts_nested_attributes_for :budget_lines, allow_destroy: true,
                                                reject_if: :reject_empty_lines
 

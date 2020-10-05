@@ -8,6 +8,10 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_rates_on_code  (code) UNIQUE
+#
 
 FactoryBot.define do
   factory :rate do
