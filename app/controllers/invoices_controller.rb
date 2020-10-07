@@ -94,7 +94,7 @@ class InvoicesController < ApplicationController
   def invoice_params
     params.require(:invoice).permit(:id, :code, :name,
                                      :aasm_state, :state,
-                                     :contract, :amount, :milestone,
+                                     :contract, :amount, :milestone, :currency,
                                      :due_date, :extended_date, 
                                      :contract_id, :observations, :invoiced_on)
   end
