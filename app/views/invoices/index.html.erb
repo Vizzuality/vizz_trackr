@@ -63,7 +63,7 @@
                     <small><%= simple_format(invoice.milestone) %></small>
                   </td>
                   <td class="text-right">
-                    <%= number_to_currency(invoice.amount)  %>
+                    <%= number_to_currency(invoice.amount, unit: "#{ invoice.currency == 'euro' ? '€' : '$' }")  %>
                   </td>
                   <td>
                     <div class= "alert <%="alert-#{invoice_event_color(invoice.aasm.current_state)}" %>" >

@@ -6,6 +6,7 @@
 #  aasm_state    :string
 #  amount        :float
 #  code          :string
+#  currency      :string           default("dollar")
 #  due_date      :date
 #  extended_date :date
 #  invoiced_on   :date
@@ -52,10 +53,12 @@ class Invoice < ApplicationRecord
 
   validates :due_date, presence: true
   validates :milestone, presence: true
+  validates :currency, presence: true
   validates :amount, presence: true, numericality: {only_float: true}
   validates :code, presence: true, if: Proc.new { |invoice| invoice.aasm.current_state == :waiting_for_payment || invoice.aasm.current_state == :paid }
   validates :invoiced_on, presence: true, if: Proc.new { |invoice| invoice.aasm.current_state == :waiting_for_payment || invoice.aasm.current_state == :paid }
   validate :extended_date_is_possible?
+  validates_inclusion_of :currency, :in => ["euro", "dollar"]
 
   def extended_date_is_possible?
     return if extended_date.blank?

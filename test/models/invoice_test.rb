@@ -6,6 +6,7 @@
 #  aasm_state    :string
 #  amount        :float
 #  code          :string
+#  currency      :string           default("dollar")
 #  due_date      :date
 #  extended_date :date
 #  invoiced_on   :date

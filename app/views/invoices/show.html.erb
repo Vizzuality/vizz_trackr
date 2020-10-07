@@ -15,7 +15,7 @@
           <strong>Milestone:</strong> <%= simple_format(@invoice.milestone) %>
         </p>
         <p>
-          <strong>Amount:</strong> <%= number_to_currency(@invoice.amount) %>
+          <strong>Amount:</strong> <%= number_to_currency(@invoice.amount, unit: "#{ @invoice.currency == 'euro' ? '€' : '$' }") %>
         </p>
         <p>
           <strong>Due Date:</strong> <%= @invoice.due_date&.strftime('%d/%B/%Y') %>
