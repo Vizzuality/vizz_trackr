@@ -1,6 +1,6 @@
 desc "This task collects statistics per FA"
 task :fa_stat => :environment do
-  puts "colecting info..."
+  puts "collecting info..."
     contracts = Contract.live
     CSV.open("statistics.csv", "wb") do |csv_file|
       csv_file << %w(Contract FA Days Percentage budget)

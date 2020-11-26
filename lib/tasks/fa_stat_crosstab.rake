@@ -1,6 +1,6 @@
 desc "This task collects statistics per FA in a crosstab"
 task :fa_stat_cross => :environment do
-  puts "colecting info..."
+  puts "collecting info..."
     contracts = Contract.joins(:budget_lines).live.group(:id)
     CSV.open("statistics.csv", "wb") do |csv_file|
       roles= Role.order(:id).pluck(:name)
