@@ -37,6 +37,12 @@
               Monthly breakdown
             <% end %>
           </li>
+          <li>
+            <%= link_to costs_path, class: (controller_name == 'cost' && action_name == 'index' && 'mm-active') do %>
+              <i class="metismenu-icon"></i>
+              Monthly costs
+            <% end %>
+          </li>
         <% end %>
       </ul>
     </li>

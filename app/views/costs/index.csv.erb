@@ -1,0 +1,15 @@
+<% export = CSV.generate(" ", { headers: (%W{contract code}) + @reporting_periods.map {|rp| rp.display_name}, write_headers: true, encoding: 'UTF-8'}) do |csv| %> 
+  <% @contracts.each do |contract| %>
+    <% data = [] %>
+    <% data.append contract.name %>
+    <% data.append contract.code %>
+      <% @reporting_periods.each do |rp| %>
+        <% val = @full_reports.select{|fr| fr[:contract_id] == contract.id && fr[:reporting_period_id] == rp.id }&.first&.cost || 0.0 %>
+        <% val += contract.non_staff_costs.where(reporting_period_id: rp.id).sum(:cost) %>
+        <% data.append number_to_currency(val) if val > 0.0 %>             
+      <% end %>
+    <% csv.add_row data %> 
+  <% end %>
+
+<% end %>
+<%= export.lstrip.html_safe %> 
