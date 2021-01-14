@@ -85,7 +85,7 @@ class ReportingPeriod < ApplicationRecord
 
   def announcement
     msg = <<-EOS
-      <!here> Hello!
+      @here Hello!
       #{date.strftime('%B')}'s report is ready to be filled in! Please go to https://vizz-trackr.herokuapp.com/my-report to do it.
       If you don't have a password yet, please use the Forgot your Password feature with your Vizzuality email. :simple_smile:.
       Thank you!
