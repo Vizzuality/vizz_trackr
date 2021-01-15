@@ -43,6 +43,12 @@
               Monthly costs
             <% end %>
           </li>
+          <li>
+            <%= link_to fa_performances_path, class: (controller_name == 'fa_performances' && action_name == 'index' && 'mm-active') do %>
+              <i class="metismenu-icon"></i>
+              FA performance
+            <% end %>
+          </li>
         <% end %>
       </ul>
     </li>

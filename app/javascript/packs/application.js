@@ -27,6 +27,7 @@ $.fn.datepicker.defaults.format = "dd/mm/yyyy";
 
 // Sidebar Menu
 document.addEventListener('turbolinks:load', function() {
+
   $('.vertical-nav-menu').metisMenu();
 
 
