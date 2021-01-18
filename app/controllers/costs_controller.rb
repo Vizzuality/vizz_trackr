@@ -1,6 +1,5 @@
 class CostsController < ApplicationController
   before_action :set_year
-  before_action :set_index_vars
 
   def index
     @years = ReportingPeriod
