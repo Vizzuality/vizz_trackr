@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   root to: "home#index"
   resources :analysis, only: [:index]
   resources :results, only: [:index]
+  resources :costs, only: [:index]
+  resources :fa_performances, only: [:index]
+  resources :fa_allocations, only: [:index]
   resources :non_staff_costs
   resources :reporting_periods do
     resources :reports, only: [:new, :create]

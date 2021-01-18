@@ -1,0 +1,52 @@
+<% content_for :title, "Monthly cost per contract" %>
+
+<% content_for :actions,
+    link_to('Download', costs_path(year: @year, format: 'csv'), class: 'btn btn-sm btn-outline-info') %>
+
+<div class="row">
+  <div class="col-md-12">
+    <%= form_with(url: costs_path, method: :get, local: true, class: 'form-inline') do |form| %>
+      <%= form.label :year, 'Year', class: 'sr-only' %>
+      <%= form.select :year, options_for_select(@years, @year), {},
+        class: "form-control col-md-12 col-sm-12", onchange: 'this.form.submit();' %>
+    <% end %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title">Costs for <%= @year %></h5>
+        <div class="table-responsive">
+          <table class="table mb-0 table-lg table-striped table-bordered">
+            <thead>
+              <tr>
+                <th rowspan="2">Contract</th>
+                <th rowspan="2">Code</th>
+                <% @reporting_periods.each do |rp| %>
+                  <th colspan="1"><%= rp.display_name %></th>
+                <% end %>
+              </tr>
+            </thead>
+            <tbody>
+              <% @contracts.each do |contract| %>
+                <tr>
+                  <td><%= link_to contract.name, contract %></td>
+                  <td><%= contract.code %></td>
+                  <% @reporting_periods.each do |rp| %>
+                    <td class="text-danger">
+                      <% val = @full_reports.select{|fr| fr[:contract_id] == contract.id && fr[:reporting_period_id] == rp.id }&.first&.cost || 0.0 %>
+                      <% val += contract.non_staff_costs.where(reporting_period_id: rp.id).sum(:cost) %>
+                      <%= number_to_currency(val) if val > 0.0 %>
+                    </td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<% content_for :title, "FA allocation per project" %>
+
+<% content_for :actions,
+    link_to('Download', fa_allocations_path(year: @year, format: 'csv'), class: 'btn btn-sm btn-outline-info') %>
+
+<div class="row">
+  <div class="col-md-12">
+    <%= form_with(url: 'fa_allocations#index', method: :get, local: true, class: 'form-inline') do |form| %>
+      <%= form.label :status, 'Status', class: 'sr-only' %>
+      <%= form.select :state, options_for_select(@states, selected: @state),
+        {}, class: "form-control col-md-12 col-sm-12", onchange: 'this.form.submit();' %>
+    <% end %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-lg table-striped table-bordered">
+            <thead>
+              <tr>
+                <th rowspan="1">Contract</th>
+                <th rowspan="1">Code</th>
+                <% @roles.each do |r| %>
+                  <th colspan="1"><%= r[0] %></th>
+                <% end %>
+              </tr>
+          
+            </thead>
+            <tbody>
+              <% @contracts.each do |contract| %>
+              <% days_per_role = contract.full_reports.select('role_id, sum(cost) AS cost, sum(days) AS days').group(:role_id) %>
+                <tr>
+                  <td><%= link_to contract.name, contract %></td>
+                  <td><%= contract.code %></td>
+                  <% @roles.each do |r| %>
+                    <% proposed = contract.budget_lines.find_by(role_id: r[1]).nil? ? 0 : contract.budget_lines.find_by(role_id: r[1]).percentage %>
+                    <% proposed = proposed.nil? ? 0 : proposed.round(1) %>
+
+                    <td class="text-info %>">
+                        <%= proposed %>%
+                    </td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>  
+      </div>
+    </div>
+  </div>
+</div>
