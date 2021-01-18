@@ -32,9 +32,9 @@ task :year_report => :environment do
       contract_name = contract.name
       costs = []
       @reporting_periods.each do |rp|
-        val = @full_reports.select{|fr| fr[:contract_id] == contract.id && fr[:reporting_period_id] == rp.id }&.first&.cost || 0.0 
+        val = @full_reports.select{|fr| fr[:contract_id] == contract.id && fr[:reporting_period_id] == rp.id }&.first&.cost || 0.0
         costs << val.round(2)
-      end 
+      end
       csv_line = costs.prepend(contract_name)
       csv_file << csv_line
     end

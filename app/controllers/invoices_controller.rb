@@ -23,9 +23,6 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.new
   end
 
-  def edit
-  end
-
   def update
     respond_to do |format|
       if @invoice.update(invoice_params)
@@ -38,8 +35,9 @@ class InvoicesController < ApplicationController
     end
   end
 
-  def show
-  end
+  def edit; end
+
+  def show; end
 
   def create
     @invoice = Invoice.new(invoice_params)

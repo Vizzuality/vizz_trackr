@@ -7,7 +7,6 @@ module Api
         @reporting_periods_scope = reporting_periods_scope
       end
 
-      # rubocop:disable Metrics/AbcSize
       def reporting_periods_cost_data
         billable_time = {name: 'Billable Staff Costs', data: {}}
         non_staff_costs = {name: 'Billable External Costs', data: {}}
@@ -26,7 +25,6 @@ module Api
         end
         [billable_time, income, non_staff_costs, billable_projection]
       end
-      # rubocop:enable Metrics/AbcSize
     end
   end
 end

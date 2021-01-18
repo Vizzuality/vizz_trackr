@@ -88,7 +88,6 @@ class ContractsController < ApplicationController
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   def reports
     @reporting_periods = ReportingPeriod.joins(:full_reports)
       .where(full_reports: {contract_id: @contract.id})
@@ -111,7 +110,6 @@ class ContractsController < ApplicationController
     end
     @data.sort! { |a, b| b[:data].size <=> a[:data].size }
   end
-  # rubocop:enable Metrics/AbcSize
 
   def costs
     @costs = @contract.full_reports

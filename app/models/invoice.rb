@@ -52,21 +52,19 @@ class Invoice < ApplicationRecord
   validates :milestone, presence: true
   validates :currency, presence: true
   validates :amount, presence: true, numericality: {only_float: true}
-  validates :code, presence: true, if: Proc.new { |invoice| invoice.aasm.current_state == :waiting_for_payment || invoice.aasm.current_state == :paid }
-  validates :invoiced_on, presence: true, if: Proc.new { |invoice| invoice.aasm.current_state == :waiting_for_payment || invoice.aasm.current_state == :paid }
+  validates :code, presence: true, if: proc { |invoice| invoice.aasm.current_state == :waiting_for_payment || invoice.aasm.current_state == :paid }
+  validates :invoiced_on, presence: true, if: proc { |invoice| invoice.aasm.current_state == :waiting_for_payment || invoice.aasm.current_state == :paid }
   validate :extended_date_is_possible?
-  validates_inclusion_of :currency, in: ['euro', 'dollar']
+  validates :currency, inclusion: %w(euro dollar)
 
   def extended_date_is_possible?
     return if extended_date.blank?
-    
-    if due_date > extended_date
-      errors.add(:extended_date, 'must be after due date')
-    end
+
+    errors.add(:extended_date, 'must be after due date') if due_date > extended_date
   end
 
   def send_announcement
-    post_response = Slack::SlackApiHelper.post('chat.postMessage', self.announcement)
+    Slack::SlackApiHelper.post('chat.postMessage', announcement)
   end
 
   def announcement
@@ -83,17 +81,14 @@ class Invoice < ApplicationRecord
     }.to_json
   end
 
-
   def must_issue?
-    due_date <= Date.today && aasm.current_state == :pending_to_issue
+    due_date <= Time.zone.today && aasm.current_state == :pending_to_issue
   end
 
   def self.search query
     return all unless query
 
     joins(:contract)
-      .where('contract_id = ? ', "#{query}")
+      .where('contract_id = ? ', query)
   end
-
-  
 end

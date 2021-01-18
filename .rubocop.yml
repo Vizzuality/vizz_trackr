@@ -9,6 +9,8 @@ AllCops:
     - 'config/*'
     - 'node_modules/**/*'
     - 'vendor/**/*'
+    - 'lib/tasks/auto_annotate_models.rake'
+    - 'lib/tasks/year_report.rake'
 
 require:
   - rubocop-performance
@@ -69,7 +71,7 @@ Style/MethodDefParentheses:
     Enabled: false
 
 Layout/LineLength:
-  Max: 120
+  Max: 255
   Exclude:
     - 'db/**/*'
     - 'spec/spec_helper.rb'
@@ -84,17 +86,17 @@ Metrics/ModuleLength:
   Enabled: false
 
 Metrics/AbcSize:
-  Max: 25
+  Max: 35
   Exclude:
     - 'lib/modules/*'
 
 Metrics/MethodLength:
-  Max: 25
+  Max: 35
   Exclude:
     - 'lib/modules/*'
 
 Metrics/ClassLength:
-  Max: 150
+  Max: 255
 
 Bundler/OrderedGems:
   Enabled: false

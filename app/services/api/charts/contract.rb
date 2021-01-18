@@ -26,7 +26,6 @@ module Api
         [staff, aggregate, projected]
       end
 
-      # rubocop:disable Metrics/AbcSize
       def contract_burn_data
         staff = {name: 'Staff Costs', data: {}}
         non_staff = {name: 'Non Staff Costs', data: {}}
@@ -56,7 +55,6 @@ module Api
         data << income if income[:data].present?
         data
       end
-      # rubocop:enable Metrics/AbcSize
 
       private
 

@@ -126,7 +126,6 @@ class Contract < ApplicationRecord
     budget - budget * ((latest_progress_report&.percentage || 0) / 100)
   end
 
-  # rubocop:disable Metrics/AbcSize
   def linear_income
     return nil unless budget && start_date && end_date
 
@@ -139,7 +138,6 @@ class Contract < ApplicationRecord
 
     (budget_left / months).to_f.round(2)
   end
-  # rubocop:enable Metrics/AbcSize
 
   def self.search query
     return all unless query

@@ -20,5 +20,4 @@ class FaPerformancesController < ApplicationController
   def set_default_state
     @state = params[:state].presence || 'live'
   end
-
 end

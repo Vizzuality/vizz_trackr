@@ -35,7 +35,6 @@ class ReportPart < ApplicationRecord
 
   private
 
-  # rubocop:disable Metrics/AbcSize
   def calculate_cost_and_days
     return true unless percentage
 
@@ -44,5 +43,4 @@ class ReportPart < ApplicationRecord
                 end
     self.days = (percentage / 5.0 * (report.user&.dedication || 1.0)).round(2)
   end
-  # rubocop:enable Metrics/AbcSize
 end

@@ -148,7 +148,6 @@ class ReportingPeriod < ApplicationRecord
     }
   end
 
-  # rubocop:disable Metrics/AbcSize
   def self.analyse filters
     result = []
     teams = Team.where(name: %w[K Rosling]).order(:name)
@@ -176,5 +175,4 @@ class ReportingPeriod < ApplicationRecord
     end
     result
   end
-  # rubocop:enable Metrics/AbcSize
 end

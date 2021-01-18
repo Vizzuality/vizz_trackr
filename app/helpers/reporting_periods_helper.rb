@@ -16,10 +16,7 @@ module ReportingPeriodsHelper
   def income_val contract, month, incomes
     val = incomes.find { |m| m.contract_id == contract.id && m.month == month }&.income
     return [val, false] if val
-
-    if contract.latest_progress_report && month > contract.latest_progress_report.date && month < contract.end_date
-      return [contract.linear_income, true]
-    end
+    return [contract.linear_income, true] if contract.latest_progress_report && month > contract.latest_progress_report.date && month < contract.end_date
 
     nil
   end
