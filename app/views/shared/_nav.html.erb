@@ -5,7 +5,7 @@
       <li><%= switch_user_select %></li>
     <% end %>
     <li class="app-sidebar__heading">Menu</li>
-    <li class="<%= "mm-active" if ['reporting_periods', 'results'].include?(controller_name) %>">
+    <li class="<%= "mm-active" if ['reporting_periods', 'results', 'invoices', 'reporting_periods', 'results', 'costs', 'fa_performances', 'fa_allocations'].include?(controller_name) %>">
       <a href="#">
         <i class="metismenu-icon pe-7s-piggy"></i>
         Finances
@@ -38,7 +38,7 @@
             <% end %>
           </li>
           <li>
-            <%= link_to costs_path, class: (controller_name == 'cost' && action_name == 'index' && 'mm-active') do %>
+            <%= link_to costs_path, class: (controller_name == 'costs' && action_name == 'index' && 'mm-active') do %>
               <i class="metismenu-icon"></i>
               Monthly costs
             <% end %>
@@ -47,6 +47,12 @@
             <%= link_to fa_performances_path, class: (controller_name == 'fa_performances' && action_name == 'index' && 'mm-active') do %>
               <i class="metismenu-icon"></i>
               FA performance
+            <% end %>
+          </li>
+          <li>
+            <%= link_to fa_allocations_path, class: (controller_name == 'fa_allocations' && action_name == 'index' && 'mm-active') do %>
+              <i class="metismenu-icon"></i>
+              FA allocation
             <% end %>
           </li>
         <% end %>

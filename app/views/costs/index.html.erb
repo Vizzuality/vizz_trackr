@@ -4,22 +4,22 @@
     link_to('Download', costs_path(year: @year, format: 'csv'), class: 'btn btn-sm btn-outline-info') %>
 
 <div class="row">
-  <div class="col-xl-9 col-lg-5 col-md-12 col-sm-12">
+  <div class="col-md-12">
     <%= form_with(url: costs_path, method: :get, local: true, class: 'form-inline') do |form| %>
       <%= form.label :year, 'Year', class: 'sr-only' %>
       <%= form.select :year, options_for_select(@years, @year), {},
-        class: "form-control col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2", onchange: 'this.form.submit();' %>
+        class: "form-control col-md-12 col-sm-12", onchange: 'this.form.submit();' %>
     <% end %>
   </div>
 </div>
 
 <div class="row">
-  <div class="col col-xl-9 col-lg-5 col-md-12 col-sm-12">
+  <div class="col-md-12">
     <div class="main-card mb-3 card">
       <div class="card-body">
         <h5 class="card-title">Costs for <%= @year %></h5>
         <div class="table-responsive">
-          <table class="table mb-0 table-bordered">
+          <table class="table mb-0 table-lg table-striped table-bordered">
             <thead>
               <tr>
                 <th rowspan="2">Contract</th>
