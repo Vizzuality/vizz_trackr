@@ -24,11 +24,8 @@
 #
 
 class Invoice < ApplicationRecord
-
   belongs_to :contract
-
   paginates_per 40
-
   include AASM
   include HasStateMachine
 
@@ -58,10 +55,11 @@ class Invoice < ApplicationRecord
   validates :code, presence: true, if: Proc.new { |invoice| invoice.aasm.current_state == :waiting_for_payment || invoice.aasm.current_state == :paid }
   validates :invoiced_on, presence: true, if: Proc.new { |invoice| invoice.aasm.current_state == :waiting_for_payment || invoice.aasm.current_state == :paid }
   validate :extended_date_is_possible?
-  validates_inclusion_of :currency, :in => ["euro", "dollar"]
+  validates_inclusion_of :currency, in: ['euro', 'dollar']
 
   def extended_date_is_possible?
     return if extended_date.blank?
+    
     if due_date > extended_date
       errors.add(:extended_date, 'must be after due date')
     end

@@ -1,5 +1,5 @@
 module InvoicesHelper
-    def invoice_event_color(state)
+  def invoice_event_color(state)
     case state
     when :scheduled
       'info'
@@ -7,7 +7,7 @@ module InvoicesHelper
       'danger'
     when :waiting_for_payment
       'warning'
-     when :paid
+    when :paid
       'success'
     else
       'info'

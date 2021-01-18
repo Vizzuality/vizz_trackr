@@ -4,17 +4,11 @@ class InvoicesController < ApplicationController
   before_action :set_invoice, only: [:edit, :show, :update, :destroy]
   before_action :set_contracts, only: [:new, :edit, :create, :update]
   before_action :set_states, only: [:new, :edit, :create, :update]
+  before_action :set_index_vars, only: [:index]
+
   authorize_resource
 
   def index
-    invoices = Invoice.order('due_date ASC')
-    invoices = invoices.search(params[:contract]) unless params[:contract] == 'all' 
-    invoices = invoices.with_status(@state) unless @state == 'all'
-    @invoices = invoices.page(params[:page])
-
-    @states = Invoice.aasm.states.map{|s| s.to_s.humanize}.prepend(:all)
-    @contracts = Contract.where(aasm_state: "live").order(:name).pluck(:name, :id).prepend(["all", :all])
-
     respond_to do |format|
       format.html
       format.csv do
@@ -51,7 +45,7 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.new(invoice_params)
     respond_to do |format|
       if @invoice.save
-        format.html { redirect_to @invoice, notice: 'Invoice successfully updated!'}
+        format.html { redirect_to @invoice, notice: 'Invoice successfully updated!' }
         format.json { render json: @invoice, status: :ok }
       else
         format.html { render :new }
@@ -68,8 +62,16 @@ class InvoicesController < ApplicationController
     end
   end
 
-
   private
+
+  def set_index_vars
+    invoices = Invoice.order('due_date ASC')
+    invoices = invoices.search(params[:contract]) unless params[:contract] == 'all'
+    invoices = invoices.with_status(@state) unless @state == 'all'
+    @invoices = invoices.page(params[:page])
+    @states = Invoice.aasm.states.map { |s| s.to_s.humanize }.prepend(:all)
+    @contracts = Contract.where(aasm_state: 'live').order(:name).pluck(:name, :id).prepend(['all', :all])
+  end
 
   def set_invoice
     @invoice = Invoice.find(params[:id])
@@ -93,9 +95,9 @@ class InvoicesController < ApplicationController
 
   def invoice_params
     params.require(:invoice).permit(:id, :code, :name,
-                                     :aasm_state, :state,
-                                     :contract, :amount, :milestone, :currency,
-                                     :due_date, :extended_date, 
-                                     :contract_id, :observations, :invoiced_on)
+                                    :aasm_state, :state,
+                                    :contract, :amount, :milestone, :currency,
+                                    :due_date, :extended_date,
+                                    :contract_id, :observations, :invoiced_on)
   end
 end

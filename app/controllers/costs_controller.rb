@@ -1,7 +1,6 @@
 class CostsController < ApplicationController
   before_action :set_year
 
-  # rubocop:disable Metrics/AbcSize
   def index
     @years = ReportingPeriod
       .select("date_part('year', date)::INTEGER AS year")
@@ -32,9 +31,8 @@ class CostsController < ApplicationController
         filename = 'costs_' + @year
         send_data render_to_string(filename: filename)
       end
-    end 
+    end
   end
-  # rubocop:enable Metrics/AbcSize
 
   private
 
