@@ -65,7 +65,7 @@ class InvoicesController < ApplicationController
   def set_index_vars
     invoices = Invoice.order('due_date ASC')
     invoices = invoices.search(params[:contract]) unless params[:contract] == 'all'
-    invoices = invoices.with_status(@state) unless @state == 'all'
+    invoices = invoices.with_status(@state.downcase.gsub(" ","_").to_sym) unless @state == 'all'
     @invoices = invoices.page(params[:page])
     @states = Invoice.aasm.states.map { |s| s.to_s.humanize }.prepend(:all)
     @contracts = Contract.where(aasm_state: 'live').order(:name).pluck(:name, :id).prepend(['all', :all])
