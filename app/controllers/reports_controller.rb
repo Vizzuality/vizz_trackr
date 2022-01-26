@@ -16,7 +16,7 @@ class ReportsController < ApplicationController
   def new
     @reporting_periods = ReportingPeriod.order(:date)
     @users = User.order(:name)
-    @contracts = Contract.with_status([:live])
+    @contracts = Contract.with_status([:proposal, :live])
       .order(:name)
     @roles = Role.order(:name)
     @teams = Team.order(:name)
@@ -101,8 +101,9 @@ class ReportsController < ApplicationController
     @contracts = if !@report || @report.reporting_period.aasm_state != 'active'
                    Contract.order(:aasm_state, :name).includes(:project)
                  else
-                   Contract.with_status([:proposal, :live])
-                     .or(Contract.where(id: @report.report_parts.pluck(:contract_id)))
+                #byebug
+                   Contract.with_status([:live])
+                     .or(Contract.where(id: @report.report_parts.pluck(:contract_id))).with_status([:live])
                      .order(:name).includes(:project)
                  end
     @roles = Role.order(:name)
