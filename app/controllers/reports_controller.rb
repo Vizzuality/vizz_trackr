@@ -16,7 +16,7 @@ class ReportsController < ApplicationController
   def new
     @reporting_periods = ReportingPeriod.order(:date)
     @users = User.order(:name)
-    @contracts = Contract.with_status([:proposal, :live])
+    @contracts = Contract.with_status([:live])
       .order(:name)
     @roles = Role.order(:name)
     @teams = Team.order(:name)
