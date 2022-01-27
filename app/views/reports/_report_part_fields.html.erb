@@ -4,7 +4,7 @@
   class: 'report-parts-fields nested-fields',
   data: { controller: 'report-part', new_record: is_new_record } do %>
   <td>
-    <%= form.collection_select :contract_id, @contracts, :id,
+    <%= form.collection_select :contract_id, @contract_select_list, :id,
       :full_name, {}, class: 'form-control' %>
 </td>
 
