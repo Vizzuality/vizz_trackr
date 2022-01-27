@@ -89,6 +89,18 @@
         <div class="card-body">
           <h5 class="card-title">Budget and breakdown</h5>
 
+           <div class="position-relative row form-group">
+            <%= form.label :contract_rate, class: "col-sm-2 col-form-label" %>
+            <div class="col-sm-10">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">€</div>
+                </div>
+                <%= form.text_field :contract_rate, class: 'form-control' %>
+              </div>
+            </div>
+          </div>
+
           <div class="position-relative row form-group">
             <%= form.label :budget, class: "col-sm-2 col-form-label" %>
             <div class="col-sm-10">
