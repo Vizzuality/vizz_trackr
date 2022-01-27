@@ -31,4 +31,8 @@ class Report < ApplicationRecord
   accepts_nested_attributes_for :report_parts, allow_destroy: true
 
   has_many :contracts, through: :report_parts
+
+  def rate
+    self.reporting_period.base_rate
+  end
 end

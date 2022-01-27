@@ -33,13 +33,17 @@ class ReportPart < ApplicationRecord
 
   before_save :calculate_cost_and_days
 
+  def rate_multiplier
+    self.contract.contract_rate/self.report.reporting_period.base_rate
+  end
+
   private
 
   def calculate_cost_and_days
     return true unless percentage
 
     self.cost = if report.user.rate&.value && report.user.dedication
-                  (percentage / 100 * report.user.rate.value * report.user.dedication)
+                  (percentage / 100 * report.user.rate.value * report.user.dedication * rate_multiplier)
                 end
     self.days = (percentage / 5.0 * (report.user&.dedication || 1.0)).round(2)
   end

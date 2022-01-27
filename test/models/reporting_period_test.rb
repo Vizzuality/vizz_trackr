@@ -4,6 +4,7 @@
 #
 #  id         :bigint           not null, primary key
 #  aasm_state :string
+#  base_rate  :integer          default(175)
 #  date       :date
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

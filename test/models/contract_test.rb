@@ -2,19 +2,20 @@
 #
 # Table name: contracts
 #
-#  id         :bigint           not null, primary key
-#  aasm_state :string
-#  alias      :string           default([]), is an Array
-#  budget     :float
-#  code       :string
-#  end_date   :date
-#  name       :string
-#  notes      :text
-#  start_date :date
-#  summary    :text
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  project_id :bigint           not null
+#  id            :bigint           not null, primary key
+#  aasm_state    :string
+#  alias         :string           default([]), is an Array
+#  budget        :float
+#  code          :string
+#  contract_rate :integer          default(175)
+#  end_date      :date
+#  name          :string
+#  notes         :text
+#  start_date    :date
+#  summary       :text
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  project_id    :bigint           not null
 #
 # Indexes
 #
