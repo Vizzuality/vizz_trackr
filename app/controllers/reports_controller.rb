@@ -98,7 +98,7 @@ class ReportsController < ApplicationController
     @reporting_periods = ReportingPeriod.order(:date)
     @users = User.order(:name)
     # Adding @contract_select_list.for the select options; we cannot use the same colection for this and edit report because some random projects appear
-    @contract_select_list = Contract.order(:aasm_state, :name).includes(:project).order(:name)
+    @contract_select_list = Contract.with_status([:live]).order(:aasm_state, :name).includes(:project).order(:name)
     # if editing an old report, let's not constraint the available contracts to report on
     @contracts = if !@report || @report.reporting_period.aasm_state != 'active'
                    Contract.order(:aasm_state, :name).includes(:project)
