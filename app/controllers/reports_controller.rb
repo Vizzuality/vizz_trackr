@@ -16,7 +16,7 @@ class ReportsController < ApplicationController
   def new
     @reporting_periods = ReportingPeriod.order(:date)
     @users = User.order(:name)
-    @contracts = Contract.with_status([:proposal, :live])
+    @contracts = Contract.with_status([:live])
       .order(:name)
     @roles = Role.order(:name)
     @teams = Team.order(:name)
@@ -97,18 +97,17 @@ class ReportsController < ApplicationController
   def set_resources
     @reporting_periods = ReportingPeriod.order(:date)
     @users = User.order(:name)
-    # Adding @contract_select_list.for the select options; we cannot use the same colection for this and edit report because some random projects appear
-    @contract_select_list = Contract.with_status([:live]).order(:aasm_state, :name).includes(:project).order(:name)
     # if editing an old report, let's not constraint the available contracts to report on
     @contracts = if !@report || @report.reporting_period.aasm_state != 'active'
-                   Contract.order(:aasm_state, :name).includes(:project)
+                   Contract.order(:name).includes(:project)
                  else
-                #byebug
-                     Contract.where(id: @report.report_parts.pluck(:contract_id)).with_status([:live])
+                   Contract.with_status([:live])
+                     .or(Contract.with_status([:live]).where(id: @report.report_parts.pluck(:contract_id)))
                      .order(:name).includes(:project)
                  end
     @roles = Role.order(:name)
     @teams = Team.order(:name)
+   # byebug
   end
 
   def notice_after_update was_estimate
