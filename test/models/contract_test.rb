@@ -7,7 +7,7 @@
 #  alias         :string           default([]), is an Array
 #  budget        :float
 #  code          :string
-#  contract_rate :integer          default(175)
+#  contract_rate :float            default(175.0)
 #  end_date      :date
 #  name          :string
 #  notes         :text

@@ -43,7 +43,7 @@ class ReportPart < ApplicationRecord
     return true unless percentage
 
     self.cost = if report.user.rate&.value && report.user.dedication
-                  (percentage / 100 * report.user.rate.value * report.user.dedication * rate_multiplier)
+                  ((percentage / 100 * report.user.rate.value * report.user.dedication) * rate_multiplier)
                 end
     self.days = (percentage / 5.0 * (report.user&.dedication || 1.0)).round(2)
   end

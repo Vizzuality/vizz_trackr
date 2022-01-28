@@ -7,7 +7,7 @@
 #  alias         :string           default([]), is an Array
 #  budget        :float
 #  code          :string
-#  contract_rate :integer          default(175)
+#  contract_rate :float            default(175.0)
 #  end_date      :date
 #  name          :string
 #  notes         :text
@@ -66,9 +66,9 @@ class Contract < ApplicationRecord
 
   before_destroy :no_report_parts
 
-  # def contract_rate
-  #   self['contract_rate'] || 175
-  # end
+  def contract_rate
+    self['contract_rate'] || 175.0
+  end
 
   def full_name
     "#{name} [#{project.name}#{(' - internal' unless project.is_billable?)}]"

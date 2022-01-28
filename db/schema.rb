@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_27_162711) do
+ActiveRecord::Schema.define(version: 2022_01_28_172109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2022_01_27_162711) do
     t.string "code"
     t.text "notes"
     t.text "summary"
-    t.integer "contract_rate", default: 175
+    t.float "contract_rate", default: 175.0
     t.index ["alias"], name: "index_contracts_on_alias", using: :gin
     t.index ["project_id"], name: "index_contracts_on_project_id"
   end
@@ -131,7 +131,7 @@ ActiveRecord::Schema.define(version: 2022_01_27_162711) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "aasm_state"
-    t.integer "base_rate", default: 175
+    t.float "base_rate", default: 175.0
     t.index ["date"], name: "index_reporting_periods_on_date", unique: true
   end
 
