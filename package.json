@@ -7,30 +7,30 @@
     "rails:lint": "bundle exec rubocop"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.11.2",
-    "@rails/actioncable": "^6.0.0-alpha",
-    "@rails/activestorage": "^6.0.0-alpha",
-    "@rails/ujs": "^6.0.0-alpha",
-    "@rails/webpacker": "^5.4.3",
-    "animate-sass": "^0.8.2",
+    "@fortawesome/fontawesome-free": "5.11.2",
+    "@rails/actioncable": "6.0.0-alpha",
+    "@rails/activestorage": "6.0.0-alpha",
+    "@rails/ujs": "6.0.0-alpha",
+    "@rails/webpacker": "5.4.3",
+    "animate-sass": "0.8.2",
     "bootstrap": "4.3.1",
     "bootstrap-datepicker": "1.9.0",
-    "chart.js": "^2.8.0",
-    "chartkick": "^3.1.1",
-    "ionicons": "^4.6.3",
-    "ionicons-npm": "^2.0.1",
-    "jquery": "^3.5.1",
-    "metismenu": "^3.0.5",
-    "pe7-icon": "^1.0.4",
-    "perfect-scrollbar": "^1.5.0",
-    "popper.js": "^1.15.0",
-    "serialize-javascript": "^2.1.1",
-    "stimulus": "^1.1.1",
-    "turbolinks": "^5.2.0"
+    "chart.js": "2.8.0",
+    "chartkick": "3.1.1",
+    "ionicons": "4.6.3",
+    "ionicons-npm": "2.0.1",
+    "jquery": "3.5.1",
+    "metismenu": "3.0.5",
+    "pe7-icon": "1.0.4",
+    "perfect-scrollbar": "1.5.0",
+    "popper.js": "1.15.0",
+    "serialize-javascript": "2.1.1",
+    "stimulus": "1.1.1",
+    "turbolinks": "5.2.0"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "npm-run-all": "^4.1.5",
-    "webpack-dev-server": "^3.7.2"
+    "npm-run-all": "4.1.5",
+    "webpack-dev-server": "3.7.2"
   }
 }
