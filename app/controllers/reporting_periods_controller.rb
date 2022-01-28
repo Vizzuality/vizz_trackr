@@ -148,7 +148,7 @@ class ReportingPeriodsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def reporting_period_params
-    params.require(:reporting_period).permit(:date, :aasm_state)
+    params.require(:reporting_period).permit(:date, :base_rate, :aasm_state)
   end
 
   def set_timeframe

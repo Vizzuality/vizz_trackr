@@ -153,7 +153,7 @@ class ContractsController < ApplicationController
   end
 
   def contract_params
-    params.require(:contract).permit(:id, :code, :notes,
+    params.require(:contract).permit(:id, :code, :notes, :contract_rate,
                                      :aasm_state, :state,
                                      :project_id, :name, :budget, :summary,
                                      :start_date, :end_date,
