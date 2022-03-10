@@ -25,7 +25,6 @@
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Team</th>
                 <th>Functional Area</th>
                 <% if current_user.admin? %>
                   <th>Rate</th>
@@ -43,7 +42,6 @@
                     <%= image_tag(user.gravatar_url(40), class: 'rounded-circle') %>
                     <%= user.name %>
                   </td>
-                  <td><%= user.team.try(:name) %></td>
                   <td><%= user.role.try(:name) %></td>
                   <% if current_user.admin? %>
                     <td><%= user.rate&.code %></td>
