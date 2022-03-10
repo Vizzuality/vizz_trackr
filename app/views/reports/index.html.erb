@@ -9,7 +9,6 @@
           <thead>
             <tr>
               <th>User</th>
-              <th>Team</th>
               <th>Functional Area</th>
               <th>Reporting period</th>
               <th colspan="3"></th>
@@ -20,7 +19,6 @@
             <% @reports.each do |report| %>
               <tr>
                 <td><%= report.user_id %></td>
-                <td><%= report.team_id %></td>
                 <td><%= report.role_id %></td>
                 <td><%= report.reporting_period_id %></td>
                 <td><%= link_to 'Show', report %></td>

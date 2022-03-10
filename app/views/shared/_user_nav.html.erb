@@ -15,11 +15,7 @@
           <% end %>
           <% if current_user %>
             <div tabindex="-1" class="dropdown-divider"></div>
-            <% if current_user.team %>
-              <%= link_to current_user.team, class: 'dropdown-item', tabindex: '0' do %>
-                <i class="dropdown-icon lnr-paperclip"> </i><%= "#{current_user.team.name} Page" %>
-              <% end %>
-            <% end %>
+
             <% if current_user.role %>
               <%= link_to current_user.role, class: 'dropdown-item', tabindex: '0' do %>
                 <i class="dropdown-icon lnr-paperclip"> </i><%= "#{current_user.role.name} Page" %>
