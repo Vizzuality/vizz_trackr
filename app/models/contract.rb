@@ -31,6 +31,9 @@ require 'csv'
 class Contract < ApplicationRecord
   paginates_per 40
 
+  validates :start_date, presence: true
+  validates :end_date, presence: true
+
   include AASM
   include HasStateMachine
 
