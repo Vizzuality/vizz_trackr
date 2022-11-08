@@ -1,4 +1,4 @@
-# Vizz Tracker [![Build Status](https://travis-ci.org/Vizzuality/vizz_trackr.svg?branch=master)](https://travis-ci.org/Vizzuality/vizz_trackr)
+# Vizz Tracker [![Build Status](https://travis-ci.com/Vizzuality/vizz_trackr.svg?branch=master)](https://travis-ci.com/Vizzuality/vizz_trackr)
 
 ## Dependencies
 
@@ -38,7 +38,7 @@ You will need to do that via the console, as registration of new users via the i
 is currently disabled, to do so, type this into your terminal:
 
 `rails console`
-`User.create(email: "youremail@yourorg.yourdomain", password: "your_password", password_confirmation: "your_password", admin: true)`
+`User.create(email: "youremail@yourorg.yourdomain", password: "your_password", password_confirmation: "your_password", admin: true, name: "Your Name")`
 
 After this you'll be able to login with those details!
 
