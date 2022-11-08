@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
@@ -8,22 +8,22 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @user = create(:user)
   end
 
-  test 'should get index' do
+  test "should get index" do
     get users_url
     assert_response :success
   end
 
-  test 'should get new' do
+  test "should get new" do
     get new_user_url
     assert_response :success
   end
 
-  test 'should create user' do
-    assert_difference('User.count') do
+  test "should create user" do
+    assert_difference("User.count") do
       post users_url, params: {
         user: {
-          name: 'New User',
-          email: 'new-user@example.com',
+          name: "New User",
+          email: "new-user@example.com",
           role_id: @user.role_id,
           team_id: @user.team_id
         }
@@ -33,17 +33,17 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to users_url
   end
 
-  test 'should show user' do
+  test "should show user" do
     get user_url(@user)
     assert_response :success
   end
 
-  test 'should get edit' do
+  test "should get edit" do
     get edit_user_url(@user)
     assert_response :success
   end
 
-  test 'should update user' do
+  test "should update user" do
     patch user_url(@user), params: {
       user: {
         name: @user.name,
@@ -54,7 +54,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to users_url
   end
 
-  test 'should destroy user' do
+  test "should destroy user" do
     delete user_url(@user)
 
     assert @user.active, false

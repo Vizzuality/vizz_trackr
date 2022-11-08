@@ -12,7 +12,7 @@
 #  index_roles_on_name  (name) UNIQUE
 #
 
-require 'test_helper'
+require "test_helper"
 
 class RoleTest < ActiveSupport::TestCase
   # test "the truth" do

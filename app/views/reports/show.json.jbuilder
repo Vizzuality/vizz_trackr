@@ -1,1 +1,1 @@
-json.partial! 'reports/report', report: @report
+json.partial! "reports/report", report: @report

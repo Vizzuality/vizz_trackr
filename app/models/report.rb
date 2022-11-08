@@ -33,6 +33,6 @@ class Report < ApplicationRecord
   has_many :contracts, through: :report_parts
 
   def rate
-    self.reporting_period.base_rate
+    reporting_period.base_rate
   end
 end

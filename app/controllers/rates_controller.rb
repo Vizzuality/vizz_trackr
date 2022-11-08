@@ -9,7 +9,8 @@ class RatesController < ApplicationController
 
   # GET /rates/1
   # GET /rates/1.json
-  def show; end
+  def show
+  end
 
   # GET /rates/new
   def new
@@ -17,7 +18,8 @@ class RatesController < ApplicationController
   end
 
   # GET /rates/1/edit
-  def edit; end
+  def edit
+  end
 
   # POST /rates
   # POST /rates.json
@@ -26,7 +28,7 @@ class RatesController < ApplicationController
 
     respond_to do |format|
       if @rate.save
-        format.html { redirect_to @rate, notice: 'Rate was successfully created.' }
+        format.html { redirect_to @rate, notice: "Rate was successfully created." }
         format.json { render :show, status: :created, location: @rate }
       else
         format.html { render :new }
@@ -40,7 +42,7 @@ class RatesController < ApplicationController
   def update
     respond_to do |format|
       if @rate.update(rate_params)
-        format.html { redirect_to @rate, notice: 'Rate was successfully updated.' }
+        format.html { redirect_to @rate, notice: "Rate was successfully updated." }
         format.json { render :show, status: :ok, location: @rate }
       else
         format.html { render :edit }
@@ -54,7 +56,7 @@ class RatesController < ApplicationController
   def destroy
     @rate.destroy
     respond_to do |format|
-      format.html { redirect_to rates_url, notice: 'Rate was successfully destroyed.' }
+      format.html { redirect_to rates_url, notice: "Rate was successfully destroyed." }
       format.json { head :no_content }
     end
   end

@@ -13,7 +13,7 @@
 #  index_rates_on_code  (code) UNIQUE
 #
 
-require 'test_helper'
+require "test_helper"
 
 class RateTest < ActiveSupport::TestCase
   # test "the truth" do

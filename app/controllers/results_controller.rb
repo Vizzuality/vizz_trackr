@@ -18,13 +18,13 @@ class ResultsController < ApplicationController
 
     @full_reports = FullReport
       .where(reporting_period_id: @reporting_periods.uniq.pluck(:id),
-             contract_id: @contracts.uniq.pluck(:id))
-      .select(:contract_id, :reporting_period_id, 'SUM(cost) AS cost')
+        contract_id: @contracts.uniq.pluck(:id))
+      .select(:contract_id, :reporting_period_id, "SUM(cost) AS cost")
       .group(:contract_id, :reporting_period_id)
 
     @monthly_incomes = MonthlyIncome
       .where(reporting_period_id: @reporting_periods.uniq.pluck(:id),
-             contract_id: @contracts.uniq.pluck(:id))
+        contract_id: @contracts.uniq.pluck(:id))
   end
 
   private

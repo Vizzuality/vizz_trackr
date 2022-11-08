@@ -28,6 +28,6 @@ FactoryBot.define do
     contract { nil }
     role { nil }
     percentage { 1.5 }
-    details { 'MyString' }
+    details { "MyString" }
   end
 end

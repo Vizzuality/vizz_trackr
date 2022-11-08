@@ -13,7 +13,7 @@
 #
 #  index_reporting_periods_on_date  (date) UNIQUE
 #
-require 'csv'
+require "csv"
 
 class ReportingPeriod < ApplicationRecord
   paginates_per 10
@@ -39,7 +39,7 @@ class ReportingPeriod < ApplicationRecord
   end
 
   def self.deactivate_active_reporting!
-    ReportingPeriod.where(aasm_state: 'active').find_each(&:terminate!)
+    ReportingPeriod.where(aasm_state: "active").find_each(&:terminate!)
   end
 
   has_many :reports, dependent: :destroy
@@ -52,11 +52,11 @@ class ReportingPeriod < ApplicationRecord
   validates :date, uniqueness: true
 
   def self.active_period
-    ReportingPeriod.find_by(aasm_state: 'active')
+    ReportingPeriod.find_by(aasm_state: "active")
   end
 
   def display_name
-    date.strftime('%B %Y')
+    date.strftime("%B %Y")
   end
 
   def total_contracts_reported
@@ -78,34 +78,34 @@ class ReportingPeriod < ApplicationRecord
         next if part.contract.finished?
 
         dupped.report_parts << ReportPart.new(contract_id: part.contract_id,
-                                              role_id: part.role_id)
+          role_id: part.role_id)
       end
       reports << dupped
     end
   end
 
   def base_rate
-    self['base_rate'] || 175.0
+    self["base_rate"] || 175.0
   end
 
   def announcement
     msg = <<-EOS
       @here Hello!
-      #{date.strftime('%B')}'s report is ready to be filled in! Please go to https://vizz-trackr.herokuapp.com/my-report to do it.
+      #{date.strftime("%B")}'s report is ready to be filled in! Please go to https://vizz-trackr.herokuapp.com/my-report to do it.
       If you don't have a password yet, please use the Forgot your Password feature with your Vizzuality email. :simple_smile:.
       Thank you!
     EOS
     {
-      channel: Rails.env.production? ? '#announcements' : '#vizz-tracker',
+      channel: Rails.env.production? ? "#announcements" : "#vizz-tracker",
       text: msg,
-      icon_emoji: ':vizzuality:',
-      parse: 'full'
+      icon_emoji: ":vizzuality:",
+      parse: "full"
     }.to_json
   end
 
   def to_csv
     content = users_as_rows
-    CSV.generate(headers: true, encoding: 'ISO-8859-1') do |csv|
+    CSV.generate(headers: true, encoding: "ISO-8859-1") do |csv|
       csv << content.first.keys
       content.each do |c|
         csv << c.values
@@ -117,7 +117,7 @@ class ReportingPeriod < ApplicationRecord
     content = []
     users.order(:name).each do |user|
       data = {}
-      data['staff'] = user.name
+      data["staff"] = user.name
       report = reports.find_by(user_id: user.id)
       Contract.where(id: report_parts.map(&:contract_id).uniq)
         .includes(:project).order(:name).each do |contract|
@@ -126,7 +126,7 @@ class ReportingPeriod < ApplicationRecord
           .sum(:percentage) || 0
         data[contract.full_name] = percentage && (percentage / 100).round(2)
       end
-      data['estimated'] = report.estimated?
+      data["estimated"] = report.estimated?
       content << data
     end
     content

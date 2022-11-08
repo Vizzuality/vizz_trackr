@@ -8,9 +8,9 @@ module Api
       end
 
       def days_spent_data
-        staff = {name: 'Staff time', data: {}}
-        aggregate = {name: 'Aggregate', data: {}}
-        projected = {name: 'Projected', data: {}}
+        staff = {name: "Staff time", data: {}}
+        aggregate = {name: "Aggregate", data: {}}
+        projected = {name: "Projected", data: {}}
         agg = 0.0
         dates.each do |date|
           next unless report_for date
@@ -27,12 +27,12 @@ module Api
       end
 
       def contract_burn_data
-        staff = {name: 'Staff Costs', data: {}}
-        non_staff = {name: 'Non Staff Costs', data: {}}
-        aggregate = {name: 'Aggregate', data: {}}
-        projected = {name: 'Projected', data: {}}
-        budget = {name: 'Budget', data: dates.index_with { @contract.budget&.to_f }, points: false}
-        income = {name: 'Income', data: {}}
+        staff = {name: "Staff Costs", data: {}}
+        non_staff = {name: "Non Staff Costs", data: {}}
+        aggregate = {name: "Aggregate", data: {}}
+        projected = {name: "Projected", data: {}}
+        budget = {name: "Budget", data: dates.index_with { @contract.budget&.to_f }, points: false}
+        income = {name: "Income", data: {}}
         agg = 0.0
         dates.each do |date|
           income[:data][date] = income_for(date)
@@ -70,7 +70,7 @@ module Api
 
       def report_for(date)
         @report = @contract.full_reports
-          .select('reporting_period_id, reporting_period_name, sum(days) AS days, sum(cost) AS cost, report_estimated')
+          .select("reporting_period_id, reporting_period_name, sum(days) AS days, sum(cost) AS cost, report_estimated")
           .group(:reporting_period_id, :reporting_period_name, :report_estimated)
           .where(full_reports: {reporting_period_date: date})
           .where.not(cost: nil).first
@@ -80,7 +80,7 @@ module Api
         @contract.non_staff_costs
           .joins(:reporting_period)
           .where(reporting_periods: {date: date})
-          .pluck('sum(cost)').first || 0.0
+          .pick("sum(cost)") || 0.0
       end
 
       def income_for date

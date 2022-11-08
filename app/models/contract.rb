@@ -26,7 +26,7 @@
 #
 #  fk_rails_...  (project_id => projects.id)
 #
-require 'csv'
+require "csv"
 
 class Contract < ApplicationRecord
   paginates_per 40
@@ -60,7 +60,7 @@ class Contract < ApplicationRecord
   has_many :budget_lines, dependent: :destroy
   has_many :invoices, dependent: :destroy
   accepts_nested_attributes_for :budget_lines, allow_destroy: true,
-                                               reject_if: :reject_empty_lines
+    reject_if: :reject_empty_lines
 
   has_many :progress_reports, dependent: :destroy
   has_many :project_links, through: :project
@@ -70,29 +70,29 @@ class Contract < ApplicationRecord
   before_destroy :no_report_parts
 
   def contract_rate
-    self['contract_rate'] || 175.0
+    self["contract_rate"] || 175.0
   end
 
   def full_name
-    "#{name} [#{project.name}#{(' - internal' unless project.is_billable?)}]"
+    "#{name} [#{project.name}#{" - internal" unless project.is_billable?}]"
   end
 
   def latest_progress_report
     @latest_progress_report ||= progress_reports.joins(:reporting_period)
-      .order('reporting_periods.date DESC').first
+      .order("reporting_periods.date DESC").first
   end
 
   def previous_progress_report progress_report
     progress_reports.joins(:reporting_period)
-      .where('reporting_periods.date < ?', progress_report.date)
-      .order('reporting_periods.date DESC')&.first
+      .where("reporting_periods.date < ?", progress_report.date)
+      .order("reporting_periods.date DESC")&.first
   end
 
   def next_progress_report progress_report
     progress_reports
       .joins(:reporting_period)
-      .where('reporting_periods.date > ?', progress_report.date)
-      .order('reporting_periods.date ASC')
+      .where("reporting_periods.date > ?", progress_report.date)
+      .order("reporting_periods.date ASC")
       .first
   end
 
@@ -107,10 +107,10 @@ class Contract < ApplicationRecord
 
   def total_burn with_projections = false
     relevant_reports = if with_projections
-                         full_reports
-                       else
-                         full_reports.where(report_estimated: false)
-                       end
+      full_reports
+    else
+      full_reports.where(report_estimated: false)
+    end
     relevant_reports.sum(:cost) + non_staff_costs.sum(:cost)
   end
 
@@ -151,21 +151,21 @@ class Contract < ApplicationRecord
     return all unless query
 
     joins(:project)
-      .where('contracts.name ilike ? OR code ilike ? OR projects.name ilike ?',
-             "%#{query}%", "%#{query}%", "%#{query}%")
+      .where("contracts.name ilike ? OR code ilike ? OR projects.name ilike ?",
+        "%#{query}%", "%#{query}%", "%#{query}%")
   end
 
   def self.to_csv
     CSV.generate(headers: true) do |csv|
-      csv << ['Project', 'Code', 'Contract', 'Start date', 'End Date',
-              'Budget (EUR)', 'Internal?', 'Status']
+      csv << ["Project", "Code", "Contract", "Start date", "End Date",
+        "Budget (EUR)", "Internal?", "Status"]
       all.find_each do |contract|
         csv << [
           contract.project&.name,
           contract.code,
           contract.name,
-          contract.start_date&.strftime('%d/%m/%Y'),
-          contract.end_date&.strftime('%d/%m/%Y'),
+          contract.start_date&.strftime("%d/%m/%Y"),
+          contract.end_date&.strftime("%d/%m/%Y"),
           contract.budget,
           !contract.project.is_billable?,
           contract.aasm_state.humanize
@@ -177,8 +177,8 @@ class Contract < ApplicationRecord
   private
 
   def reject_empty_lines(attributes)
-    exists = attributes['id'].present?
-    empty = attributes['percentage'].blank? || attributes['percentage'].to_f <= 0.0
+    exists = attributes["id"].present?
+    empty = attributes["percentage"].blank? || attributes["percentage"].to_f <= 0.0
     attributes[:_destroy] = 1 if exists && empty
     !exists && empty
   end
@@ -186,8 +186,8 @@ class Contract < ApplicationRecord
   def no_report_parts
     return unless report_parts.any?
 
-    errors.add(:base, "Contract #{name} [#{code}] has time reported against it,"\
-               ' please change those reports before trying to delete it again.')
+    errors.add(:base, "Contract #{name} [#{code}] has time reported against it," \
+               " please change those reports before trying to delete it again.")
     throw :abort
   end
 end

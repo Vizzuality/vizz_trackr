@@ -36,10 +36,11 @@
 class User < ApplicationRecord
   paginates_per 60
   attr_accessor :skip_password_validation
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable,
-         :recoverable, :rememberable, :validatable
+    :recoverable, :rememberable, :validatable
   belongs_to :team, optional: true
   belongs_to :role, optional: true
   belongs_to :rate, optional: true
@@ -58,8 +59,8 @@ class User < ApplicationRecord
 
   def name_with_state
     str = [name]
-    str << '[acc: disabled]' unless active?
-    str.join(' ')
+    str << "[acc: disabled]" unless active?
+    str.join(" ")
   end
 
   def current_report
@@ -93,7 +94,7 @@ class User < ApplicationRecord
   def self.search query
     return all unless query
 
-    where('name ilike ? OR email ilike ?', "%#{query}%", "%#{query}%")
+    where("name ilike ? OR email ilike ?", "%#{query}%", "%#{query}%")
   end
 
   private

@@ -18,17 +18,17 @@ class CostsController < ApplicationController
 
     @full_reports = FullReport
       .where(reporting_period_id: @reporting_periods.uniq.pluck(:id),
-             contract_id: @contracts.uniq.pluck(:id))
-      .select(:contract_id, :reporting_period_id, 'SUM(cost) AS cost')
+        contract_id: @contracts.uniq.pluck(:id))
+      .select(:contract_id, :reporting_period_id, "SUM(cost) AS cost")
       .group(:contract_id, :reporting_period_id)
 
     @monthly_incomes = MonthlyIncome
       .where(reporting_period_id: @reporting_periods.uniq.pluck(:id),
-             contract_id: @contracts.uniq.pluck(:id))
+        contract_id: @contracts.uniq.pluck(:id))
     respond_to do |format|
       format.html
       format.csv do
-        filename = 'costs_' + @year
+        filename = "costs_" + @year
         send_data render_to_string(filename: filename)
       end
     end

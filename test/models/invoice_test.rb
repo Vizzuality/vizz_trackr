@@ -23,7 +23,7 @@
 #  fk_rails_...  (contract_id => contracts.id)
 #
 
-require 'test_helper'
+require "test_helper"
 
 class InvoiceTest < ActiveSupport::TestCase
   # test "the truth" do

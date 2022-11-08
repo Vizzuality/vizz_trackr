@@ -19,12 +19,12 @@ class AnalysisController < ApplicationController
   end
 
   def cache_key
-    last_update = Report.maximum(:updated_at).strftime('%d%m%Y-%H%M')
+    last_update = Report.maximum(:updated_at).strftime("%d%m%Y-%H%M")
     [
-      'analysis',
-      "role-#{params[:role_id].presence || 'all'}",
-      "threshold-#{params[:threshold].presence || 'all'}",
+      "analysis",
+      "role-#{params[:role_id].presence || "all"}",
+      "threshold-#{params[:threshold].presence || "all"}",
       last_update
-    ].join('-')
+    ].join("-")
   end
 end

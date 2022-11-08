@@ -1,14 +1,14 @@
 class ContractsController < ApplicationController
   before_action :set_contract, only: [:show, :reports, :edit, :update,
-                                      :team, :costs, :destroy]
+    :team, :costs, :destroy]
   before_action :set_default_state, only: [:index]
   authorize_resource
 
   def index
     @contracts = Contract.joins(:project).includes(:full_reports, :project)
-      .order('projects.is_billable DESC, projects.name ASC, contracts.name ASC')
+      .order("projects.is_billable DESC, projects.name ASC, contracts.name ASC")
       .search(params[:search]).page(params[:page])
-    @contracts = @contracts.with_status(@state) unless @state == 'all'
+    @contracts = @contracts.with_status(@state) unless @state == "all"
 
     @states = Contract.aasm.states.map(&:name).prepend(:all)
 
@@ -16,8 +16,8 @@ class ContractsController < ApplicationController
       format.html
       format.csv do
         send_data @contracts.to_csv,
-                  type: 'csv',
-                  filename: "contracts-with-state-#{@state}.csv"
+          type: "csv",
+          filename: "contracts-with-state-#{@state}.csv"
       end
     end
   end
@@ -38,7 +38,7 @@ class ContractsController < ApplicationController
       if @contract.save
         format.html do
           redirect_to contracts_path(state: @contract.aasm_state),
-                      notice: 'Contract was successfully created.'
+            notice: "Contract was successfully created."
         end
         format.json { render :show, status: :created, location: @contract }
       else
@@ -60,13 +60,13 @@ class ContractsController < ApplicationController
   def show
     @roles = Role.order(:name).includes(:budget_lines)
     @days_per_role = @contract.full_reports
-      .select('role_id, sum(cost) AS cost, sum(days) AS days').group(:role_id)
+      .select("role_id, sum(cost) AS cost, sum(days) AS days").group(:role_id)
 
     @data = if @contract.is_billable?
-              ::Api::Charts::Contract.new(@contract).contract_burn_data
-            else
-              ::Api::Charts::Contract.new(@contract).days_spent_data
-            end
+      ::Api::Charts::Contract.new(@contract).contract_burn_data
+    else
+      ::Api::Charts::Contract.new(@contract).days_spent_data
+    end
   end
 
   def update
@@ -75,9 +75,9 @@ class ContractsController < ApplicationController
         format.html do
           if request.referer == contracts_url(state: params[:current_state])
             redirect_to contracts_path(state: params[:current_state]),
-                        notice: 'Contract state successfully changed!'
+              notice: "Contract state successfully changed!"
           else
-            redirect_to @contract, notice: 'Contract successfully updated!'
+            redirect_to @contract, notice: "Contract successfully updated!"
           end
         end
         format.json { render json: @contract, status: :ok }
@@ -113,24 +113,24 @@ class ContractsController < ApplicationController
 
   def costs
     @costs = @contract.full_reports
-      .select('reporting_period_id, reporting_period_date, sum(cost) AS cost, report_estimated, TRUE as from_staff')
+      .select("reporting_period_id, reporting_period_date, sum(cost) AS cost, report_estimated, TRUE as from_staff")
       .group(:reporting_period_id, :reporting_period_date, :reporting_period_name, :report_estimated)
       .order(reporting_period_date: :desc)
     @costs += @contract.non_staff_costs
       .joins(:reporting_period)
-      .select('reporting_period_id, reporting_periods.date AS reporting_period_date,'\
-        'sum(cost) AS cost, false as report_estimated, FALSE as from_staff')
-      .group('reporting_period_id, reporting_periods.date')
-      .order('reporting_periods.date DESC')
+      .select("reporting_period_id, reporting_periods.date AS reporting_period_date," \
+        "sum(cost) AS cost, false as report_estimated, FALSE as from_staff")
+      .group("reporting_period_id, reporting_periods.date")
+      .order("reporting_periods.date DESC")
   end
 
   def team
     @team = @contract.full_reports
-      .select('user_name, user_id, role_name, SUM(days) AS days')
+      .select("user_name, user_id, role_name, SUM(days) AS days")
       .group(:user_name, :user_id, :role_name)
-      .order('SUM(days) DESC, user_name')
+      .order("SUM(days) DESC, user_name")
     @reporting_periods = ReportingPeriod
-      .where('date > ?', (Time.zone.today - 5.months).at_beginning_of_month)
+      .where("date > ?", (Time.zone.today - 5.months).at_beginning_of_month)
       .order(:date).includes(:full_reports)
   end
 
@@ -138,7 +138,7 @@ class ContractsController < ApplicationController
     if @contract.destroy
       redirect_to request.referer
     else
-      redirect_to request.referer, notice: @contract.errors.full_messages.join(',')
+      redirect_to request.referer, notice: @contract.errors.full_messages.join(",")
     end
   end
 
@@ -149,16 +149,16 @@ class ContractsController < ApplicationController
   end
 
   def set_default_state
-    @state = params[:state].presence || 'live'
+    @state = params[:state].presence || "live"
   end
 
   def contract_params
     params.require(:contract).permit(:id, :code, :notes, :contract_rate,
-                                     :aasm_state, :state,
-                                     :project_id, :name, :budget, :summary,
-                                     :start_date, :end_date,
-                                     budget_lines_attributes: [:id, :percentage, :days,
-                                                               :adjusted_days,
-                                                               :role_id, :details])
+      :aasm_state, :state,
+      :project_id, :name, :budget, :summary,
+      :start_date, :end_date,
+      budget_lines_attributes: [:id, :percentage, :days,
+        :adjusted_days,
+        :role_id, :details])
   end
 end

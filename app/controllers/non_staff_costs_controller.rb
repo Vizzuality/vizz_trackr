@@ -6,12 +6,13 @@ class NonStaffCostsController < ApplicationController
   # GET /non_staff_costs.json
   def index
     @non_staff_costs = NonStaffCost.joins(:contract, :reporting_period)
-      .order('reporting_periods.date DESC, contracts.name').page(params[:page])
+      .order("reporting_periods.date DESC, contracts.name").page(params[:page])
   end
 
   # GET /non_staff_costs/1
   # GET /non_staff_costs/1.json
-  def show; end
+  def show
+  end
 
   # GET /non_staff_costs/new
   def new
@@ -33,7 +34,7 @@ class NonStaffCostsController < ApplicationController
 
     respond_to do |format|
       if @non_staff_cost.save
-        format.html { redirect_to non_staff_costs_path, notice: 'Non staff cost was successfully created.' }
+        format.html { redirect_to non_staff_costs_path, notice: "Non staff cost was successfully created." }
         format.json { render :show, status: :created, location: @non_staff_cost }
       else
         format.html do
@@ -51,7 +52,7 @@ class NonStaffCostsController < ApplicationController
   def update
     respond_to do |format|
       if @non_staff_cost.update(non_staff_cost_params)
-        format.html { redirect_to @non_staff_cost, notice: 'Non staff cost was successfully updated.' }
+        format.html { redirect_to @non_staff_cost, notice: "Non staff cost was successfully updated." }
         format.json { render :show, status: :ok, location: @non_staff_cost }
       else
         format.html do
@@ -68,7 +69,7 @@ class NonStaffCostsController < ApplicationController
   def destroy
     @non_staff_cost.destroy
     respond_to do |format|
-      format.html { redirect_to non_staff_costs_url, notice: 'Non staff cost was successfully destroyed.' }
+      format.html { redirect_to non_staff_costs_url, notice: "Non staff cost was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -83,7 +84,7 @@ class NonStaffCostsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def non_staff_cost_params
     params.require(:non_staff_cost).permit(:cost, :contract_id, :details,
-                                           :reporting_period_id,
-                                           :date, :cost_type)
+      :reporting_period_id,
+      :date, :cost_type)
   end
 end

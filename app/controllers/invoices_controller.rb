@@ -13,8 +13,8 @@ class InvoicesController < ApplicationController
       format.html
       format.csv do
         send_data @invoices.to_csv,
-                  type: 'csv',
-                  filename: "invoices-with-state-#{@state}.csv"
+          type: "csv",
+          filename: "invoices-with-state-#{@state}.csv"
       end
     end
   end
@@ -26,7 +26,7 @@ class InvoicesController < ApplicationController
   def update
     respond_to do |format|
       if @invoice.update(invoice_params)
-        format.html { redirect_to @invoice, notice: 'Invoice successfully updated!' }
+        format.html { redirect_to @invoice, notice: "Invoice successfully updated!" }
         format.json { render json: @invoice, status: :ok }
       else
         format.html { render :edit }
@@ -35,15 +35,17 @@ class InvoicesController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+  end
 
-  def show; end
+  def show
+  end
 
   def create
     @invoice = Invoice.new(invoice_params)
     respond_to do |format|
       if @invoice.save
-        format.html { redirect_to @invoice, notice: 'Invoice successfully updated!' }
+        format.html { redirect_to @invoice, notice: "Invoice successfully updated!" }
         format.json { render json: @invoice, status: :ok }
       else
         format.html { render :new }
@@ -56,19 +58,19 @@ class InvoicesController < ApplicationController
     if @invoice.destroy
       redirect_to request.referer
     else
-      redirect_to request.referer, notice: @invoice.errors.full_messages.join(',')
+      redirect_to request.referer, notice: @invoice.errors.full_messages.join(",")
     end
   end
 
   private
 
   def set_index_vars
-    invoices = Invoice.order('due_date ASC')
-    invoices = invoices.search(params[:contract]) unless params[:contract] == 'all'
-    invoices = invoices.with_status(@state.downcase.gsub(" ","_").to_sym) unless @state == 'all'
+    invoices = Invoice.order("due_date ASC")
+    invoices = invoices.search(params[:contract]) unless params[:contract] == "all"
+    invoices = invoices.with_status(@state.downcase.tr(" ", "_").to_sym) unless @state == "all"
     @invoices = invoices.page(params[:page])
     @states = Invoice.aasm.states.map { |s| s.to_s.humanize }.prepend(:all)
-    @contracts = Contract.where(aasm_state: 'live').order(:name).pluck(:name, :id).prepend(['all', :all])
+    @contracts = Contract.where(aasm_state: "live").order(:name).pluck(:name, :id).prepend(["all", :all])
   end
 
   def set_invoice
@@ -76,11 +78,11 @@ class InvoicesController < ApplicationController
   end
 
   def set_contracts
-    @contracts = Contract.where(aasm_state: 'live').order(:name)
+    @contracts = Contract.where(aasm_state: "live").order(:name)
   end
 
   def set_contract
-    @contract = params[:contract].presence || 'all'
+    @contract = params[:contract].presence || "all"
   end
 
   def set_states
@@ -88,14 +90,14 @@ class InvoicesController < ApplicationController
   end
 
   def set_default_state
-    @state = params[:state].presence || 'all'
+    @state = params[:state].presence || "all"
   end
 
   def invoice_params
     params.require(:invoice).permit(:id, :code, :name,
-                                    :aasm_state, :state,
-                                    :contract, :amount, :milestone, :currency,
-                                    :due_date, :extended_date,
-                                    :contract_id, :observations, :invoiced_on)
+      :aasm_state, :state,
+      :contract, :amount, :milestone, :currency,
+      :due_date, :extended_date,
+      :contract_id, :observations, :invoiced_on)
   end
 end

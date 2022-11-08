@@ -21,7 +21,7 @@ class ProjectLinksController < ApplicationController
 
   def project_params
     params.require(:project).permit(project_links_attributes: [:id, :title,
-                                                               :url, :link_type,
-                                                               :_destroy])
+      :url, :link_type,
+      :_destroy])
   end
 end

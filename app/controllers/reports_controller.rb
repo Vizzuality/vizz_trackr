@@ -10,7 +10,8 @@ class ReportsController < ApplicationController
 
   # GET /reports/1
   # GET /reports/1.json
-  def show; end
+  def show
+  end
 
   # GET /reports/new
   def new
@@ -22,16 +23,16 @@ class ReportsController < ApplicationController
     @teams = Team.order(:name)
 
     @report = if params[:reporting_period_id]
-                ReportingPeriod.find(params[:reporting_period_id]).reports.new
-              else
-                Report.new
-              end
+      ReportingPeriod.find(params[:reporting_period_id]).reports.new
+    else
+      Report.new
+    end
     @report.report_parts.build
   end
 
   # GET /reports/1/edit
   def edit
-    redirect_to user_url(current_user), notice: 'No Report available to edit' and return unless @report
+    redirect_to user_url(current_user), notice: "No Report available to edit" and return unless @report
 
     authorize! :edit, @report
   end
@@ -43,7 +44,7 @@ class ReportsController < ApplicationController
 
     respond_to do |format|
       if @report.save
-        format.html { redirect_to reporting_periods_url, notice: 'Report was successfully created.' }
+        format.html { redirect_to reporting_periods_url, notice: "Report was successfully created." }
         format.json { render :show, status: :created, location: @report }
       else
         format.html { render :new }
@@ -60,7 +61,7 @@ class ReportsController < ApplicationController
       begin
         @report.update(report_params)
       rescue ActiveRecord::RecordNotUnique
-        @report.errors.add(:base, 'Validation failed, please ensure you are not reporting duplicate contracts.')
+        @report.errors.add(:base, "Validation failed, please ensure you are not reporting duplicate contracts.")
       end
 
       if @report.errors.empty?
@@ -82,7 +83,7 @@ class ReportsController < ApplicationController
     @reporting_period = @report.reporting_period
     @report.destroy
     respond_to do |format|
-      format.html { redirect_to @reporting_period, notice: 'Report was successfully destroyed.' }
+      format.html { redirect_to @reporting_period, notice: "Report was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -98,23 +99,23 @@ class ReportsController < ApplicationController
     @reporting_periods = ReportingPeriod.order(:date)
     @users = User.order(:name)
     # if editing an old report, let's not constraint the available contracts to report on
-    @contracts = if !@report || @report.reporting_period.aasm_state != 'active'
-                   Contract.order(:name).includes(:project)
-                 else
-                   Contract.with_status([:live])
-                     .or(Contract.with_status([:live]).where(id: @report.report_parts.pluck(:contract_id)))
-                     .order(:name).includes(:project)
-                 end
+    @contracts = if !@report || @report.reporting_period.aasm_state != "active"
+      Contract.order(:name).includes(:project)
+    else
+      Contract.with_status([:live])
+        .or(Contract.with_status([:live]).where(id: @report.report_parts.pluck(:contract_id)))
+        .order(:name).includes(:project)
+    end
     @roles = Role.order(:name)
     @teams = Team.order(:name)
-   # byebug
+    # byebug
   end
 
   def notice_after_update was_estimate
     if !@report.estimated && was_estimate
-      'Thank you for submitting this month\'s report!'
+      "Thank you for submitting this month's report!"
     else
-      'Report successfully updated, thank you.'
+      "Report successfully updated, thank you."
     end
   end
 
@@ -129,8 +130,8 @@ class ReportsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def report_params
     params.require(:report).permit(:user_id, :team_id, :reporting_period_id, :estimated,
-                                   report_parts_attributes: [:id, :percentage,
-                                                             :contract_id, :role_id,
-                                                             :_destroy])
+      report_parts_attributes: [:id, :percentage,
+        :contract_id, :role_id,
+        :_destroy])
   end
 end

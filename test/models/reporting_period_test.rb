@@ -14,7 +14,7 @@
 #  index_reporting_periods_on_date  (date) UNIQUE
 #
 
-require 'test_helper'
+require "test_helper"
 
 class ReportingPeriodTest < ActiveSupport::TestCase
   # test "the truth" do

@@ -9,7 +9,7 @@ class FaPerformancesController < ApplicationController
     respond_to do |format|
       format.html
       format.csv do
-        filename = 'fa_performance'
+        filename = "fa_performance"
         send_data render_to_string(filename: filename)
       end
     end
@@ -18,6 +18,6 @@ class FaPerformancesController < ApplicationController
   private
 
   def set_default_state
-    @state = params[:state].presence || 'live'
+    @state = params[:state].presence || "live"
   end
 end

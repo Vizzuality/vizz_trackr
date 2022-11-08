@@ -239,19 +239,19 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     rexml (3.2.5)
-    rubocop (1.38.0)
+    rubocop (1.35.1)
       json (~> 2.3)
       parallel (~> 1.10)
       parser (>= 3.1.2.1)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml (>= 3.2.5, < 4.0)
-      rubocop-ast (>= 1.23.0, < 2.0)
+      rubocop-ast (>= 1.20.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.23.0)
       parser (>= 3.1.1.0)
-    rubocop-performance (1.15.0)
+    rubocop-performance (1.14.3)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
     rubocop-rails (2.17.2)
@@ -293,6 +293,9 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    standard (1.16.1)
+      rubocop (= 1.35.1)
+      rubocop-performance (= 1.14.3)
     switch_user (1.5.4)
     thor (1.2.1)
     tilt (2.0.11)
@@ -360,13 +363,14 @@ DEPENDENCIES
   puma (~> 5.6)
   rails (~> 7.0.4)
   rubocop
-  rubocop-performance
+  rubocop-performance (>= 1.14)
   rubocop-rails
   sass-rails
   scenic
   selenium-webdriver
   spring
   spring-watcher-listen (~> 2.0.0)
+  standard (>= 1.16.1)
   switch_user
   turbolinks (~> 5)
   tzinfo-data
@@ -378,4 +382,4 @@ RUBY VERSION
    ruby 3.1.2p20
 
 BUNDLED WITH
-   2.1.4
+   2.3.25

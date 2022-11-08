@@ -31,8 +31,8 @@ class Project < ApplicationRecord
 
   has_many :project_links, dependent: :restrict_with_error
   accepts_nested_attributes_for :project_links,
-                                allow_destroy: true,
-                                reject_if: proc { |attributes| attributes['title'].blank? || attributes['url'].blank? }
+    allow_destroy: true,
+    reject_if: proc { |attributes| attributes["title"].blank? || attributes["url"].blank? }
 
   validates :name, uniqueness: true, presence: true
 
@@ -51,6 +51,6 @@ class Project < ApplicationRecord
   def self.search query
     return all unless query
 
-    where('name ilike ?', "%#{query}%")
+    where("name ilike ?", "%#{query}%")
   end
 end

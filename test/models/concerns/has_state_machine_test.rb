@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class DummyClass
   include AASM
@@ -23,16 +23,16 @@ class HasStateMachineTest < ActiveSupport::TestCase
     @dummy = DummyClass.new
   end
 
-  test '#next_event should be :start for new records' do
-    assert_equal 'start', @dummy.next_event
+  test "#next_event should be :start for new records" do
+    assert_equal "start", @dummy.next_event
   end
 
-  test '#next_state should be :started for new records' do
-    assert_equal 'started', @dummy.next_state
+  test "#next_state should be :started for new records" do
+    assert_equal "started", @dummy.next_state
   end
 
-  test '#next_state should be :finished after a record was started' do
+  test "#next_state should be :finished after a record was started" do
     @dummy.start!
-    assert_equal 'finished', @dummy.next_state
+    assert_equal "finished", @dummy.next_state
   end
 end

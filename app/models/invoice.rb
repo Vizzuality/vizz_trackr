@@ -30,10 +30,10 @@ class Invoice < ApplicationRecord
   include HasStateMachine
 
   aasm do
-    state :scheduled, initial: true, display: 'Scheduled'
-    state :pending_to_issue, display: 'Pending to issue'
-    state :waiting_for_payment, display: 'Waiting for payment'
-    state :paid, display: 'Paid'
+    state :scheduled, initial: true, display: "Scheduled"
+    state :pending_to_issue, display: "Pending to issue"
+    state :waiting_for_payment, display: "Waiting for payment"
+    state :paid, display: "Paid"
     event :raise_alert do
       transitions from: :scheduled, to: :pending_to_issue
       after do
@@ -55,16 +55,16 @@ class Invoice < ApplicationRecord
   validates :code, presence: true, if: proc { |invoice| invoice.aasm.current_state == :waiting_for_payment || invoice.aasm.current_state == :paid }
   validates :invoiced_on, presence: true, if: proc { |invoice| invoice.aasm.current_state == :waiting_for_payment || invoice.aasm.current_state == :paid }
   validate :extended_date_is_possible?
-  validates :currency, inclusion: %w(euro dollar)
+  validates :currency, inclusion: %w[euro dollar]
 
   def extended_date_is_possible?
     return if extended_date.blank?
 
-    errors.add(:extended_date, 'must be after due date') if due_date > extended_date
+    errors.add(:extended_date, "must be after due date") if due_date > extended_date
   end
 
   def send_announcement
-    Slack::SlackApiHelper.post('chat.postMessage', announcement)
+    Slack::SlackApiHelper.post("chat.postMessage", announcement)
   end
 
   def announcement
@@ -74,10 +74,10 @@ class Invoice < ApplicationRecord
       Thank you!
     EOS
     {
-      channel: Rails.env.production? ? '#invoices' : '#vizz-tracker',
+      channel: Rails.env.production? ? "#invoices" : "#vizz-tracker",
       text: msg,
-      icon_emoji: ':vizzuality:',
-      parse: 'full'
+      icon_emoji: ":vizzuality:",
+      parse: "full"
     }.to_json
   end
 
@@ -89,6 +89,6 @@ class Invoice < ApplicationRecord
     return all unless query
 
     joins(:contract)
-      .where('contract_id = ? ', query)
+      .where("contract_id = ? ", query)
   end
 end

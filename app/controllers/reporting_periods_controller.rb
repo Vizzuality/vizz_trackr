@@ -1,6 +1,6 @@
 class ReportingPeriodsController < ApplicationController
   before_action :set_reporting_period, only: [:show, :edit, :update, :reports,
-                                              :announce, :destroy, :update_state]
+    :announce, :destroy, :update_state]
   authorize_resource
 
   # GET /reporting_periods
@@ -20,23 +20,23 @@ class ReportingPeriodsController < ApplicationController
     @total_project_reports = @reporting_period.total_contracts_reported
     @user_reports = @reporting_period.reports
       .includes(:user)
-      .joins(:user).order('users.name ASC')
+      .joins(:user).order("users.name ASC")
     @contract_reports = @reporting_period.full_reports
       .includes(:contract)
       .joins(contract: :project)
       .select(:contract_id,
-              :contract_name,
-              'sum(cost) AS cost, sum(days) AS days, projects.is_billable')
-      .group(:contract_id, :contract_name, 'projects.is_billable')
+        :contract_name,
+        "sum(cost) AS cost, sum(days) AS days, projects.is_billable")
+      .group(:contract_id, :contract_name, "projects.is_billable")
       .order(:contract_name)
   end
 
   def announce
-    post_response = Slack::SlackApiHelper.post('chat.postMessage', @reporting_period.announcement)
-    if post_response['ok']
-      redirect_to reporting_periods_url, notice: 'Announcement successfully sent to slack!'
+    post_response = Slack::SlackApiHelper.post("chat.postMessage", @reporting_period.announcement)
+    if post_response["ok"]
+      redirect_to reporting_periods_url, notice: "Announcement successfully sent to slack!"
     else
-      redirect_to reporting_periods_url, alert: 'Failed to announce, please try again later.'
+      redirect_to reporting_periods_url, alert: "Failed to announce, please try again later."
     end
   end
 
@@ -51,8 +51,8 @@ class ReportingPeriodsController < ApplicationController
       end
       format.csv do
         send_data @reporting_period.to_csv,
-                  type: 'csv',
-                  filename: "report-#{@reporting_period.display_name}.csv"
+          type: "csv",
+          filename: "report-#{@reporting_period.display_name}.csv"
       end
     end
   end
@@ -79,7 +79,7 @@ class ReportingPeriodsController < ApplicationController
 
     respond_to do |format|
       if @reporting_period.save
-        format.html { redirect_to :reporting_periods, notice: 'Reporting period was successfully created.' }
+        format.html { redirect_to :reporting_periods, notice: "Reporting period was successfully created." }
         format.json { render :show, status: :created, location: @reporting_period }
       else
         format.html do
@@ -96,7 +96,7 @@ class ReportingPeriodsController < ApplicationController
   def update
     respond_to do |format|
       if @reporting_period.update(reporting_period_params)
-        format.html { redirect_to reporting_periods_path, notice: 'Reporting period was successfully updated.' }
+        format.html { redirect_to reporting_periods_path, notice: "Reporting period was successfully updated." }
         format.json { render :show, status: :ok, location: @reporting_period }
       else
         format.html { render :edit }
@@ -106,21 +106,21 @@ class ReportingPeriodsController < ApplicationController
   end
 
   def income
-    @contracts = Contract.where(aasm_state: 'live')
+    @contracts = Contract.where(aasm_state: "live")
       .joins(:project).where(projects: {is_billable: true})
-      .order('projects.name ASC')
+      .order("projects.name ASC")
     @timeframe = set_timeframe
     @monthly_incomes = MonthlyIncome
       .joins(:contract)
       .where(contracts: {id: @contracts.pluck(:id)},
-             month: @timeframe)
+        month: @timeframe)
       .order(month: :desc)
   end
 
   def update_state
     respond_to do |format|
       if @reporting_period.public_send("#{reporting_period_params[:aasm_state]}!")
-        format.html { redirect_to reporting_periods_path, notice: 'Reporting period was successfully updated.' }
+        format.html { redirect_to reporting_periods_path, notice: "Reporting period was successfully updated." }
         format.json { render :show, status: :ok, location: @reporting_period }
       else
         format.html { render :edit }
@@ -134,7 +134,7 @@ class ReportingPeriodsController < ApplicationController
   def destroy
     @reporting_period.destroy
     respond_to do |format|
-      format.html { redirect_to reporting_periods_url, notice: 'Reporting period was successfully destroyed.' }
+      format.html { redirect_to reporting_periods_url, notice: "Reporting period was successfully destroyed." }
       format.json { head :no_content }
     end
   end

@@ -6,7 +6,7 @@ class ProgressReportsController < ApplicationController
   def new
     unless @latest_period
       redirect_to(@contract,
-                  notice: 'No reporting periods available, please create one before continuing') and return
+        notice: "No reporting periods available, please create one before continuing") and return
     end
 
     @progress_report = @contract.progress_reports
@@ -16,14 +16,15 @@ class ProgressReportsController < ApplicationController
   def create
     @progress_report = @contract.progress_reports.new(progress_report_params)
     if @progress_report.save
-      redirect_to @contract, notice: 'Progress report was successefully created.'
+      redirect_to @contract, notice: "Progress report was successefully created."
     else
       set_vars
       render :new
     end
   end
 
-  def edit; end
+  def edit
+  end
 
   def update
     if @progress_report.update(progress_report_params)
@@ -51,6 +52,6 @@ class ProgressReportsController < ApplicationController
 
   def progress_report_params
     params.require(:progress_report).permit(:reporting_period_id,
-                                            :percentage)
+      :percentage)
   end
 end

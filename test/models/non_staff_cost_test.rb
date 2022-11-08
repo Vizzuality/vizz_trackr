@@ -22,7 +22,7 @@
 #  fk_rails_...  (reporting_period_id => reporting_periods.id)
 #
 
-require 'test_helper'
+require "test_helper"
 
 class NonStaffCostTest < ActiveSupport::TestCase
   # test "the truth" do

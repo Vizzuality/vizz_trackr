@@ -1,1 +1,1 @@
-json.partial! 'rates/rate', rate: @rate
+json.partial! "rates/rate", rate: @rate

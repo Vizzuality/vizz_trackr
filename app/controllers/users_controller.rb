@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit,
-                                  :update, :destroy, :reports]
+    :update, :destroy, :reports]
   before_action :set_entities, only: [:edit, :new]
   before_action :set_default_state, only: [:index]
   authorize_resource
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
     @data = ::Api::Charts::User.new(@user)
       .reports_breakdown(params[:reporting_period_id].presence)
     @full_reports = @user.full_reports.joins(:reporting_period)
-      .order('reporting_periods.date DESC').page(params[:page])
+      .order("reporting_periods.date DESC").page(params[:page])
 
     respond_to do |format|
       format.html
@@ -45,7 +45,8 @@ class UsersController < ApplicationController
   end
 
   # GET /users/1/edit
-  def edit; end
+  def edit
+  end
 
   # POST /users
   # POST /users.json
@@ -55,7 +56,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to :users, notice: 'User was successfully created.' }
+        format.html { redirect_to :users, notice: "User was successfully created." }
         format.json { render :show, status: :created, location: @user }
       else
         format.html do
@@ -74,7 +75,7 @@ class UsersController < ApplicationController
       @user.skip_password_validation = true
       if @user.update(user_params)
         redirect = current_user == @user ? @user : users_path
-        format.html { redirect_to redirect, notice: 'User was successfully updated.' }
+        format.html { redirect_to redirect, notice: "User was successfully updated." }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html do
@@ -91,7 +92,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to users_url, notice: "User was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -104,7 +105,7 @@ class UsersController < ApplicationController
   end
 
   def set_default_state
-    @state = params[:state].presence || 'active'
+    @state = params[:state].presence || "active"
   end
 
   def set_entities
