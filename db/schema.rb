@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_08_092617) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_11_08_100105) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,8 +19,8 @@ ActiveRecord::Schema.define(version: 2022_11_08_092617) do
     t.bigint "role_id"
     t.float "percentage"
     t.string "details"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "days"
     t.float "adjusted_days"
     t.index ["contract_id"], name: "index_budget_lines_on_contract_id"
@@ -31,8 +30,8 @@ ActiveRecord::Schema.define(version: 2022_11_08_092617) do
   create_table "contracts", force: :cascade do |t|
     t.string "name"
     t.bigint "project_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.float "budget"
     t.string "alias", default: [], array: true
     t.date "start_date"
@@ -64,8 +63,8 @@ ActiveRecord::Schema.define(version: 2022_11_08_092617) do
     t.float "cost", null: false
     t.bigint "contract_id", null: false
     t.string "cost_type", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "reporting_period_id", null: false
     t.string "details"
     t.index ["contract_id"], name: "index_non_staff_costs_on_contract_id"
@@ -77,8 +76,8 @@ ActiveRecord::Schema.define(version: 2022_11_08_092617) do
     t.bigint "contract_id", null: false
     t.float "percentage"
     t.float "delta"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["contract_id"], name: "index_progress_reports_on_contract_id"
     t.index ["reporting_period_id", "contract_id"], name: "index_progress_reports_on_reporting_period_id_and_contract_id", unique: true
   end
@@ -87,16 +86,16 @@ ActiveRecord::Schema.define(version: 2022_11_08_092617) do
     t.bigint "project_id", null: false
     t.string "title"
     t.string "url"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "link_type"
     t.index ["project_id"], name: "index_project_links_on_project_id"
   end
 
   create_table "projects", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "team_id"
     t.boolean "is_billable", default: true
     t.index ["name"], name: "index_projects_on_name", unique: true
@@ -106,8 +105,8 @@ ActiveRecord::Schema.define(version: 2022_11_08_092617) do
   create_table "rates", force: :cascade do |t|
     t.string "code"
     t.float "value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["code"], name: "index_rates_on_code", unique: true
   end
 
@@ -116,8 +115,8 @@ ActiveRecord::Schema.define(version: 2022_11_08_092617) do
     t.float "percentage"
     t.float "days"
     t.float "cost"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "contract_id", null: false
     t.bigint "role_id"
     t.index ["contract_id", "report_id", "role_id"], name: "index_report_parts_on_contract_id_and_report_id_and_role_id", unique: true
@@ -128,8 +127,8 @@ ActiveRecord::Schema.define(version: 2022_11_08_092617) do
 
   create_table "reporting_periods", force: :cascade do |t|
     t.date "date"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "aasm_state"
     t.float "base_rate", default: 175.0
     t.index ["date"], name: "index_reporting_periods_on_date", unique: true
@@ -139,8 +138,8 @@ ActiveRecord::Schema.define(version: 2022_11_08_092617) do
     t.bigint "user_id", null: false
     t.integer "team_id"
     t.bigint "reporting_period_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "estimated", default: false
     t.index ["reporting_period_id"], name: "index_reports_on_reporting_period_id"
     t.index ["team_id"], name: "index_reports_on_team_id"
@@ -149,15 +148,15 @@ ActiveRecord::Schema.define(version: 2022_11_08_092617) do
 
   create_table "roles", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_roles_on_name", unique: true
   end
 
   create_table "teams", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_teams_on_name", unique: true
   end
 
@@ -165,13 +164,13 @@ ActiveRecord::Schema.define(version: 2022_11_08_092617) do
     t.string "name"
     t.integer "team_id"
     t.integer "role_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
     t.boolean "admin", default: false
     t.bigint "rate_id"
     t.float "dedication", default: 0.74, null: false

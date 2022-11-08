@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 module VizzTrackr
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 7.0
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -18,8 +18,5 @@ module VizzTrackr
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    config.autoload_paths << Rails.root.join("lib")
-    config.eager_load_paths << Rails.root.join("lib")
-    config.active_model.i18n_customize_full_message = true
   end
 end

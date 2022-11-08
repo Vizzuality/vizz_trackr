@@ -2,9 +2,10 @@
 
 ## Dependencies
 
-- Ruby 2.6.3
-- Rails 6.0.x
+- Ruby 2.7.6
+- Rails 6.1
 - PostgreSQL 10.x
+- Node 18.11
 
 ## Setting up your local environment
 
