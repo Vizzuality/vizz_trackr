@@ -202,20 +202,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_08_100105) do
   add_foreign_key "users", "roles"
   add_foreign_key "users", "teams"
 
-  create_view "monthly_incomes", sql_definition: <<-SQL
-      SELECT DISTINCT ((contracts.budget * progress_reports.delta) / (100)::double precision) AS income,
-      reporting_periods.date AS month,
-      contracts.aasm_state,
-      contracts.id AS contract_id,
-      reporting_periods.id AS reporting_period_id
-     FROM ((((contracts
-       JOIN report_parts ON ((report_parts.contract_id = contracts.id)))
-       JOIN reports ON ((reports.id = report_parts.report_id)))
-       JOIN reporting_periods ON ((reporting_periods.id = reports.reporting_period_id)))
-       JOIN progress_reports ON (((progress_reports.reporting_period_id = reporting_periods.id) AND (progress_reports.contract_id = contracts.id))))
-    WHERE (contracts.budget IS NOT NULL)
-    ORDER BY reporting_periods.date DESC;
-  SQL
   create_view "full_reports", sql_definition: <<-SQL
       SELECT projects.id AS project_id,
       projects.name AS project_name,
@@ -244,5 +230,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_08_100105) do
        LEFT JOIN users ON ((users.id = reports.user_id)))
        LEFT JOIN roles ON ((roles.id = report_parts.role_id)))
        JOIN projects ON ((projects.id = contracts.project_id)));
+  SQL
+  create_view "monthly_incomes", sql_definition: <<-SQL
+      SELECT DISTINCT ((contracts.budget * progress_reports.delta) / (100)::double precision) AS income,
+      reporting_periods.date AS month,
+      contracts.aasm_state,
+      contracts.id AS contract_id,
+      reporting_periods.id AS reporting_period_id
+     FROM ((((contracts
+       JOIN report_parts ON ((report_parts.contract_id = contracts.id)))
+       JOIN reports ON ((reports.id = report_parts.report_id)))
+       JOIN reporting_periods ON ((reporting_periods.id = reports.reporting_period_id)))
+       JOIN progress_reports ON (((progress_reports.reporting_period_id = reporting_periods.id) AND (progress_reports.contract_id = contracts.id))))
+    WHERE (contracts.budget IS NOT NULL)
+    ORDER BY reporting_periods.date DESC;
   SQL
 end
