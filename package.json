@@ -7,7 +7,7 @@
     "rails:lint": "bundle exec rubocop"
   },
   "engines": {
-    "node": "~18.11"
+    "node": "~19.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.11.2",
