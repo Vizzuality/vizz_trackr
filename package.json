@@ -4,7 +4,8 @@
   "scripts": {
     "test": "run-p rails:test rails:lint",
     "rails:test": "bundle exec rails test",
-    "rails:lint": "bundle exec rubocop"
+    "rails:lint": "bundle exec rubocop",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider next build && next export"
   },
   "engines": {
     "node": "~18.11"
