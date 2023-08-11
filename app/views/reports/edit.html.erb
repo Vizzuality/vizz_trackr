@@ -1,8 +1,8 @@
 <% content_for :title, "Editing Report - #{@report.reporting_period.display_name}" %>
 <% content_for :actions do
-  content_tag(:button, content_tag(:i, nil, class: 'fa fa-info'),
-              data: { toggle: 'modal', target: '#reportsInfoModal' },
-                class: 'btn btn-sm mr-3 btn-icon btn-icon-only btn-dark')
+content_tag(:button, "How to report",
+            data: { toggle: 'modal', target: '#reportsInfoModal' },
+            class: 'btn btn-sm mr-3 btn-primary')
       .concat(link_to('Back', current_user, class: 'btn btn-sm btn-outline-primary'))
   end
 %>
