@@ -1,8 +1,7 @@
 <% content_for :title, "Invoices" %>
 <% if can? :create, Invoice %>
   <% content_for :actions,
-    link_to('Download', invoices_path(state: @state, format: 'csv'), class: 'btn btn-sm btn-outline-info')
-      .concat(link_to('New Invoice', new_invoice_path, class: 'btn btn-sm btn-outline-primary'))%>
+    link_to('New Invoice', new_invoice_path, class: 'btn btn-sm btn-outline-primary')%>
 <% end %>
 
 <div class="row mt-2">

@@ -1,4 +1,4 @@
-<% export = CSV.generate(" ", { headers: (%W{contract code}) + @reporting_periods.map {|rp| rp.display_name}, write_headers: true, encoding: 'UTF-8'}) do |csv| %> 
+<% export = CSV.generate(headers: (%W{contract code}) + @reporting_periods.map {|rp| rp.display_name}, write_headers: true, encoding: 'UTF-8') do |csv| %> 
   <% @contracts.each do |contract| %>
     <% data = [] %>
     <% data.append contract.name %>

@@ -1,4 +1,4 @@
-<% export = CSV.generate(" ", { headers: (%W{contract code}) + @roles.map {|r| r[0]}, write_headers: true, encoding: 'UTF-8'}) do |csv| %> 
+<% export = CSV.generate(headers: (%W{contract code}) + @roles.map {|r| r[0]}, write_headers: true, encoding: 'UTF-8') do |csv| %>
   <% @contracts.each do |contract| %>
   <% days_per_role = contract.full_reports.select('role_id, sum(cost) AS cost, sum(days) AS days').group(:role_id) %>
     <% data = [] %>
