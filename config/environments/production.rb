@@ -62,7 +62,7 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "vizz_trackr_production"
 
-  config.action_mailer.default_url_options = {host: "your-heroku-app.herokuapp.com", protocol: "https"}
+  config.action_mailer.default_url_options = {host: "vizz-trackr.herokuapp.com", protocol: "https"}
   config.action_mailer.perform_caching = false
 
   # Configure ActionMailer to use SendGrid for sending emails
