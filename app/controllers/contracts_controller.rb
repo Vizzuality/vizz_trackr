@@ -2,6 +2,7 @@ class ContractsController < ApplicationController
   before_action :set_contract, only: [:show, :reports, :edit, :update,
     :team, :costs, :destroy]
   before_action :set_default_state, only: [:index]
+  before_action :set_states
   authorize_resource
 
   def index
@@ -53,7 +54,6 @@ class ContractsController < ApplicationController
 
   def edit
     @projects = Project.order(:name)
-    @states = Contract.aasm.states.map(&:name).prepend(:all)
     @contract.build_budget_lines
   end
 
@@ -150,6 +150,10 @@ class ContractsController < ApplicationController
 
   def set_default_state
     @state = params[:state].presence || "live"
+  end
+
+  def set_states
+    @states = Contract.aasm.states.map(&:name).prepend(:all)
   end
 
   def contract_params

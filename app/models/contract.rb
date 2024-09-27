@@ -31,8 +31,8 @@ require "csv"
 class Contract < ApplicationRecord
   paginates_per 40
 
-  validates :start_date, presence: true
-  validates :end_date, presence: true
+  validate :start_date_is_valid
+  validate :end_date_is_after_start_date
 
   include AASM
   include HasStateMachine
@@ -189,5 +189,17 @@ class Contract < ApplicationRecord
     errors.add(:base, "Contract #{name} [#{code}] has time reported against it," \
                " please change those reports before trying to delete it again.")
     throw :abort
+  end
+end
+
+def start_date_is_valid
+  if start_date.present? && start_date <= Date.new(2018, 1, 1)
+    errors.add(:start_date, "must be after January 1st, 2018")
+  end
+end
+
+def end_date_is_after_start_date
+  if end_date.present? && start_date.present? && end_date <= start_date
+    errors.add(:end_date, "must be after the start date")
   end
 end
