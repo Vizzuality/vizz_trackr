@@ -77,6 +77,7 @@ Rails.application.configure do
     authentication: :plain,
     enable_starttls_auto: true
   }
+  config.action_mailer.default_options = {from: ENV.fetch("SENDGRID_FROM_EMAIL")}
 
   # Enable mailer to raise delivery errors in production
   config.action_mailer.raise_delivery_errors = true
