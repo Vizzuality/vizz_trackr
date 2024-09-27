@@ -62,6 +62,26 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "vizz_trackr_production"
 
+  config.action_mailer.default_url_options = {host: "your-heroku-app.herokuapp.com", protocol: "https"}
+  config.action_mailer.perform_caching = false
+
+  # Configure ActionMailer to use SendGrid for sending emails
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+    address: "smtp.sendgrid.net",
+    port: 587,
+    domain: "vizz-trackr.herokuapp.com",
+    user_name: "apikey",
+    password: ENV["SENDGRID_API_TOKEN"],
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
+
+  # Enable mailer to raise delivery errors in production
+  config.action_mailer.raise_delivery_errors = true
+
+  # Set the perform_caching to true to avoid unnecessary calls
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
@@ -72,7 +92,7 @@ Rails.application.configure do
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
 
-  # Don't log any deprecations.
+  # Don"t log any deprecations.
   config.active_support.report_deprecations = false
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
